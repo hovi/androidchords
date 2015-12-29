@@ -74,7 +74,6 @@ public class Transposer {
 				result += "[" + s + "]";
 			}
 		}
-		// System.out.println("Split: " + result);
 		return result;
 	}
 
