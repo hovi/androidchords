@@ -23,6 +23,12 @@ public class TransposerTest extends TestCase {
 	}
 	
 	public void testTranspose() {
+
+		assertEquals("[Cmi7/5]", transpose("[Hmi7/5]", 1));
+
+		assertEquals("[Fmi7/11]", transpose("[F#mi7/11]", -1));
+
+		assertEquals("[F5/13]", transpose("[F5/13]", 12));
 		
 		assertEquals("[A#]", transpose("[A#]", 0));
 		

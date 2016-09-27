@@ -10,11 +10,7 @@ public class ToneTransposer {
 
 	private static Pattern TONE_PATTERN = Pattern.compile("\\[(" + Transposer.SINGLE_TONE + ").*");
 
-	public static final String FULL_CHORD2 = "(" + Transposer.SINGLE_TONE + ")(" + Transposer.TONE_ADDITIONS + ")(?:(\\/)(" + Transposer.SINGLE_TONE + ")((" + Transposer.TONE_ADDITIONS + ")))?";
-
-	public static final String CHORD_REGEX2 = "\\[(" + FULL_CHORD2 + ")\\]";
-
-	public static final Pattern CHORD_REGEX_PATTERN = Pattern.compile(CHORD_REGEX2);
+	private static final Pattern CHORD_REGEX_PATTERN = Pattern.compile("\\[(" + Transposer.FULL_CHORD + ")\\]");
 
 	private CountryCategory type;
 
@@ -66,7 +62,11 @@ public class ToneTransposer {
 				}
 				m.appendReplacement(sb, "[" + tempChord + "]");
 			} else {
-				m.appendReplacement(sb, "[" + tone.transpose(step).getValue(type, htt) + m.group(3) + "]");
+				if (m.group(6) != null && m.group(4) != null) {
+					m.appendReplacement(sb, "[" + tone.transpose(step).getValue(type, htt) + m.group(3) + m.group(4) + m.group(6) + "]");
+				} else {
+					m.appendReplacement(sb, "[" + tone.transpose(step).getValue(type, htt) + m.group(3) + "]");
+				}
 			}
 			} catch (IllegalArgumentException e) {
 				//tone not found, we will not transpose

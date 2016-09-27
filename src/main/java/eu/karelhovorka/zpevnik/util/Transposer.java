@@ -12,8 +12,9 @@ public class Transposer {
 	// private static final String SINGLE_CHORD = "(" + SINGLE_TONE + ")" +
 	// TONE_ADDITIONS;
 
-	public static final String FULL_CHORD = "(" + SINGLE_TONE + ")" + TONE_ADDITIONS + "(?:(\\/)(" + SINGLE_TONE + ")" + TONE_ADDITIONS + ")?";
-	
+	//public static final String FULL_CHORD = "(" + SINGLE_TONE + ")" + TONE_ADDITIONS + "(?:(\\/)(" + SINGLE_TONE + ")" + TONE_ADDITIONS + ")?";
+
+	public static final String FULL_CHORD = "(" + Transposer.SINGLE_TONE + ")(" + Transposer.TONE_ADDITIONS + ")(?:(\\/)(" + Transposer.SINGLE_TONE + ")?((" + Transposer.TONE_ADDITIONS + ")))?";
 	
 	// private static final String FULL_CHORD =
 	// "([A-H]\\#?)(mi?|sus|maj)?[0-9]?(\\/([A-H]\\#?))?";
