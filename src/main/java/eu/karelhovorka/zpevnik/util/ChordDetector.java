@@ -43,7 +43,7 @@ public class ChordDetector {
                 sb.append(line + "\n");
             }
         }
-        return sb.toString();
+        return sb.toString().replaceFirst("\\s++$", "");
 
     }
 
