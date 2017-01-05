@@ -2,6 +2,7 @@ package eu.karelhovorka.zpevnik.util;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,11 +57,11 @@ public class Transposer {
 
     public static String removeDuplicateChordSequences(final String text) {
         StringBuilder result = new StringBuilder();
-        Set<String[]> foundChords = new HashSet<>();
+        Set<List<String>> foundChords = new HashSet<>();
         for (String line : merge(text).split("\n")) {
-            String[] chords = ChordDetector.getBracketChordsInLine(line);
-            if (chords.length > 0) {
-                if (setContainsArray(foundChords, chords)) {
+            List<String> chords = Arrays.asList(ChordDetector.getBracketChordsInLine(line));
+            if (chords.size() > 0) {
+                if (foundChords.contains(chords)) {
                     result.append(Transposer.removeChords(line) + "\n");
                 } else {
                     result.append(line + "\n");
@@ -71,15 +72,6 @@ public class Transposer {
             }
         }
         return result.toString().substring(0, result.length() - 1);
-    }
-
-    private static boolean setContainsArray(Set<String[]> set, String[] array) {
-        for (String[] item : set) {
-            if (Arrays.equals(item, array)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static String removeNonChords(String text) {
