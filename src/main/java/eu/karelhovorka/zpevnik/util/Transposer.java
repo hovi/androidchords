@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 public class Transposer {
 
+    public static final int MINIMUM_SEQUENCE_COUNT = 2;
+
     public static final String SINGLE_TONE = "[A-Habcdefgh]\\#?b?"; // b
 
     public static final String TONE_ADDITIONS = "(?:sus|maj|mimaj|add|aug|dim|min|mi|m|b|\\+)?[1-9]{0,2}";
@@ -56,11 +58,15 @@ public class Transposer {
     }
 
     public static String removeDuplicateChordSequences(final String text) {
+        return removeDuplicateChordSequences(text, MINIMUM_SEQUENCE_COUNT);
+    }
+
+    public static String removeDuplicateChordSequences(final String text, int minimumSequenceCount) {
         StringBuilder result = new StringBuilder();
         Set<List<String>> foundChords = new HashSet<>();
         for (String line : merge(text).split("\n")) {
             List<String> chords = Arrays.asList(ChordDetector.getBracketChordsInLine(line));
-            if (chords.size() > 0) {
+            if (chords.size() >= minimumSequenceCount) {
                 if (foundChords.contains(chords)) {
                     result.append(Transposer.removeChords(line) + "\n");
                 } else {

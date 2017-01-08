@@ -14,6 +14,9 @@ public class TransposerTest extends TestCase {
                 Transposer.removeDuplicateChordSequences("Hello,[A] lucky boy[C]\n" +
                 "[C][A]\n" +
                 "How are you today[A][C]"));
+
+        //minimum is sequence of 2 chords to remove
+        assertEquals("xx[A]\nxx[A]", Transposer.removeDuplicateChordSequences("xx[A]\nxx[A]"));
     }
 
     public void testTransposeDoubles() {
