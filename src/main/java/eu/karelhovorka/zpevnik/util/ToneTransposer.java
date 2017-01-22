@@ -77,6 +77,10 @@ public class ToneTransposer {
 		return sb.toString();
 	}
 
+    public static String removeBrackets(String text) {
+        return text.replaceAll(Transposer.CHORD_REGEX, "$1");
+    }
+
 	public static Tone fromChordString(String chord, CountryCategory type) {
 		Matcher matcher = TONE_PATTERN.matcher(chord);
 		if (matcher.find()) {

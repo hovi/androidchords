@@ -8,6 +8,10 @@ import junit.framework.TestCase;
 public class TransposerTest extends TestCase {
 
 
+    public void testRemoveBrackets() {
+        assertEquals("C D", ToneTransposer.removeBrackets("[C] [D]"));
+    }
+
     public void testRemoveDuplicateChordSequences() {
         assertEquals("xx[A][C]\nxx", Transposer.removeDuplicateChordSequences("xx[A][C]\nxx[A][C]"));
         assertEquals("Hello,[A] lucky boy[C]\n[C][A]\nHow are you today",
