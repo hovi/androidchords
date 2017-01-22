@@ -7,6 +7,11 @@ import junit.framework.TestCase;
 
 public class TransposerTest extends TestCase {
 
+    public void testRemoveNonChords() {
+        assertEquals("[C]", Transposer.removeNonChords("[C]text songu"));
+        assertEquals("[C]", Transposer.removeNonChords("[C]"));
+        assertEquals("[C][D]", Transposer.removeNonChords("[C]text songu[D]"));
+    }
 
     public void testRemoveBrackets() {
         assertEquals("C D", ToneTransposer.removeBrackets("[C] [D]"));

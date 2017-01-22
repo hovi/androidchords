@@ -87,14 +87,14 @@ public class Transposer {
             Matcher m = pattern.matcher(line);
             boolean found = false;
             while (m.find()) {
-                result.append(m.group() + " ");
+                result.append(m.group());
                 found = true;
             }
             if (found) {
                 result.append("\n");
             }
         }
-        return result.toString();
+        return result.toString().substring(0, result.length() - 1);
     }
 
     private static String split(final String group) {
