@@ -42,7 +42,7 @@ public class ChordDetector {
             throw new NullPointerException("Content cannot be null!");
         }
         StringBuilder sb = new StringBuilder();
-        String lines[] = content.split("[\n\r]");
+        String lines[] = content.split("\n");
         for (String line : lines) {
             if (hasPlainChordsInline(line)) {
                 sb.append(replacePlainChordsInline(line) + "\n");
