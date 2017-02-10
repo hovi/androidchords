@@ -30,7 +30,7 @@ public class Transposer {
 
     public static final String CHORD_REGEX = "\\[(" + FULL_CHORD + ")\\]";
 
-    private static Pattern multiChord = Pattern.compile("\\[(" + FULL_CHORD + ",?\\s*){2,}\\]");
+    private static Pattern MULTI_CHORD = Pattern.compile("\\[(" + FULL_CHORD + ",?\\s*){2,}\\]");
 
     public static String getChordRegex(final String tone1, final String tone2) {
         return "\\[" + "(" + tone1 + ")(" + TONE_ADDITIONS + ")((\\/)(" + tone2 + ")((" + TONE_ADDITIONS + ")))" + "\\]";
@@ -41,7 +41,7 @@ public class Transposer {
     }
 
     public static String merge(final String text) {
-        final Matcher m = multiChord.matcher(text);
+        final Matcher m = MULTI_CHORD.matcher(text);
         String result = text;
         if (m.find()) {
             result = text.substring(0, m.start()) + split(m.group().trim().substring(1, m.group().trim().length() - 1)) + text.substring(m.end());
@@ -54,7 +54,19 @@ public class Transposer {
     }
 
     public static String removeChords(final String text) {
-        return merge(text).replaceAll(CHORD_REGEX, "");
+        StringBuilder result = new StringBuilder();
+        for (String line : text.split("\n")) {
+            String newLine = merge(line).replaceAll(CHORD_REGEX, "");
+            if (line.equals(newLine)) {
+                result.append(line + "\n");
+            } else if (!newLine.trim().isEmpty()) {
+                result.append(newLine + "\n");
+            }
+        }
+        if (result.length() == 0) {
+            return "";
+        }
+        return result.toString().substring(0, result.length() - 1);
     }
 
     public static String removeDuplicateChordSequences(final String text) {

@@ -1,11 +1,25 @@
 package eu.karelhovorka.zpevnik.util;
 
-import eu.karelhovorka.zpevnik.util.Tone.ModificationAbbreviation;
-import eu.karelhovorka.zpevnik.util.Tone.CountryCategory;
-
 import junit.framework.TestCase;
 
+import eu.karelhovorka.zpevnik.util.Tone.CountryCategory;
+import eu.karelhovorka.zpevnik.util.Tone.ModificationAbbreviation;
+
 public class TransposerTest extends TestCase {
+
+    public void testRemoveChords() {
+        assertEquals("", Transposer.removeChords("[C][D]"));
+        assertEquals("", Transposer.removeChords("[C D]"));
+        assertEquals("", Transposer.removeChords("[C,D]"));
+
+        assertEquals("", Transposer.removeChords("[C]\n[D]\n"));
+
+        assertEquals("\n\nx", Transposer.removeChords("\n\nx"));
+        assertEquals("\n\nx", Transposer.removeChords("\n\nx\n\n"));
+        assertEquals("x", Transposer.removeChords("[C]\n[D]\nx"));
+        assertEquals("x", Transposer.removeChords("[C]\n[D]\nx\n\n"));
+
+    }
 
     public void testRemoveNonChords() {
         assertEquals("[C]", Transposer.removeNonChords("[C]text songu"));
