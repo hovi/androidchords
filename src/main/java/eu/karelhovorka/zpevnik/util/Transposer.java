@@ -66,7 +66,11 @@ public class Transposer {
         if (result.length() == 0) {
             return "";
         }
-        return result.toString().substring(0, result.length() - 1);
+        return removeTrailingWhitespace(result.toString());
+    }
+
+    public static String removeTrailingWhitespace(String text) {
+        return text.replaceAll("\\s+$", "");
     }
 
     public static String removeDuplicateChordSequences(final String text) {
