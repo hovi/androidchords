@@ -103,6 +103,16 @@ public enum Tone {
 		return values()[index];
 	}
 
+	public static Tone fromIndex(int index) {
+        int normalizedIndex = (index % values().length + values().length) % values().length;
+        for (Tone t: values()) {
+            if (t.index == normalizedIndex) {
+                return t;
+            }
+        }
+        throw new IllegalArgumentException("index: " + index);
+    }
+
 	public CountrySpecificToneName getAreaTone(CountryCategory type) {
 		return aliases.get(type);
 	}
