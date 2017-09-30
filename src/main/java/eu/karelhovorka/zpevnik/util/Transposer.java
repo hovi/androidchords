@@ -110,6 +110,9 @@ public class Transposer {
                 result.append("\n");
             }
         }
+        if (result.length() <= 0) {
+            return "";
+        }
         return result.toString().substring(0, result.length() - 1);
     }
 
