@@ -16,16 +16,22 @@ public class TransposerTest extends TestCase {
         assertEquals("x", Transposer.removeChords("[C]\n[D]\nx"));
         assertEquals("x", Transposer.removeChords("[C]\n[D]\nx\n\n"));
 
+        assertEquals("", Transposer.removeChords(""));
+
     }
 
     public void testRemoveNonChords() {
         assertEquals("[C]", Transposer.removeNonChords("[C]text songu"));
         assertEquals("[C]", Transposer.removeNonChords("[C]"));
         assertEquals("[C][D]", Transposer.removeNonChords("[C]text songu[D]"));
+
+        assertEquals("", Transposer.removeNonChords(""));
     }
 
     public void testRemoveBrackets() {
         assertEquals("C D", ToneTransposer.removeBrackets("[C] [D]"));
+
+        assertEquals("", ToneTransposer.removeBrackets(""));
     }
 
     public void testRemoveDuplicateChordSequences() {
@@ -37,6 +43,8 @@ public class TransposerTest extends TestCase {
 
         //minimum is sequence of 2 chords to remove
         assertEquals("xx[A]\nxx[A]", Transposer.removeDuplicateChordSequences("xx[A]\nxx[A]"));
+
+        assertEquals("", Transposer.removeDuplicateChordSequences(""));
     }
 
 
@@ -48,6 +56,7 @@ public class TransposerTest extends TestCase {
         assertEquals("[C]Docela jsem [D]zapomněl, kam [C]chtěl jsem [D]vlastně [G]jít [F][F#][G]\n[C]šlapu dál a [D]nezbejvá než [C]klít než [D]klít než [G]klít. [F][F#][G]",
                 Transposer.merge("[C]Docela jsem [D]zapomněl, kam [C]chtěl jsem [D]vlastně [G]jít [F,F#,G]\n[C]šlapu dál a [D]nezbejvá než [C]klít než [D]klít než [G]klít. [F,F#,G]"));
 
+        assertEquals("", Transposer.merge(""));
     }
 
 
