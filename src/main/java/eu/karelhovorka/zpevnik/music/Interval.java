@@ -15,16 +15,16 @@ public enum Interval {
 	MINOR_SEVENTH(10),
 	MAJOR_SEVENTH(11) //C-H
 	;
+    // @formatter:on
 
 	public final int step;
-	
-	// @formatter:on
-	private Interval(int step) {
+
+    Interval(int step) {
 		this.step = step;
 	}
 
-	public static Interval fromStep(int step) {
-		return values()[(step + 12) % 12];
+	public static Interval of(int step) {
+		return values()[((step % 12) + 12) % 12];
 	}
 
 }

@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static eu.karelhovorka.zpevnik.util.StringUtil.removeTrailingWhitespace;
+
 public class Transposer {
 
     public static final int MINIMUM_SEQUENCE_COUNT = 2;
@@ -67,10 +69,6 @@ public class Transposer {
             return "";
         }
         return removeTrailingWhitespace(result.toString());
-    }
-
-    public static String removeTrailingWhitespace(String text) {
-        return text.replaceAll("\\s+$", "");
     }
 
     public static String removeDuplicateChordSequences(final String text) {

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull;
+
 public class ChordDetector {
 
 
     public static boolean hasBracketChords(String content) {
-        if (content == null) {
-            throw new NullPointerException("Content cannot be null!");
-        }
+        checkNotNull(content, "content");
         String lines[] = content.split("[\n\r]");
         for (String line : lines) {
             if (hasBracketChordsInline(line)) {
@@ -24,10 +24,7 @@ public class ChordDetector {
     }
 
     public static boolean hasPlainChords(String content) {
-        if (content == null) {
-            throw new NullPointerException("Content cannot be null!");
-        }
-
+        checkNotNull(content, "content");
         String lines[] = content.split("[\n\r]");
         for (String line : lines) {
             if (hasPlainChordsInline(line)) {
@@ -38,9 +35,7 @@ public class ChordDetector {
     }
 
     public static String replacePlainChords(String content) {
-        if (content == null) {
-            throw new NullPointerException("Content cannot be null!");
-        }
+        checkNotNull(content, "content");
         StringBuilder sb = new StringBuilder();
         String lines[] = content.split("\n");
         for (String line : lines) {
@@ -55,16 +50,12 @@ public class ChordDetector {
     }
 
     private static String replacePlainChordsInline(String content) {
-        if (content == null) {
-            throw new NullPointerException("Content cannot be null!");
-        }
+        checkNotNull(content, "content");
         return content.replaceAll("(" + Transposer.FULL_CHORD + ")", "[$1]");
     }
 
     private static boolean hasPlainChordsInline(String line) {
-        if (line == null) {
-            throw new NullPointerException("line cannot be null!");
-        }
+        checkNotNull(line, "line");
         String result = (line + " ").replaceAll(Transposer.FULL_CHORD + "[\\s\\-,]", " ");
         result = result.replaceAll("[,-]\\s", " ");
         result = result.replaceAll("[0-9]x\\s", " ");
@@ -72,9 +63,7 @@ public class ChordDetector {
     }
 
     private static boolean hasBracketChordsInline(String line) {
-        if (line == null) {
-            throw new NullPointerException("line cannot be null!");
-        }
+        checkNotNull(line, "line");
         String result = (line + " ").replaceAll("\\[" + Transposer.FULL_CHORD + "\\]", " ");
         result = result.replaceAll("[,-]\\s", " ");
         result = result.replaceAll("[0-9]x\\s", " ");
@@ -82,9 +71,7 @@ public class ChordDetector {
     }
 
     public static String[] getBracketChordsInLine(String line) {
-        if (line == null) {
-            throw new NullPointerException("line cannot be null!");
-        }
+        checkNotNull(line, "line");
         Pattern bracketChord =  Pattern.compile("\\[(" + Transposer.FULL_CHORD + ")\\]");
         Matcher matcher = bracketChord.matcher(line);
         List<String> chords = new ArrayList<>();
@@ -95,12 +82,8 @@ public class ChordDetector {
     }
 
     public static boolean lineContainsChords(String line, String[] chords) {
-        if (line == null) {
-            throw new NullPointerException("line cannot be null!");
-        }
-        if (chords == null) {
-            throw new NullPointerException("chords cannot be null!");
-        }
+        checkNotNull(line, "line");
+        checkNotNull(chords, "chords");
         return Arrays.equals(getBracketChordsInLine(line), chords);
     }
 

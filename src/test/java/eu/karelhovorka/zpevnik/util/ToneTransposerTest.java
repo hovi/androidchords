@@ -2,6 +2,8 @@ package eu.karelhovorka.zpevnik.util;
 
 import junit.framework.TestCase;
 
+import eu.karelhovorka.zpevnik.music.Interval;
+
 
 public class ToneTransposerTest extends TestCase {
 
@@ -79,6 +81,6 @@ public class ToneTransposerTest extends TestCase {
 
 
     public static String transpose(String text, int step) {
-        return ToneTransposer.transposeAll(text, step, Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP);
+        return ToneTransposer.transposeAll(text, Interval.of(step), Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP);
     }
 }

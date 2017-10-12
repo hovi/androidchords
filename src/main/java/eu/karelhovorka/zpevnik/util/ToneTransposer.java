@@ -3,6 +3,7 @@ package eu.karelhovorka.zpevnik.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import eu.karelhovorka.zpevnik.music.Interval;
 import eu.karelhovorka.zpevnik.util.Tone.ModificationAbbreviation;
 import eu.karelhovorka.zpevnik.util.Tone.CountryCategory;
 
@@ -21,7 +22,7 @@ public class ToneTransposer {
 		this.htt = htt;
 	}
 
-	public String transposeAll(String text, int step) {
+	public String transposeAll(String text, Interval step) {
 		return transposeAll(text, step, type, htt);
 	}
 
@@ -33,7 +34,7 @@ public class ToneTransposer {
 		return fromToneString(tone, type);
 	}
 
-	public String transpose(String tone, int step) {
+	public String transpose(String tone, Interval step) {
 		return transpose(tone, type, htt, step);
 	}
 
@@ -41,13 +42,10 @@ public class ToneTransposer {
 		return normalize(tone, type, htt);
 	}
 
-	public static String transposeAll(String text, int step, CountryCategory type, ModificationAbbreviation htt) {
+	public static String transposeAll(String text, Interval step, CountryCategory type, ModificationAbbreviation htt) {
 		String result = Transposer.merge(text);
-		if ((step % Tone.values().length) == 0) {
+		if ((step.step % Tone.values().length) == 0) {
 			return result;
-		}
-		while (step < 0) {
-			step = step + Tone.values().length;
 		}
 		Matcher m = CHORD_REGEX_PATTERN.matcher(result);
 		StringBuffer sb = new StringBuffer();
@@ -98,7 +96,7 @@ public class ToneTransposer {
 		throw new IllegalArgumentException("Tone not found: " + tone);
 	}
 
-	public static String transpose(String tone, CountryCategory type, ModificationAbbreviation halfToneType, int step) {
+	public static String transpose(String tone, CountryCategory type, ModificationAbbreviation halfToneType, Interval step) {
 		Tone c = fromToneString(tone, type);
 		return c.transpose(step).getValue(type, halfToneType);
 	}
