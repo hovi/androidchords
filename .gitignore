@@ -1,1 +1,7 @@
-/target
+.DS_Store
+.idea/
+*.iml
+.gradle
+build
+keys/
+keystore.properties
