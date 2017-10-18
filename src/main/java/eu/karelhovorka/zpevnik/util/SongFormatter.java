@@ -26,7 +26,7 @@ public class SongFormatter {
     }
 
     public static String formatHtmlChords(String content) {
-        return content.replaceAll(Transposer.CHORD_REGEX, "<a class='chord' href='" + CHORD_URL_PROTOCOL + "$1'>" + "$1" + "</a>");
+        return content.replaceAll(Transposer.CHORD_REGEX, "<a class='chord' href='" + CHORD_URL_PROTOCOL + "$1'><sup>" + "$1" + "</sup></a>");
     }
 
     public static String modifyTextBasedOnSettings(String source, SongDisplaySettings settings) {
