@@ -30,14 +30,11 @@ public class SectionTokenizer {
             validate(text);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
 
     public static void validate(String text) {
-        System.out.println(text.matches(TYPE_REGEX));
-        System.out.println(Pattern.compile(TYPE_REGEX).matcher(text).find());
         if (!VALID_TEXT_PATTERN.matcher(text).find()) {
             throw new IllegalStateException("Not starting with section header");
         }
