@@ -8,7 +8,15 @@ import eu.karelhovorka.zpevnik.music.Interval;
 public class ToneTransposerTest extends TestCase {
 
 
+    public void testTransposePlus() {
+        assertEquals("[G#6+]", transpose("[A6+]", -1));
+        assertEquals("[G#6+]", transpose("[G#6+]", 0));
+        assertEquals("[G#6+]", transpose("[G6+]", 1));
+
+    }
+
     public void testTransposeDoubles() {
+
         assertEquals("[Bmi/Hmi]", transpose("[Bmi/Hmi]", 0));
 
         assertEquals("[Ami/A#mi]", transpose("[Bmi/Hmi]", -1));

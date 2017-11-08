@@ -15,7 +15,7 @@ public class Transposer {
 
     public static final String SINGLE_TONE = "[A-Habcdefgh]\\#?b?"; // b
 
-    public static final String TONE_ADDITIONS = "(?:sus|maj|mimaj|add|aug|dim|min|mi|m|b|\\+)?[1-9]{0,2}";
+    public static final String TONE_ADDITIONS = "(?:sus|maj|mimaj|add|aug|dim|min|mi|m|b|\\+)?[1-9]{0,2}(?:\\+)?";
 
     // private static final String SINGLE_CHORD = "(" + SINGLE_TONE + ")" +
     // TONE_ADDITIONS;
