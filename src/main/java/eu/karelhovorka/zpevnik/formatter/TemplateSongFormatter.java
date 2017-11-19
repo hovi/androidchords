@@ -4,9 +4,10 @@ package eu.karelhovorka.zpevnik.formatter;
 import java.util.List;
 
 import eu.karelhovorka.zpevnik.text.Section;
+import eu.karelhovorka.zpevnik.text.SongText;
 import eu.karelhovorka.zpevnik.util.Transposer;
 
-public class TemplateSongFormatter implements SongFormatter {
+public class TemplateSongFormatter extends SongFormatter {
 
     private final String mainTemplate;
 
@@ -26,8 +27,11 @@ public class TemplateSongFormatter implements SongFormatter {
         this.chordReplaceTemplate = chordReplaceTemplate;
     }
 
-    public String formatHtml(List<Section> sections) {
-        context = makeContext(sections);
+    public String formatHtml(SongText songText) {
+        if (songText.getSectionList() == null) {
+            return formatHtmlChords(songText.getOriginalText());
+        }
+        context = makeContext(songText.getSectionList());
         return applyTemplate(mainTemplate, context);
     }
 
@@ -36,7 +40,7 @@ public class TemplateSongFormatter implements SongFormatter {
         return null;
     }
 
-    public Object makeContext(List<Section> sections) {
+    private Object makeContext(List<Section> sections) {
         // title
         // song
         // chord_url_protocol:
