@@ -14,7 +14,7 @@ public enum SectionType {
     SOLO("Solo:"),
     INTERMEZZO("Mezihra:"),
     OUTRO("Outro:"),
-    SPEECH("Recital:"),
+    SPEECH("Recital:", "Rec:"),
     UNKNOWN("");
 
     public final String names[];
