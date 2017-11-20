@@ -15,7 +15,13 @@ public class SongText {
         this.originalText = originalText;
         if (SectionTokenizer.isValid(originalText)) {
             SectionTokenizer sectionTokenizer = new SectionTokenizer();
-            this.sectionList = sectionTokenizer.getSections(originalText);
+            List<Section> tmpList = null;
+            try {
+                tmpList = sectionTokenizer.getSections(originalText);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            this.sectionList = tmpList;
         } else {
             this.sectionList = null;
         }
