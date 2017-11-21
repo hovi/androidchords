@@ -4,9 +4,15 @@ package eu.karelhovorka.zpevnik.text;
 import eu.karelhovorka.zpevnik.music.Interval;
 import eu.karelhovorka.zpevnik.util.Tone;
 
+import static eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull;
+
 public class SongDisplaySettings {
 
-    public static final SongDisplaySettings DEFAULT = new SongDisplaySettings(true, true, false, false, false, false, Interval.PERFECT_UNISON, Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP);
+    public static final String LIGHT_THEME = "light";
+
+    public static final String DARK_THEME = "dark";
+
+    public static final SongDisplaySettings DEFAULT = new SongDisplaySettings(true, true, false, false, false, false, Interval.PERFECT_UNISON, Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP, DARK_THEME);
 
     private boolean displayText;
 
@@ -26,7 +32,13 @@ public class SongDisplaySettings {
 
     private Tone.ModificationAbbreviation modificationAbbreviation;
 
-    public SongDisplaySettings(boolean displayText, boolean displayChords, boolean hideIdentivalSequences, boolean useBold, boolean doubleColumn, boolean resizeChords, Interval interval, Tone.CountryCategory countryCategory, Tone.ModificationAbbreviation modificationAbbreviation) {
+    private String theme;
+
+    public SongDisplaySettings(boolean displayText, boolean displayChords, boolean hideIdentivalSequences, boolean useBold, boolean doubleColumn, boolean resizeChords, Interval interval, Tone.CountryCategory countryCategory, Tone.ModificationAbbreviation modificationAbbreviation, String theme) {
+        checkNotNull(countryCategory, "countryCategory");
+        checkNotNull(modificationAbbreviation, "modificationAbbreviation");
+        checkNotNull(theme, "theme");
+        checkNotNull(interval, "interval");
         this.displayText = displayText;
         this.doubleColumn = doubleColumn;
         this.displayChords = displayChords;
@@ -36,6 +48,7 @@ public class SongDisplaySettings {
         this.interval = interval;
         this.countryCategory = countryCategory;
         this.modificationAbbreviation = modificationAbbreviation;
+        this.theme = theme;
     }
 
     public boolean isDisplayText() {
@@ -72,5 +85,9 @@ public class SongDisplaySettings {
 
     public boolean isResizeChords() {
         return resizeChords;
+    }
+
+    public String getTheme() {
+        return theme;
     }
 }
