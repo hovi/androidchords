@@ -18,7 +18,7 @@ public class SongDisplaySettings {
 
     private boolean displayChords;
 
-    private boolean hideIdentivalSequences;
+    private boolean hideIdenticalSequences;
 
     private boolean useBold;
 
@@ -34,7 +34,7 @@ public class SongDisplaySettings {
 
     private String theme;
 
-    public SongDisplaySettings(boolean displayText, boolean displayChords, boolean hideIdentivalSequences, boolean useBold, boolean doubleColumn, boolean resizeChords, Interval interval, Tone.CountryCategory countryCategory, Tone.ModificationAbbreviation modificationAbbreviation, String theme) {
+    public SongDisplaySettings(boolean displayText, boolean displayChords, boolean hideIdenticalSequences, boolean useBold, boolean doubleColumn, boolean resizeChords, Interval interval, Tone.CountryCategory countryCategory, Tone.ModificationAbbreviation modificationAbbreviation, String theme) {
         checkNotNull(countryCategory, "countryCategory");
         checkNotNull(modificationAbbreviation, "modificationAbbreviation");
         checkNotNull(theme, "theme");
@@ -44,7 +44,7 @@ public class SongDisplaySettings {
         this.displayChords = displayChords;
         this.useBold = useBold;
         this.resizeChords = resizeChords;
-        this.hideIdentivalSequences = hideIdentivalSequences;
+        this.hideIdenticalSequences = hideIdenticalSequences;
         this.interval = interval;
         this.countryCategory = countryCategory;
         this.modificationAbbreviation = modificationAbbreviation;
@@ -59,8 +59,8 @@ public class SongDisplaySettings {
         return displayChords;
     }
 
-    public boolean isHideIdentivalSequences() {
-        return hideIdentivalSequences;
+    public boolean isHideIdenticalSequences() {
+        return hideIdenticalSequences;
     }
 
     public Interval getInterval() {
@@ -89,5 +89,28 @@ public class SongDisplaySettings {
 
     public String getTheme() {
         return theme;
+    }
+
+    public String getCss() {
+        StringBuilder sb = new StringBuilder(theme);
+        if (useBold) {
+            sb.append(" use-bold");
+        }
+        if (resizeChords) {
+            sb.append(" resize-chords");
+        }
+        if (doubleColumn) {
+            sb.append(" double-column");
+        }
+        if (hideIdenticalSequences) {
+            sb.append(" hide-identical-sequences");
+        }
+        if (displayChords) {
+            sb.append(" display-chords");
+        }
+        if (displayText) {
+            sb.append(" display-text");
+        }
+        return sb.toString();
     }
 }

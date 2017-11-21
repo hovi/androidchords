@@ -12,7 +12,7 @@ public class SongSettingsFormatter {
         if (!settings.isDisplayText()) {
             text = Transposer.removeNonChords(text);
         }
-        if (settings.isHideIdentivalSequences()) {
+        if (settings.isHideIdenticalSequences()) {
             text = Transposer.removeDuplicateChordSequences(text);
         }
         if (settings.isDisplayChords()) {

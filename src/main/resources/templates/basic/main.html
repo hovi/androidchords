@@ -1,6 +1,65 @@
-{title}
-{ for section in sections }
-<div class='song-section {section.type}"'>
-{section.content}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{{title}}</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        .double-column {
+            column-count: 2; column-gap: 30px; -webkit-column-count: 2; -webkit-column-gap: 30px;
+        }
+        .resize-chords a { font-size: 150%; }
+        .use-bold {
+            font-weight: 900;
+        }
+        h1 { font-size: 1.25em; }
+        a {
+            text-decoration: none;
+            color: blue !important;
+        }
+        .dark { background-color: black; color: white; }
+        .dark a { color: #FFD050 !important; }
+        body, a { font-family: 'monospace';  }
+        .section {
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            padding: 5px 10px 5px 20px;
+            position: relative;
+            overflow: hidden;
+            line-height: 3;
+        }
+        .content {
+            white-space: pre-wrap; tab-size: 1;
+        }
+        .header {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 0;
+            word-wrap: break-word;
+        }
+        .chord {
+            padding: 0 0.2em;
+        }
+        ruby > rt {
+
+            font-size: 100%;
+        }
+
+    </style>
+</head>
+<body class=''>
+<!-- @formatter:off -->
+<div id='content'>
+    {{#sections}}
+    <div class='section section-type-{{type}} section{{type}}-{{typeIndex}}"'>
+        <div class="header">{{shortName}}</div>
+        <div class="content">{{#lines}}<ruby>{{.}}</ruby><br />{{/lines}}</div>
+    </div>
+    {{/sections}}
 </div>
-{ endfor }
+<!-- @formatter:on -->
+</body>
+</html>
+

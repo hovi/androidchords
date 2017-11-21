@@ -2,7 +2,7 @@ Recital:
 
 [E]Usínám [F#m]a chtěl bych se vrátit
 [G#m]o nějakej ten rok [F#]zpátky
-[E]být zase [ F#m]malým klukem
+[E]být zase [F#m]malým klukem
 [G#m]který si rád hraje a [F#m]který je s tebou
 
 1.
@@ -14,7 +14,7 @@ Recital:
 [E]Vrátím [F#m]se a [G#m]chtěl bych [F#m]rád
 [E]být [F#m]s tebou [G#m]zavzpo[F#m]mínat
 [E]mám tu [F#m]teď [G#m]ale [F#m]zprávu zlou
-[E E7]
+[E] [E7]
 
 R:
 [C#m]Su[D#m]chá [A]hlína [G#m]tady
@@ -25,7 +25,7 @@ R:
 [E]Loučím [F#m]se [G#m]a něco[F#m] však tam
 [E]zůsta[F#m]lo [G#m]z těch [F#m]našich dnů
 [E]já teď [F#m]vím [G#m]věrný [F#m]zůstanu
-[E E7]
+[E] [E7]
 
 R:
 

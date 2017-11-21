@@ -11,12 +11,16 @@ public class StaticHtmlSongFormatter extends SongFormatter {
 
     }
 
+    public String formatHtml(Object songText) {
+        return formatHtml((SongText) songText);
+    }
+
     public String formatHtml(SongText songText) {
-        if (songText.getSectionList() == null) {
+        if (songText.getSections() == null) {
             return formatHtmlChords(songText.getOriginalText());
         }
         StringBuilder html = new StringBuilder();
-        for (Section section : songText.getSectionList()) {
+        for (Section section : songText.getSections()) {
             html.append(formatHtml(section));
         }
         return html.toString();
@@ -24,7 +28,7 @@ public class StaticHtmlSongFormatter extends SongFormatter {
 
     private String formatHtml(Section section) {
         StringBuilder html = new StringBuilder();
-        html.append("<div class='song-section " + section.getSectionType().css() + "'>");
+        html.append("<div class='song-section " + section.getType().css() + "'>");
         html.append(formatHtmlChords(section.getContent()));
         html.append("</div>");
         return html.toString();

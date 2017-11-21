@@ -7,7 +7,7 @@ import eu.karelhovorka.zpevnik.text.SongText;
 public abstract class SongFormatter {
     public static final String CHORD_URL_PROTOCOL = "chord://";
 
-    public abstract String formatHtml(SongText songText);
+    public abstract String formatHtml(SongText context);
 
     protected abstract String formatHtmlChords(String content);
 

@@ -7,31 +7,34 @@ public class Section {
 
     private final String content;
 
-    private final SectionType sectionType;
+    private final String[] lines;
+
+    private final SectionType type;
 
     private final Section copyOf;
 
     private final int typeIndex;
 
-    public Section(String content, SectionType sectionType) {
-        this(content, sectionType, null, 0);
+    public Section(String content, SectionType type) {
+        this(content, type, null, 0);
     }
 
-    public Section(String content, SectionType sectionType, Section copyOf, int typeIndex) {
+    public Section(String content, SectionType type, Section copyOf, int typeIndex) {
         checkNotNull(content);
-        checkNotNull(sectionType);
+        checkNotNull(type);
         this.content = content;
-        this.sectionType = sectionType;
+        this.type = type;
         this.copyOf = copyOf;
         this.typeIndex = typeIndex;
+        this.lines = content.split("\n");
     }
 
     public String getContent() {
         return content;
     }
 
-    public SectionType getSectionType() {
-        return sectionType;
+    public SectionType getType() {
+        return type;
     }
 
     public boolean isCopy() {
@@ -42,7 +45,7 @@ public class Section {
         if (another == null) {
             return false;
         }
-        if (sectionType != another.sectionType) {
+        if (type != another.type) {
             return false;
         }
         if (content.equals(another.getContent())) {
@@ -57,6 +60,10 @@ public class Section {
         return false;
     }
 
+    public String getShortName() {
+        return type.getShortcut(typeIndex);
+    }
+
     public Section getCopyOf() {
         return copyOf;
     }
@@ -66,14 +73,18 @@ public class Section {
     }
 
     public static Section makeCopyOf(Section previousSection) {
-        return new Section(previousSection.content, previousSection.sectionType, previousSection, previousSection.typeIndex + 1);
+        return new Section(previousSection.content, previousSection.type, previousSection, previousSection.typeIndex + 1);
     }
 
     @Override
     public String toString() {
         return "Section{" +
-                "sectionType='" + sectionType + '\'' +
+                "type='" + type + '\'' +
                 ", typeIndex=" + typeIndex +
                 '}';
+    }
+
+    public String[] getLines() {
+        return lines;
     }
 }
