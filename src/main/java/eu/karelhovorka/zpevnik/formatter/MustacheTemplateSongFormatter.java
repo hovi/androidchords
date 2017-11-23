@@ -4,6 +4,8 @@ package eu.karelhovorka.zpevnik.formatter;
 import eu.karelhovorka.zpevnik.text.SongText;
 import eu.karelhovorka.zpevnik.util.Transposer;
 
+import static eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull;
+
 public abstract class MustacheTemplateSongFormatter extends SongFormatter {
 
     protected final String mainTemplate;
@@ -13,6 +15,8 @@ public abstract class MustacheTemplateSongFormatter extends SongFormatter {
     protected SongText context;
 
     protected MustacheTemplateSongFormatter(String mainTemplate, String chordReplaceTemplate) {
+        checkNotNull(mainTemplate, "mainTemplate");
+        checkNotNull(chordReplaceTemplate, "chordReplaceTemplate");
         this.mainTemplate = mainTemplate;
         this.chordReplaceTemplate = chordReplaceTemplate;
     }

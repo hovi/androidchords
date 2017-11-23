@@ -150,7 +150,6 @@ public class SectionTokenizerTest {
                 scanner.close();
             }
         }
-
         return text;
     }
 

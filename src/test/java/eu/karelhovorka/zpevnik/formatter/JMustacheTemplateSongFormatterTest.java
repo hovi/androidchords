@@ -9,12 +9,13 @@ import eu.karelhovorka.zpevnik.text.SectionTokenizerTest;
 import eu.karelhovorka.zpevnik.text.SongDisplaySettings;
 import eu.karelhovorka.zpevnik.text.SongText;
 
+import static eu.karelhovorka.zpevnik.text.SectionTokenizerTest.readFileFromTestResources;
 import static org.junit.Assert.assertEquals;
 
 public class JMustacheTemplateSongFormatterTest {
     @Test
     public void formatHtml() throws Exception {
-        MustacheTemplateSongFormatter formatter = JavaMustacheTemplateSongFormatter.fromTemplates("nothing", "chords");
+        MustacheTemplateSongFormatter formatter = JMustacheTemplateSongFormatter.fromTemplates("nothing", "chords");
         String result = formatter.formatHtml(new SongText("", "", SongDisplaySettings.DEFAULT));
         assertEquals(result, "nothing");
     }
@@ -23,18 +24,18 @@ public class JMustacheTemplateSongFormatterTest {
     public void formatHtmlResources() throws Exception {
 
 
-        MustacheTemplateSongFormatter formatter = JavaMustacheTemplateSongFormatter.fromTemplates(
-                SectionTokenizerTest.readFileFromResources("/templates/basic/main.html"),
-                SectionTokenizerTest.readFileFromResources("/templates/basic/chords.html")
+        MustacheTemplateSongFormatter formatter = JMustacheTemplateSongFormatter.fromTemplates(
+                SectionTokenizerTest.readFileFromResources("/templates/legacy/main.html"),
+                SectionTokenizerTest.readFileFromResources("/templates/legacy/chords.html")
         );
-        String result = formatter.formatHtml(new SongText(SectionTokenizerTest.readFileFromTestResources("/tokenizer/slunecnihrob.txt"), "Sluneční hrob", SongDisplaySettings.DEFAULT));
+        String result = formatter.formatHtml(new SongText(readFileFromTestResources("/tokenizer/slunecnihrob.txt"), "Sluneční hrob", SongDisplaySettings.DEFAULT));
 
-        writeToFile("/Users/Ef/Downloads/hrob.html", result);
-        assertEquals(result, "nothing");
+        //writeToFile("/Users/Ef/Downloads/hrob.html", result);
+        assertEquals(result, readFileFromTestResources("/results/slunecni-hrob-legacy.html"));
 
     }
 
-    public void writeToFile(String fileName, String content)
+    public static void writeToFile(String fileName, String content)
             throws IOException {
         try (PrintWriter out = new PrintWriter(fileName)) {
             out.println(content);

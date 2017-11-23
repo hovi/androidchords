@@ -2,7 +2,6 @@ package eu.karelhovorka.zpevnik.formatter;
 
 
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 
 import eu.karelhovorka.zpevnik.text.SongText;
 
@@ -18,7 +17,7 @@ public class JMustacheTemplateSongFormatter extends MustacheTemplateSongFormatte
 
     @Override
     protected String applyTemplate(String template, SongText context) {
-        Template tmpl = Mustache.compiler().compile(template);
-        return tmpl.execute(context);
+        //TODO: pre-compile and reuse template
+        return Mustache.compiler().compile(template).execute(context);
     }
 }
