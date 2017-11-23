@@ -1,0 +1,83 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{{title}}</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        #content {
+
+        }
+        h1 { font-size: 1.25em; }
+        .chord {
+            position: relative;
+            text-decoration: none;
+            color: blue !important;
+            top: -0.33rem;
+        }
+        .section {
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+            position: relative;
+        }
+        .content {
+            padding-top: 0.25rem;
+            white-space: pre-wrap; tab-size: 1;
+            line-height: 1.5;
+        }
+        .header {
+            position: absolute;
+            left: 0.1rem;
+            top: 0.5rem;
+            font-size: 0.5em;
+            width: 0;
+            word-wrap: break-word;
+        }
+
+        /* theme-specific */
+        .dark { background-color: black; color: white; }
+        .dark .chord { color: #FFD050 !important; }
+        .dark .section {
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.4);
+        }
+
+        /* settings-specific */
+        .font-monospace, .font-monospace .chord {
+            font-family: 'monospace' !important;
+        }
+        .font-serif, .font-serif .chord {
+            font-family: 'serif' !important;
+        }
+        .font-normal, .font-normal .chord {
+            font-family: 'normal' !important;
+        }
+        .double-column {
+            column-count: 2; column-gap: 30px; -webkit-column-count: 2; -webkit-column-gap: 30px;
+        }
+        .resize-chords .chord { font-size: 150% !important; }
+        .use-bold, .use-bold .chord {
+            font-weight: 900 !important;
+        }
+    </style>
+</head>
+<body class='{{displaySettings.css}}'>
+<!-- @formatter:off -->
+<div id='content'>
+    {{#sections}}
+    <div class='section section-type-{{type}} section{{type}}-{{typeIndex}}"'>
+        <div class="header">{{shortName}}</div>
+        <div class="content">{{content}}</div>
+    </div>
+    {{/sections}}
+    {{^sections}}<div class="content">{{originalText}}</div>{{/sections}}
+</div>
+<!-- @formatter:on -->
+{{#displaySettings.useBold}}
+{{/displaySettings.useBold}}
+{{^displaySettings.useBold}}
+{{/displaySettings.useBold}}
+</body>
+</html>
+

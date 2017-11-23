@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class JMustacheTemplateSongFormatterTest {
     @Test
     public void formatHtml() throws Exception {
-        JMustacheTemplateSongFormatter formatter = JMustacheTemplateSongFormatter.fromTemplates("nothing", "chords");
+        MustacheTemplateSongFormatter formatter = JavaMustacheTemplateSongFormatter.fromTemplates("nothing", "chords");
         String result = formatter.formatHtml(new SongText("", "", SongDisplaySettings.DEFAULT));
         assertEquals(result, "nothing");
     }
@@ -23,7 +23,7 @@ public class JMustacheTemplateSongFormatterTest {
     public void formatHtmlResources() throws Exception {
 
 
-        JMustacheTemplateSongFormatter formatter = JMustacheTemplateSongFormatter.fromTemplates(
+        MustacheTemplateSongFormatter formatter = JavaMustacheTemplateSongFormatter.fromTemplates(
                 SectionTokenizerTest.readFileFromResources("/templates/basic/main.html"),
                 SectionTokenizerTest.readFileFromResources("/templates/basic/chords.html")
         );
