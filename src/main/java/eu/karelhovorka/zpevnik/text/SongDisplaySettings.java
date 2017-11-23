@@ -8,11 +8,17 @@ import static eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull;
 
 public class SongDisplaySettings {
 
+    public static final String DEFAULT_FONT = "normal";
+
     public static final String LIGHT_THEME = "light";
 
     public static final String DARK_THEME = "dark";
 
-    public static final SongDisplaySettings DEFAULT = new SongDisplaySettings(true, true, false, false, false, false, Interval.PERFECT_UNISON, Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP, DARK_THEME);
+    public static final String PRINT_THEME = "print";
+
+    public static final String LEGACY_THEME = "legacy";
+
+    public static final SongDisplaySettings DEFAULT = new SongDisplaySettings(true, true, false, false, false, false, Interval.PERFECT_UNISON, Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP, DARK_THEME, DEFAULT_FONT);
 
     private boolean displayText;
 
@@ -34,7 +40,9 @@ public class SongDisplaySettings {
 
     private String theme;
 
-    public SongDisplaySettings(boolean displayText, boolean displayChords, boolean hideIdenticalSequences, boolean useBold, boolean doubleColumn, boolean resizeChords, Interval interval, Tone.CountryCategory countryCategory, Tone.ModificationAbbreviation modificationAbbreviation, String theme) {
+    private String fontFamily;
+
+    public SongDisplaySettings(boolean displayText, boolean displayChords, boolean hideIdenticalSequences, boolean useBold, boolean doubleColumn, boolean resizeChords, Interval interval, Tone.CountryCategory countryCategory, Tone.ModificationAbbreviation modificationAbbreviation, String theme, String fontFamily) {
         checkNotNull(countryCategory, "countryCategory");
         checkNotNull(modificationAbbreviation, "modificationAbbreviation");
         checkNotNull(theme, "theme");
@@ -49,6 +57,7 @@ public class SongDisplaySettings {
         this.countryCategory = countryCategory;
         this.modificationAbbreviation = modificationAbbreviation;
         this.theme = theme;
+        this.fontFamily = fontFamily;
     }
 
     public boolean isDisplayText() {
@@ -93,6 +102,7 @@ public class SongDisplaySettings {
 
     public String getCss() {
         StringBuilder sb = new StringBuilder(theme);
+        sb.append(" font-" + fontFamily);
         if (useBold) {
             sb.append(" use-bold");
         }
@@ -112,5 +122,9 @@ public class SongDisplaySettings {
             sb.append(" display-text");
         }
         return sb.toString();
+    }
+
+    public String getFontFamily() {
+        return fontFamily;
     }
 }
