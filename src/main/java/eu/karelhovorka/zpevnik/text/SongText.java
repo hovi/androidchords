@@ -1,7 +1,9 @@
 package eu.karelhovorka.zpevnik.text;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eu.karelhovorka.zpevnik.util.SongSettingsFormatter;
 
@@ -50,6 +52,13 @@ public class SongText {
 
     public List<Section> getSections() {
         return sections;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", title);
+        map.put("originalText", originalText);
+        return map;
     }
 
     @Override
