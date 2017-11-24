@@ -60,6 +60,14 @@ public class Section {
         return false;
     }
 
+    public String getCss() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" section");
+        sb.append(" section-type-" + type.css());
+        sb.append(" section-type-" + type.css() + typeIndex);
+        return sb.toString();
+    }
+
     public String getShortName() {
         return type.getShortcut(typeIndex);
     }

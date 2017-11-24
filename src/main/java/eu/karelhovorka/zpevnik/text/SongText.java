@@ -54,6 +54,15 @@ public class SongText {
         return sections;
     }
 
+    public String getCss() {
+        StringBuilder sb = new StringBuilder();
+        if (sections != null && sections.size() >= 0) {
+            sb.append(" has-sections");
+        }
+        sb.append(" " + displaySettings.getCss());
+        return sb.toString();
+    }
+
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("title", title);
