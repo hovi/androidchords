@@ -42,6 +42,9 @@ public class SongText {
 
 
     public static SongText fromRawText(String originalText, String title, SongDisplaySettings songDisplaySettings) {
+        checkNotNull(originalText, "originalText");
+        checkNotNull(title, "title");
+        checkNotNull(songDisplaySettings, "songDisplaySettings");
         String modifiedText = SongSettingsFormatter.modifyTextBasedOnSettings(originalText, songDisplaySettings);
         return new SongText(modifiedText, title, songDisplaySettings);
     }

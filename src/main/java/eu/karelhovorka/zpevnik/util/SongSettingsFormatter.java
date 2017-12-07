@@ -2,11 +2,15 @@ package eu.karelhovorka.zpevnik.util;
 
 import eu.karelhovorka.zpevnik.text.SongDisplaySettings;
 
+import static eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull;
+
 
 public class SongSettingsFormatter {
 
 
     public static String modifyTextBasedOnSettings(String source, SongDisplaySettings settings) {
+        checkNotNull(source, "source");
+        checkNotNull(settings, "settings");
         String text = source;
         text = ChordDetector.replacePlainChords(text);
         if (!settings.isDisplayText()) {
