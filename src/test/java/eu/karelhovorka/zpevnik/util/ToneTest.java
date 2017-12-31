@@ -15,20 +15,20 @@ public class ToneTest {
     public void testTranspose() {
         ToneTransposer tt = new ToneTransposer(CountryCategory.EASTERN, ModificationAbbreviation.SHARP);
 
-        assertEquals("A", tt.transpose("B", Interval.of(-1)));
+        assertEquals("A", tt.transpose("B", Interval.Companion.of(-1)));
 
-        assertEquals("G", tt.transpose("G#", Interval.of(-1)));
+        assertEquals("G", tt.transpose("G#", Interval.Companion.of(-1)));
 
-        assertEquals("H", tt.transpose("C", Interval.of(-1)));
+        assertEquals("H", tt.transpose("C", Interval.Companion.of(-1)));
 
-        assertEquals("H", tt.transpose("H#", Interval.of(-1)));
-        assertEquals("H", tt.transpose("C", Interval.of(-1)));
-        assertNotSame("H", tt.transpose("H", Interval.of(-1)));
+        assertEquals("H", tt.transpose("H#", Interval.Companion.of(-1)));
+        assertEquals("H", tt.transpose("C", Interval.Companion.of(-1)));
+        assertNotSame("H", tt.transpose("H", Interval.Companion.of(-1)));
 
-        assertEquals("Bb", ToneTransposer.transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.FLAT, Interval.of(-1)));
-        assertEquals("A#", ToneTransposer.transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.SHARP, Interval.of(-1)));
-        assertEquals("Ais", ToneTransposer.transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.IS, Interval.of(-1)));
-        assertEquals("Bb", ToneTransposer.transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.ES, Interval.of(-1)));
+        assertEquals("Bb", ToneTransposer.Companion.transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.FLAT, Interval.Companion.of(-1)));
+        assertEquals("A#", ToneTransposer.Companion.transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.SHARP, Interval.Companion.of(-1)));
+        assertEquals("Ais", ToneTransposer.Companion.transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.IS, Interval.Companion.of(-1)));
+        assertEquals("Bb", ToneTransposer.Companion.transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.ES, Interval.Companion.of(-1)));
 
     }
 

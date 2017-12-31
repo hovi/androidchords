@@ -19,21 +19,24 @@ public class SectionTokenizerTest {
         assertTrue("1.".matches(TYPE_REGEX));
         assertTrue("100:".matches(TYPE_REGEX));
         assertTrue("Recital:".matches(TYPE_REGEX));
+        assertTrue("Recital: ".matches(TYPE_REGEX));
     }
 
 
     @Test
     public void testValid() {
-        assertTrue(SectionTokenizer.isValid("Recital:\n fdsfdsa\nR:\n\nOutro:"));
-        assertTrue(SectionTokenizer.isValid("Intro:\n \nR:\n\nOutro:"));
-        assertTrue(SectionTokenizer.isValid("R:\n R:\n"));
-        assertTrue(SectionTokenizer.isValid("Fdsfds:\nFdfsf:\n\n "));
-        assertTrue(SectionTokenizer.isValid("1.\n2.\n"));
+        assertTrue(SectionTokenizer.Companion.isValid("\n\n\nRecital:\n fdsfdsa\nR:\n\nOutro:"));
+        assertTrue(SectionTokenizer.Companion.isValid("Recital:\n fdsfdsa\nR:\n\nOutro:"));
+        assertTrue(SectionTokenizer.Companion.isValid("Recital: \n fdsfdsa\nR:\n\nOutro: "));
+        assertTrue(SectionTokenizer.Companion.isValid("Intro:\n \nR:\n\nOutro:"));
+        assertTrue(SectionTokenizer.Companion.isValid("R:\n R:\n"));
+        assertTrue(SectionTokenizer.Companion.isValid("Fdsfds:\nFdfsf:\n\n "));
+        assertTrue(SectionTokenizer.Companion.isValid("1.\n2.\n"));
 
-        assertFalse(SectionTokenizer.isValid("fdsfds:\n fdsfds:\n"));
-        assertFalse(SectionTokenizer.isValid("Intro:\nIntro:"));
-        assertFalse(SectionTokenizer.isValid("Intro\nIntro"));
-        assertFalse(SectionTokenizer.isValid("\nIntro:\nIntro:"));
+        assertFalse(SectionTokenizer.Companion.isValid("fdsfds:\n fdsfds:\n"));
+        assertFalse(SectionTokenizer.Companion.isValid("Intro:\nIntro:"));
+        assertFalse(SectionTokenizer.Companion.isValid("Intro\nIntro"));
+        assertFalse(SectionTokenizer.Companion.isValid("\nIntro:\nIntro:"));
     }
 
     @Test
@@ -47,7 +50,7 @@ public class SectionTokenizerTest {
         assertEquals("Jak ta zář, co ve tmách usíná,\n" +
                         "tak nějak skomírá svíčka na stole\n" +
                         "a tvář tvá mi napoví, co nemohla's mi říct, však stačí v očích číst, ty všechno prozradí.",
-                verse1.getContent());
+                verse1.getContent().text());
 
         Section chorus1 = sectionList.get(1);
         assertEquals(SectionType.CHORUS, chorus1.getType());
@@ -58,12 +61,12 @@ public class SectionTokenizerTest {
                         "Já ti napovím, jak je vyslovit, co s tím,\n" +
                         "abys nebloudila dál sama, jako stín.\n" +
                         "Tak poslouchej, chci říct jen pár vět, nic vic. Říkejme si každý sám - zůstaň se mnou dál.",
-                chorus1.getContent());
+                chorus1.getContent().text());
 
         Section verse2 = sectionList.get(2);
         assertEquals(SectionType.VERSE, verse2.getType());
         assertEquals("Němým možná líp se rozumí, ti neumějí lhát, věty poskládat. Slova plynou a ztrácejí se zas, já bych přesto chtěl, jednou, uslyšet tvůj hlas.",
-                verse2.getContent());
+                verse2.getContent().text());
 
         Section chorus2 = sectionList.get(3);
         assertEquals(SectionType.CHORUS, chorus2.getType());
@@ -74,7 +77,7 @@ public class SectionTokenizerTest {
         Section intermezzo = sectionList.get(4);
         assertEquals(SectionType.INTERMEZZO, intermezzo.getType());
         assertEquals("",
-                intermezzo.getContent());
+                intermezzo.getContent().text());
 
         Section chorus3 = sectionList.get(5);
         assertEquals(SectionType.CHORUS, chorus2.getType());
@@ -89,8 +92,8 @@ public class SectionTokenizerTest {
         SectionTokenizer sectionTokenizer = new SectionTokenizer();
         String source1 = readFile("slunecnihrob.txt");
         List<Section> sectionList = sectionTokenizer.getSections(source1);
-        SectionTokenizer.validate(source1);
-        assertTrue(SectionTokenizer.isValid(source1));
+        SectionTokenizer.Companion.validate(source1);
+        assertTrue(SectionTokenizer.Companion.isValid(source1));
     }
 
     @Test
@@ -105,7 +108,7 @@ public class SectionTokenizerTest {
     private static void assertFirstSectionContentEquals(String expectedContent, String sourceText) {
         SectionTokenizer sc = new SectionTokenizer();
         Section firstSection = sc.getSections(sourceText).get(0);
-        assertEquals(expectedContent, firstSection.getContent());
+        assertEquals(expectedContent, firstSection.getContent().getLines().get(0).getChordToText().get(0).getText());
     }
 
     private static void assertFirstSectionTypeEquals(SectionType expectedType, String sourceText) {

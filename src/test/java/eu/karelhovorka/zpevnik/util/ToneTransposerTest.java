@@ -27,7 +27,7 @@ public class ToneTransposerTest extends TestCase {
 
         assertEquals("[A#mi/G#]", transpose("[Hmi/A]", -1));
 
-        assertEquals("[G][E][F#/H]", transpose("[G# F G/C]", -1));
+        assertEquals("[G] [E] [F#/H]", transpose("[G# F G/C]", -1));
 
     }
 
@@ -68,13 +68,13 @@ public class ToneTransposerTest extends TestCase {
 
         assertEquals("[G#]", transpose("[G]", 1));
 
-        assertEquals("[G][E][F#]", transpose("[G# F G]", -1));
+        assertEquals("[G] [E] [F#]", transpose("[G# F G]", -1));
 
         assertEquals("1", "1,2".split("[,\\s*]")[0]);
 
-        assertEquals("[D#mi][C#][G#mi]", transpose("[Emi D Ami]", -1));
+        assertEquals("[D#mi] [C#] [G#mi]", transpose("[Emi D Ami]", -1));
 
-        assertEquals("[D#mi][C#][G#mi]", transpose("[Emi, D, Ami]", -1));
+        assertEquals("[D#mi] [C#] [G#mi]", transpose("[Emi, D, Ami]", -1));
     }
 
     public void testFailedValues() {
@@ -89,6 +89,6 @@ public class ToneTransposerTest extends TestCase {
 
 
     public static String transpose(String text, int step) {
-        return ToneTransposer.transposeAll(text, Interval.of(step), Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP);
+        return ToneTransposer.Companion.transposeAll(text, Interval.Companion.of(step), Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP);
     }
 }
