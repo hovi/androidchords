@@ -33,7 +33,6 @@ class SectionTextInlineTest {
 
     @Test
     fun textLine2Chords() {
-        val line_ = "[A]2 chords[E] there"
         assertEquals(sectionLine {
             chordPair {
                 chord = "[A]"
@@ -44,7 +43,7 @@ class SectionTextInlineTest {
                 text = " there"
             }
 
-        }, parseSectionLineInline(line_))
+        }, parseSectionLineInline("[A]2 chords[E] there"))
     }
 
     @Test
