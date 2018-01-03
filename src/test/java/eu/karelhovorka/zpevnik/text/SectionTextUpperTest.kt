@@ -23,6 +23,25 @@ class SectionTextUpperTest {
     }
 
     @Test
+    fun textShortSecondLineNotFirstChord() {
+        assertEquals(sectionLine {
+            chordPair {
+                chord = null
+                text = "-"
+            }
+            chordPair {
+                chord = "[A]"
+                text = ""
+            }
+
+        }, parseSectionLineUpper(
+                """
+                    |   [A]
+                    |-
+            """.trimMargin()))
+    }
+
+    @Test
     fun textLine1Chord() {
         assertEquals(sectionLine {
             chordPair {

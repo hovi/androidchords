@@ -145,7 +145,7 @@ fun parseSectionLineUpper(cLine: String, textLine: String): SectionLine {
     while (matcher.find()) {
         if (matcher.start() > 0) {
             if (chord == null) {
-                chordGroups.add(ChordPair(null, textLine.substring(0, matcher.start())))
+                chordGroups.add(ChordPair(null, textLine.substring(0, Math.min(matcher.start(), textLine.length))))
             } else {
                 offset += 2
                 if (index < 0 || index > textLine.length || matcher.start() - offset > textLine.length) {
