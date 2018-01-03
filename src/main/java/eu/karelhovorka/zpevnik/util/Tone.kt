@@ -16,7 +16,7 @@ DIS(CountrySpecificToneName("D#", "Eb", "Dis", "Es", CountryCategory.EASTERN, 3)
 FIS(CountrySpecificToneName("F#", "Gb", "Fis", "Ges", CountryCategory.EASTERN, 6), CountrySpecificToneName("F#", "Gb", "Fis", "Ges", CountryCategory.WESTERN, 6)),
 G(CountrySpecificToneName("G", CountryCategory.EASTERN, 7), CountrySpecificToneName("G", CountryCategory.WESTERN, 7)),
 GIS(CountrySpecificToneName("G#", "Ab", "Gis", "As", CountryCategory.EASTERN, 8), CountrySpecificToneName("G#", "Ab", "Gis", "As", CountryCategory.WESTERN, 8)),
-A(CountrySpecificToneName("A", CountryCategory.EASTERN, 9), CountrySpecificToneName("A", CountryCategory.WESTERN, 9)),
+A(CountrySpecificToneName("A", CountryCategory.EASTERN, 9, "Bb"), CountrySpecificToneName("A", CountryCategory.WESTERN, 9)),
 AIS(CountrySpecificToneName("A#", "B", "Ais", "B", CountryCategory.EASTERN, 10, "Hb", "Hes"), CountrySpecificToneName("A#", "Bb", "Ais", "Bb", CountryCategory.WESTERN, 10)),
 H(CountrySpecificToneName("H", CountryCategory.EASTERN, 11, "Cb", "H", "Ces"), CountrySpecificToneName("B", CountryCategory.WESTERN, 11, "H", "Cb", "B", "Ces"));
 

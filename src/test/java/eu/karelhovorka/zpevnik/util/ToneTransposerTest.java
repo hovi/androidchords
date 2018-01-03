@@ -7,6 +7,13 @@ import eu.karelhovorka.zpevnik.music.Interval;
 
 public class ToneTransposerTest extends TestCase {
 
+    public void testTransposeB() {
+        Tone.CountryCategory countryCategory = Tone.CountryCategory.EASTERN;
+        Tone.ModificationAbbreviation modificationAbbreviation = Tone.ModificationAbbreviation.FLAT;
+        assertEquals("[Ab]", transpose("[Bb]", -1, countryCategory, modificationAbbreviation));
+        assertEquals("[A]", transpose("[B]", -1, countryCategory, modificationAbbreviation));
+        assertEquals("[B]", transpose("[Bb]", 1, countryCategory, modificationAbbreviation));
+    }
 
     public void testTransposePlus() {
         assertEquals("[G#6+]", transpose("[A6+]", -1));
@@ -87,8 +94,11 @@ public class ToneTransposerTest extends TestCase {
 
     }
 
+    public static String transpose(String text, int step, Tone.CountryCategory countryCategory, Tone.ModificationAbbreviation modificationAbbreviation) {
+        return ToneTransposer.Companion.transposeAll(text, Interval.Companion.of(step), countryCategory, modificationAbbreviation);
+    }
 
     public static String transpose(String text, int step) {
-        return ToneTransposer.Companion.transposeAll(text, Interval.Companion.of(step), Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP);
+        return transpose(text, step, Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP);
     }
 }
