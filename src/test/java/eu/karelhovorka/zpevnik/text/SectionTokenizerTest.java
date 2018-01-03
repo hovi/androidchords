@@ -42,7 +42,7 @@ public class SectionTokenizerTest {
     @Test
     public void testGetSectionFile() throws Exception {
         SectionTokenizer sectionTokenizer = new SectionTokenizer();
-        String source1 = readFile("source1.txt");
+        String source1 = readFileTokenizer("source1.txt");
         List<Section> sectionList = sectionTokenizer.getSections(source1);
 
         Section verse1 = sectionList.get(0);
@@ -90,7 +90,7 @@ public class SectionTokenizerTest {
     @Test
     public void testSlunecniHrob() throws Exception {
         SectionTokenizer sectionTokenizer = new SectionTokenizer();
-        String source1 = readFile("slunecnihrob.txt");
+        String source1 = readFileTokenizer("slunecnihrob.txt");
         List<Section> sectionList = sectionTokenizer.getSections(source1);
         SectionTokenizer.Companion.validate(source1);
         assertTrue(SectionTokenizer.Companion.isValid(source1));
@@ -118,31 +118,31 @@ public class SectionTokenizerTest {
     }
 
 
-    public static String readFile(String path) throws IOException {
-        Scanner scanner = null;
-        String text;
-        try {
-            scanner = new Scanner(new File("chords/src/test/resources/tokenizer/" + path));
-            text = scanner.useDelimiter("\\A").next();
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
-        }
-
-        return text;
+    public static String readFileTokenizer(String path) throws IOException {
+        return readFileFromTestResources("/tokenizer/" + path);
     }
 
     public static String readFileFromResources(String path) throws IOException {
-        return readFile("chords/src/main/resources", path);
+        try {
+            return readFile("src/main/resources", path);
+        } catch (IOException e) {
+            return readFile("chords/src/main/resources", path);
+        }
     }
 
     public static String readFileFromTestResources(String path) throws IOException {
-        return readFile("chords/src/test/resources", path);
+        try {
+            return readFile("src/test/resources", path);
+        } catch (IOException e) {
+            return readFile("chords/src/test/resources", path);
+        }
+
+
     }
 
 
     private static String readFile(String prefix, String path) throws IOException {
+        System.out.println(path);
         Scanner scanner = null;
         String text;
         try {
