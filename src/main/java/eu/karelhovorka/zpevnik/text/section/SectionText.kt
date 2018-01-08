@@ -107,8 +107,13 @@ fun parseSectionText(fullText: String): SectionText {
         } else if (lineIndex != lines.size - 1) {
             val nextLine = lines[lineIndex + 1]
             if (Transposer.lineContainsChordsOnly(line) && Transposer.lineContainsTextOnly(nextLine)) {
-                result.add(parseSectionLineUpper(line, nextLine))
-                lineIndex++
+                if (nextLine.isBlank()) {
+                    result.add(parseSectionLineInline(line))
+                } else {
+                    lineIndex++
+                    result.add(parseSectionLineUpper(line, nextLine))
+                }
+
             } else {
                 result.add(SectionLine(line))
             }

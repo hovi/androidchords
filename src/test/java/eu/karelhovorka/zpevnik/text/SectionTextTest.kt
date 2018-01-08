@@ -137,4 +137,29 @@ class SectionTextTest {
     }
 
 
+    @Test
+    fun testEmptyLine() {
+        assertEquals(
+                sectionText {
+                    sectionLine {
+                        chordPair {
+                            chord = "[A]"
+                            text = ""
+                        }
+                    }
+                    sectionLine {
+                        chordPair {
+                            text = ""
+                        }
+                    }
+                    sectionLine {
+                        chordPair {
+                            text = "A"
+                        }
+                    }
+                }
+                , parseSectionText("[A]\n\nA"))
+
+    }
+
 }
