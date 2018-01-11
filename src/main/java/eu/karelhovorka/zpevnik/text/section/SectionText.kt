@@ -153,7 +153,7 @@ fun parseSectionLineUpper(cLine: String, textLine: String): SectionLine {
                 chordGroups.add(ChordPair(null, textLine.substring(0, Math.min(matcher.start(), textLine.length))))
             } else {
                 offset += 2
-                if (index < 0 || index > textLine.length || matcher.start() - offset > textLine.length) {
+                if (index < 0 || index > textLine.length) {
                     lastText = ""
                 } else {
                     lastText = textLine.substring(index, Math.min(matcher.start() - offset, textLine.length))
