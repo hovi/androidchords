@@ -170,22 +170,24 @@ fun parseSectionLineUpper(cLine: String, textLine: String): SectionLine {
 }
 
 fun parseSectionLineInline(line: String): SectionLine {
+    var chordLine = Transposer.mergeLine(line)
+    chordLine = ChordDetector.replacePlainChordsInline(chordLine)
     val patternStr = Transposer.CHORD_REGEX
     val pattern = Pattern.compile(patternStr)
-    val matcher = pattern.matcher(line)
+    val matcher = pattern.matcher(chordLine)
     val chordGroups = mutableListOf<ChordPair>()
     var lastText: String = ""
     var chord: String? = null
     var index = 0
     while (matcher.find()) {
-        lastText = line.substring(index, matcher.start())
+        lastText = chordLine.substring(index, matcher.start())
         if (matcher.start() > 0) {
             chordGroups.add(ChordPair(chord, lastText))
         }
-        chord = line.substring(matcher.start(), matcher.end())
+        chord = chordLine.substring(matcher.start(), matcher.end())
         index = matcher.end()
     }
-    lastText = line.substring(index)
+    lastText = chordLine.substring(index)
     chordGroups.add(ChordPair(chord, lastText))
     return SectionLine(chordGroups)
 }

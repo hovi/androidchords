@@ -40,7 +40,7 @@ object ChordDetector {
         for (line in lines) {
             sb.append(replacePlainChordsInline(line) + "\n")
         }
-        return sb.toString().replaceFirst("\\s++$".toRegex(), "")
+        return sb.toString().trimEnd()
 
     }
 

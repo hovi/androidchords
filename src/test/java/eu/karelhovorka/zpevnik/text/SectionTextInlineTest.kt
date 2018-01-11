@@ -104,5 +104,30 @@ class SectionTextInlineTest {
 
     }
 
+    @Test
+    fun test4ChordsMerge() {
+        assertEquals(
+                sectionLine {
+                    chordPair {
+                        chord = "[C]"
+                        text = " "
+                    }
+                    chordPair {
+                        chord = "[G]"
+                        text = " "
+                    }
+                    chordPair {
+                        chord = "[Am]"
+                        text = " "
+                    }
+                    chordPair {
+                        chord = "[D]"
+                        text = ""
+                    }
+                }, parseSectionLineInline("[C G Am D]")
+        )
+
+    }
+
 
 }

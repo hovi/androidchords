@@ -29,14 +29,13 @@ class SectionTokenizer {
     }
 
     fun getSections(text: String): List<Section> {
-        val lines = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val lines = text.trimEnd().split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val sections = ArrayList<Section>()
         var st: ISectionType? = null
         var sb: StringBuilder? = null
         val sectionTypeCount: MutableMap<ISectionType, Int> = mutableMapOf()
         for (line in lines) {
-            if (line.isBlank()) {
-            } else if (line.trim().matches(SECTION_TYPE_BASIC_REGEX)) {
+            if (line.trim().matches(SECTION_TYPE_BASIC_REGEX)) {
                 if (st != null) {
                     val index = sectionTypeCount.get(st) ?: 0
                     val section = Section(parseSectionText(sb!!.toString()), st, null, 0, index)
@@ -54,7 +53,7 @@ class SectionTokenizer {
         }
         if (st != null) {
             val index = sectionTypeCount.get(st) ?: 0
-            sections.add(Section(parseSectionText(sb!!.toString()), st, null, 0, index))
+            sections.add(Section(parseSectionText(sb!!.toString().trimEnd()), st, null, 0, index))
             sectionTypeCount.put(st, index + 1)
         }
         return mergeSections(sections)
