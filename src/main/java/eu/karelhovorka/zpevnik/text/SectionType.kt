@@ -36,7 +36,7 @@ enum class SectionType private constructor(private val shortcut: String, private
     BRIDGE("B", "Bridge", "Bridge:", "B:"),
     NOTE("P", "Poznámka", "Note:", "Poznamka:"),
     SOLO("Solo", "Solo", "Solo:"),
-    INTERMEZZO("M", "Mezihra", "Mezihra:", "M:"),
+    INTERMEZZO("M", "Mezihra", "Mezihra:", "M:", "Intermezzo:"),
     OUTRO("O", "Outro", "Outro:"),
     SPEECH("Rec", "Recitál", "Recital:", "Rec:"),
     UNKNOWN("?", "?", "");
