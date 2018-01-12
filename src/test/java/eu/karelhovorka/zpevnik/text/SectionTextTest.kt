@@ -226,4 +226,43 @@ class SectionTextTest {
 
     }
 
+    @Test
+    fun testExample2() {
+        val text2 = "[A B C]\n" +
+                "[A] [B] [C]"
+        assertEquals(
+                sectionText {
+                    sectionLine {
+                        chordPair {
+                            chord = "[A]"
+                            text = " "
+                        }
+                        chordPair {
+                            chord = "[B]"
+                            text = " "
+                        }
+                        chordPair {
+                            chord = "[C]"
+                            text = ""
+                        }
+                    }
+                    sectionLine {
+                        chordPair {
+                            chord = "[A]"
+                            text = " "
+                        }
+                        chordPair {
+                            chord = "[B]"
+                            text = " "
+                        }
+                        chordPair {
+                            chord = "[C]"
+                            text = ""
+                        }
+                    }
+                }
+                , parseSectionText(text2))
+
+    }
+
 }

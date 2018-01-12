@@ -17,7 +17,7 @@ public class SectionTokenizerTest {
     @Test
     public void testRegex() {
         assertTrue("1.".matches(TYPE_REGEX));
-        assertTrue("100:".matches(TYPE_REGEX));
+        assertTrue("100.".matches(TYPE_REGEX));
         assertTrue("Recital:".matches(TYPE_REGEX));
         assertTrue("Recital: ".matches(TYPE_REGEX));
     }
@@ -54,7 +54,7 @@ public class SectionTokenizerTest {
 
         Section chorus1 = sectionList.get(1);
         assertEquals(SectionType.CHORUS, chorus1.getType());
-        assertEquals(0, chorus1.getTypeIndex());
+        assertEquals(0, chorus1.getCopyIndex());
         assertEquals("Na krajíčku pláč, ty slzy v očích máš,\n" +
                         "stačilo jen říct pár slov prozatím.\n" +
                         "Ta slova dobře znáš, když jdeš spát a usínáš, si opakuješ v snách - zůstaň se mnou dál.\n" +
@@ -70,7 +70,7 @@ public class SectionTokenizerTest {
 
         Section chorus2 = sectionList.get(3);
         assertEquals(SectionType.CHORUS, chorus2.getType());
-        assertEquals(1, chorus2.getTypeIndex());
+        assertEquals(1, chorus2.getCopyIndex());
         assertEquals(chorus1.getContent(),
                 chorus2.getContent());
 
@@ -81,7 +81,7 @@ public class SectionTokenizerTest {
 
         Section chorus3 = sectionList.get(5);
         assertEquals(SectionType.CHORUS, chorus2.getType());
-        assertEquals(2, chorus3.getTypeIndex());
+        assertEquals(2, chorus3.getCopyIndex());
         assertEquals(chorus1.getContent(),
                 chorus3.getContent());
 

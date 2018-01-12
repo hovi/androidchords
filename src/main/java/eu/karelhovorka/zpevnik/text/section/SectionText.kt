@@ -98,6 +98,9 @@ data class SectionText(val lines: List<SectionLine>) {
 
 fun parseSectionText(fullText: String): SectionText {
     val result = mutableListOf<SectionLine>()
+    if (fullText.isBlank()) {
+        return SectionText(result)
+    }
     val lines = fullText.trimEnd().split("\n".toRegex())
     var lineIndex = 0
     while (lineIndex < (lines.size)) {
@@ -113,12 +116,13 @@ fun parseSectionText(fullText: String): SectionText {
                     lineIndex++
                     result.add(parseSectionLineUpper(line, nextLine))
                 }
-
+            } else if (Transposer.lineContainsChordsOnly(line) && Transposer.lineContainsChordsOnly(nextLine)) {
+                result.add(parseSectionLineInline(line))
             } else {
                 result.add(SectionLine(line))
             }
         } else if (Transposer.lineContainsChordsOnly(line)) {
-            result.add(parseSectionLineUpper(line, ""))
+            result.add(parseSectionLineInline(line))
         } else {
             result.add(SectionLine(line))
         }

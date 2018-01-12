@@ -2,6 +2,7 @@ package eu.karelhovorka.zpevnik.text
 
 
 import eu.karelhovorka.zpevnik.text.section.parseSectionText
+import java.lang.NumberFormatException
 import java.util.*
 import java.util.regex.Pattern
 
@@ -19,7 +20,7 @@ class SectionTokenizer {
         return "(^" + sb.substring(1) + "\n)"
     }
 
-    fun getSectionsOrSingleSection(text: String) : List<Section> {
+    fun getSectionsOrSingleSection(text: String): List<Section> {
         try {
             return getSections(text.trimEnd())
         } catch (e: Exception) {
@@ -29,20 +30,17 @@ class SectionTokenizer {
     }
 
     fun getSections(text: String): List<Section> {
-        val lines = text.trimEnd().split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val lines = text.trimEnd().split("\n".toRegex()).dropLastWhile { it.isEmpty() }
         val sections = ArrayList<Section>()
-        var st: ISectionType? = null
         var sb: StringBuilder? = null
         val sectionTypeCount: MutableMap<ISectionType, Int> = mutableMapOf()
+        var currentHeaderLine = ""
         for (line in lines) {
             if (line.trim().matches(SECTION_TYPE_BASIC_REGEX)) {
-                if (st != null) {
-                    val index = sectionTypeCount.get(st) ?: 0
-                    val section = Section(parseSectionText(sb!!.toString()), st, null, 0, index)
-                    sectionTypeCount.put(st, index + 1)
-                    sections.add(section)
+                if (currentHeaderLine != "") {
+                    sections.add(parseSection(currentHeaderLine, sectionTypeCount, sb))
                 }
-                st = SectionType.fromName(line)
+                currentHeaderLine = line
                 sb = StringBuilder()
             } else {
                 if (sb == null) {
@@ -51,12 +49,29 @@ class SectionTokenizer {
                 sb.append(line + "\n")
             }
         }
-        if (st != null) {
-            val index = sectionTypeCount.get(st) ?: 0
-            sections.add(Section(parseSectionText(sb!!.toString().trimEnd()), st, null, 0, index))
-            sectionTypeCount.put(st, index + 1)
+        if (currentHeaderLine != "") {
+            sections.add(parseSection(currentHeaderLine, sectionTypeCount, sb))
         }
         return mergeSections(sections)
+    }
+
+    private fun parseSection(currentHeaderLine: String, sectionTypeCount: MutableMap<ISectionType, Int>, sb: StringBuilder?): Section {
+        val explicitIndex = currentHeaderLine.replace(SECTION_TYPE_BASIC_REGEX, "$1$2")
+        val st = SectionType.fromName(currentHeaderLine)
+        var index = sectionTypeCount.get(st) ?: 0
+        if (explicitIndex.isNotBlank()) {
+            try {
+                index = explicitIndex.toInt() - 1
+            } catch (e: NumberFormatException) {
+                if (sb!!.toString().isBlank()) {
+                    index = 0;
+                }
+            }
+        } else if (sb!!.toString().isBlank()) {
+            index = 0;
+        }
+        sectionTypeCount.put(st, (sectionTypeCount.get(st) ?: 0) + 1)
+        return Section(parseSectionText(sb!!.toString()), st, null, 0, index)
     }
 
     fun mergeSections(originalSections: List<Section>): List<Section> {
@@ -80,7 +95,7 @@ class SectionTokenizer {
         private val MINIMUM_SECTION_COUNT = 2
 
         @JvmField
-        val TYPE_REGEX = "(?:[A-Z][A-Za-z]*([0-9]*):|([0-9]+)(?:\\.|:))[\t ]*"
+        val TYPE_REGEX = "(?:[A-Z][A-Za-z]*([0-9]*):|([0-9]+)\\.)[\t ]*"
 
         val TYPE_REGEX_PATTERN = Pattern.compile(TYPE_REGEX)
 

@@ -1,5 +1,8 @@
 package eu.karelhovorka.zpevnik.text.section
 
+import eu.karelhovorka.zpevnik.text.ISectionType
+import eu.karelhovorka.zpevnik.text.Section
+import eu.karelhovorka.zpevnik.text.SectionType
 
 
 data class SectionTextBuilder(val lines: MutableList<SectionLine> = mutableListOf()) {
@@ -38,6 +41,52 @@ data class SectionLineBuilder(val chordToText: MutableList<ChordPair> = mutableL
     }
 
 }
+
+data class SectionBuilder(var content: SectionText? = null, var type: ISectionType = SectionType.UNKNOWN, var copyOf: Section? = null, var copyIndex: Int = 0, var index: Int = 0) {
+
+
+    fun sectionText(init: SectionTextBuilder.() -> Unit): SectionText {
+        val stateBuilder = SectionTextBuilder()
+        stateBuilder.init()
+        val st = stateBuilder.build()
+        content = st
+        return st
+    }
+
+    fun build(): Section {
+        return Section(content = content!!, type = type, copyOf = copyOf, copyIndex = copyIndex, index = index)
+    }
+}
+
+fun sections(init: SectionsBuilder.() -> Unit): List<Section> {
+    val sectionBuilder = SectionsBuilder()
+    sectionBuilder.init()
+    return sectionBuilder.build()
+}
+
+data class SectionsBuilder(var sections: MutableList<Section> = mutableListOf<Section>()) {
+
+
+    fun section(init: SectionBuilder.() -> Unit): Section {
+        val sectionBuilder = SectionBuilder()
+        sectionBuilder.init()
+        val section = sectionBuilder.build()
+        sections.add(section)
+        return section
+    }
+
+    fun build(): List<Section> {
+        return sections
+    }
+}
+
+
+fun section(init: SectionBuilder.() -> Unit): Section {
+    val sectionBuilder = SectionBuilder()
+    sectionBuilder.init()
+    return sectionBuilder.build()
+}
+
 
 fun sectionLine(init: SectionLineBuilder.() -> Unit): SectionLine {
     val stateBuilder = SectionLineBuilder()
