@@ -2,8 +2,8 @@ package eu.karelhovorka.zpevnik.util
 
 
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
-import java.util.*
-import java.util.regex.Pattern
+import mock.JvmStatic
+import mock.toPattern
 
 object ChordDetector {
 
@@ -69,11 +69,11 @@ object ChordDetector {
 
     fun getBracketChordsInLine(line: String): Array<String> {
         checkNotNull(line, "line")
-        val bracketChord = Pattern.compile("\\[(" + Transposer.FULL_CHORD + ")\\]")
+        val bracketChord = ("\\[(" + Transposer.FULL_CHORD + ")\\]").toPattern()
         val matcher = bracketChord.matcher(line)
         val chords = ArrayList<String>()
         while (matcher.find()) {
-            chords.add(matcher.group(1))
+            chords.add(matcher.group(1)!!)
         }
         return chords.toTypedArray()
     }
@@ -81,7 +81,7 @@ object ChordDetector {
     fun lineContainsChords(line: String, chords: Array<String>): Boolean {
         checkNotNull(line, "line")
         checkNotNull(chords, "chords")
-        return Arrays.equals(getBracketChordsInLine(line), chords)
+        return (getBracketChordsInLine(line).contentEquals(chords))
     }
 
 }

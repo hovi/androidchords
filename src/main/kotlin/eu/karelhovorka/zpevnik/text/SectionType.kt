@@ -2,7 +2,6 @@ package eu.karelhovorka.zpevnik.text
 
 
 import eu.karelhovorka.zpevnik.util.Preconditions
-import java.util.*
 
 interface ISectionType {
     fun css(): String
@@ -44,7 +43,7 @@ enum class SectionType private constructor(private val shortcut: String, private
     val names: Array<String>
 
     override fun css(): String {
-        return toString().toLowerCase(Locale.FRANCE)
+        return toString().toLowerCase()
     }
 
     init {

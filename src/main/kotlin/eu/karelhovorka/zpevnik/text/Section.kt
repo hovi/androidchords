@@ -2,7 +2,7 @@ package eu.karelhovorka.zpevnik.text
 
 
 import eu.karelhovorka.zpevnik.text.section.SectionText
-import java.lang.StringBuilder
+import mock.JvmOverloads
 
 class Section @JvmOverloads constructor(val content: SectionText, val type: ISectionType = SectionType.UNKNOWN, val copyOf: Section? = null, val copyIndex: Int = 0, val index: Int = 0) {
 
@@ -11,11 +11,11 @@ class Section @JvmOverloads constructor(val content: SectionText, val type: ISec
 
     val css: String
         get() {
-            val sb = StringBuilder()
-            sb.append(" section")
-            sb.append(" section-type-" + type.css())
-            sb.append(" section-type-" + type.css() + index)
-            return sb.toString()
+            var sb = ""
+            sb += (" section")
+            sb += (" section-type-" + type.css())
+            sb += (" section-type-" + type.css() + index)
+            return sb
         }
 
     val shortName: String
@@ -43,7 +43,6 @@ class Section @JvmOverloads constructor(val content: SectionText, val type: ISec
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
 
         other as Section
 

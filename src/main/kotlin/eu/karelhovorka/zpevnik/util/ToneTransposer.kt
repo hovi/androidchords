@@ -3,7 +3,8 @@ package eu.karelhovorka.zpevnik.util
 import eu.karelhovorka.zpevnik.music.Interval
 import eu.karelhovorka.zpevnik.util.Tone.CountryCategory
 import eu.karelhovorka.zpevnik.util.Tone.ModificationAbbreviation
-import java.util.regex.Pattern
+import mock.JvmStatic
+import mock.toPattern
 
 class ToneTransposer(private val type: CountryCategory, private val htt: ModificationAbbreviation) {
 
@@ -29,9 +30,9 @@ class ToneTransposer(private val type: CountryCategory, private val htt: Modific
 
     companion object {
 
-        private val TONE_PATTERN = Pattern.compile("\\[(" + Transposer.SINGLE_TONE + ").*")
+        private val TONE_PATTERN = ("\\[(" + Transposer.SINGLE_TONE + ").*").toPattern()
 
-        private val CHORD_REGEX_PATTERN = Pattern.compile("\\[(" + Transposer.FULL_CHORD + ")\\]")
+        private val CHORD_REGEX_PATTERN = ("\\[(" + Transposer.FULL_CHORD + ")\\]").toPattern()
 
         @JvmStatic
         fun transposeAll(text: String, step: Interval, type: CountryCategory, htt: ModificationAbbreviation): String {
@@ -40,32 +41,31 @@ class ToneTransposer(private val type: CountryCategory, private val htt: Modific
                 return result
             }
             val m = CHORD_REGEX_PATTERN.matcher(result)
-            val sb = StringBuffer()
+            var sb = ""
             while (m.find()) {
                 try {
                     val tone = ToneTransposer.fromChordString("[" + m.group(1) + "]", type)
-                    if (m.group(5) != null && m.group(4) != null) {
+                    if (!m.group(5).isNullOrBlank() && !m.group(4).isNullOrBlank()) {
                         val tone2 = ToneTransposer.fromChordString("[" + m.group(5) + "]", type)
                         var tempChord = tone.transpose(step).getValue(type, htt) + m.group(3) + m.group(4) + tone2.transpose(step).getValue(type, htt)
                         if (m.group(6) != null) {
                             tempChord += m.group(6)
                         }
-                        m.appendReplacement(sb, "[$tempChord]")
+                        sb += m.appendReplacement("[$tempChord]")
                     } else {
-                        if (m.group(6) != null && m.group(4) != null) {
-                            m.appendReplacement(sb, "[" + tone.transpose(step).getValue(type, htt) + m.group(3) + m.group(4) + m.group(6) + "]")
+                        if (!m.group(6).isNullOrBlank() && !m.group(4).isNullOrBlank()) {
+                            sb += m.appendReplacement("[" + tone.transpose(step).getValue(type, htt) + m.group(3) + m.group(4) + m.group(6) + "]")
                         } else {
-                            m.appendReplacement(sb, "[" + tone.transpose(step).getValue(type, htt) + m.group(3) + "]")
+                            sb += m.appendReplacement("[" + tone.transpose(step).getValue(type, htt) + m.group(3) + "]")
                         }
                     }
                 } catch (e: IllegalArgumentException) {
                     //tone not found, we will not transpose
-                    m.appendReplacement(sb, m.group(0))
+                    sb += m.appendReplacement(m.group())
                 }
-
             }
-            m.appendTail(sb)
-            return sb.toString()
+            sb += m.appendTail()
+            return sb
         }
 
         fun removeBrackets(text: String): String {
@@ -76,7 +76,7 @@ class ToneTransposer(private val type: CountryCategory, private val htt: Modific
         fun fromChordString(chord: String, type: CountryCategory): Tone {
             val matcher = TONE_PATTERN.matcher(chord)
             if (matcher.find()) {
-                return fromToneString(matcher.group(1), type)
+                return fromToneString(matcher.group(1)!!, type)
             }
             throw IllegalArgumentException("Chord not found: " + chord)
         }

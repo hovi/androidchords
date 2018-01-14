@@ -1,6 +1,8 @@
 package eu.karelhovorka.zpevnik.util
 
 
+import mock.*
+
 object Preconditions {
 
     /**

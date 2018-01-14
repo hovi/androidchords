@@ -1,7 +1,9 @@
 package eu.karelhovorka.zpevnik.util
 
-import java.util.*
-import java.util.regex.Pattern
+import mock.JvmField
+import mock.JvmOverloads
+import mock.JvmStatic
+import mock.toPattern
 
 object Transposer {
 
@@ -27,7 +29,7 @@ object Transposer {
     @JvmField
     val CHORD_REGEX = "\\[($FULL_CHORD)\\]"
 
-    private val MULTI_CHORD = Pattern.compile("\\[($FULL_CHORD,?\\s*){2,}\\]")
+    private val MULTI_CHORD = ("\\[($FULL_CHORD,?\\s*){2,}\\]").toPattern()
 
     fun getChordRegex(tone1: String, tone2: String): String {
         return "\\[($tone1)($TONE_ADDITIONS)((\\/)($tone2)(($TONE_ADDITIONS)))\\]"
@@ -126,7 +128,7 @@ object Transposer {
         val result = StringBuilder()
         val foundChords = HashSet<List<String>>()
         for (line in merge(text).split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
-            val chords = Arrays.asList(*ChordDetector.getBracketChordsInLine(line))
+            val chords = ChordDetector.getBracketChordsInLine(line).toList()
             if (chords.size >= minimumSequenceCount) {
                 if (foundChords.contains(chords)) {
                     result.append(Transposer.removeChords(line) + "\n")
@@ -143,7 +145,7 @@ object Transposer {
 
     fun removeNonChords(text: String): String {
         val result = StringBuilder()
-        val pattern = Pattern.compile(CHORD_REGEX)
+        val pattern = (CHORD_REGEX).toPattern()
         for (line in text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
             val m = pattern.matcher(line)
             var found = false

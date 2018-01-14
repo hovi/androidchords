@@ -3,7 +3,7 @@ package eu.karelhovorka.zpevnik.text
 
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
 import eu.karelhovorka.zpevnik.util.SongSettingsFormatter
-import java.util.*
+
 
 class SongText(val originalText: String, val title: String, private val displaySettings: SongDisplaySettings) {
 

@@ -3,7 +3,7 @@ package eu.karelhovorka.zpevnik.util
 import eu.karelhovorka.zpevnik.text.SongDisplaySettings
 
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
-
+import mock.*
 
 object SongSettingsFormatter {
 

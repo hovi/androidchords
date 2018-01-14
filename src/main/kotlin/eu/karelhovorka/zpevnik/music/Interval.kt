@@ -1,5 +1,7 @@
 package eu.karelhovorka.zpevnik.music
 
+import mock.*
+
 enum class Interval private constructor(val step: Int) {
     // @formatter:off
     PERFECT_UNISON(0), //C-C

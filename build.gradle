@@ -1,26 +1,101 @@
-apply plugin: 'java'
-apply plugin: 'kotlin'
+def jvm = !project.hasProperty("js")
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+buildscript {
+    ext.kotlin_version = '1.2.10'
+    def jvm2 = project.hasProperty("jvm")
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://dl.bintray.com/kotlin/kotlin-eap"
+        }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        if (!jvm2) {
+            classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26"
+        }
+    }
+}
+
+if (jvm) {
+    apply plugin: 'kotlin'
+    sourceSets.main.kotlin.srcDirs += "src/main/kotlinjvm"
+} else {
+    apply plugin: 'org.jetbrains.kotlin.frontend'
+    apply plugin: 'kotlin2js'
+
+    sourceSets.main.kotlin.srcDirs += "src/main/kotlinjs"
+}
+
+
+
+
+if (jvm) {
+    println("JVM")
+} else {
+    println("NO JVM")
+}
+
+
 repositories {
     mavenCentral()
 }
-sourceSets {
-    main {
-        java.srcDirs = ['src/main/java']
-        resources.srcDirs = ['src/main/resources']
-    }
 
-    test {
-        java.srcDirs = ['src/test/java']
-        resources.srcDirs = ['src/test/resources']
-    }
-
-}
 dependencies {
-    //   compile group: 'com.x5dev', name: 'chunk-templates', version: '3.3.1'
-    compile group: 'com.samskivert', name: 'jmustache', version: '1.13'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testCompile 'junit:junit:4.12'
+    //JVM
+    if (jvm) {
+        compile group: 'com.samskivert', name: 'jmustache', version: '1.13'
+        compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        testCompile 'junit:junit:4.11'
+        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    } else {
+        //JS
+        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+        testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+    }
+}
+
+if (!jvm) {
+
+    compileKotlin2Js {
+        kotlinOptions.outputFile = "${projectDir}/src/main/web/textgame.js"
+        kotlinOptions.moduleKind = "amd"
+        kotlinOptions.sourceMap = true
+        kotlinOptions.sourceMapEmbedSources = "always"
+        kotlinOptions.metaInfo = true
+        //kotlinOptions.moduleKind = 'commonjs'
+        //kotlinOptions.main = "call"
+    }
+
+    kotlinFrontend {
+        npm {
+            dependency "requirejs" // production dependency
+            //devDependency "karma"     // development dependency
+        }
+        webpackBundle {
+            bundleName = "main"
+            contentPath = file('src/main/web')
+        }
+    }
+
+    task assembleWeb(type: Sync) {
+        configurations.compile.each { File file ->
+            from(zipTree(file.absolutePath), {
+                includeEmptyDirs = false
+                include { fileTreeElement ->
+                    def path = fileTreeElement.path
+                    path.endsWith(".js") && (path.startsWith("META-INF/resources/") ||
+                            !path.startsWith("META-INF/"))
+                }
+            })
+        }
+        from compileKotlin2Js.destinationDir
+        into "${projectDir}/src/main/web/lib/js"
+
+        dependsOn classes
+    }
+
+    assemble.dependsOn assembleWeb
+
 }

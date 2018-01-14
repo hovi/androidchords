@@ -2,8 +2,8 @@ package eu.karelhovorka.zpevnik.text.section
 
 import eu.karelhovorka.zpevnik.util.ChordDetector
 import eu.karelhovorka.zpevnik.util.Transposer
-import java.util.regex.Pattern
-
+import mock.toPattern
+import mock.Math
 
 data class SectionLine(val chordToText: List<ChordPair>) {
     var hasChords: Boolean
@@ -143,14 +143,32 @@ fun parseSectionLineUpper(cLine: String, textLine: String): SectionLine {
     var chordLine = Transposer.mergeLine(cLine)
     chordLine = ChordDetector.replacePlainChordsInline(chordLine)
 
-    val patternStr = Transposer.CHORD_REGEX
-    val pattern = Pattern.compile(patternStr)
+    val patternStr = (Transposer.CHORD_REGEX)
+    val pattern =  patternStr.toPattern()
     val matcher = pattern.matcher(chordLine)
     val chordGroups = mutableListOf<ChordPair>()
     var chord: String? = null
     var index = 0
     var lastText: String
     var offset = 0
+    val results = Regex(patternStr).findAll(chordLine)
+/*    for (matchResult in results) {
+        if (matchResult.range.start > 0) {
+            if (chord == null) {
+                chordGroups.add(ChordPair(null, textLine.substring(0, Math.min(matchResult.range.start, textLine.length))))
+            } else {
+                offset += 2
+                if (index < 0 || index > textLine.length) {
+                    lastText = ""
+                } else {
+                    lastText = textLine.substring(index, Math.min(matchResult.range.start - offset, textLine.length))
+                }
+                chordGroups.add(ChordPair(chord, lastText))
+            }
+        }
+        chord = chordLine.substring(matchResult.range.start, matchResult.range.last + 1)
+        index = matchResult.range.start - offset
+    }*/
     while (matcher.find()) {
         if (matcher.start() > 0) {
             if (chord == null) {
@@ -177,7 +195,7 @@ fun parseSectionLineInline(line: String): SectionLine {
     var chordLine = Transposer.mergeLine(line)
     chordLine = ChordDetector.replacePlainChordsInline(chordLine)
     val patternStr = Transposer.CHORD_REGEX
-    val pattern = Pattern.compile(patternStr)
+    val pattern = patternStr.toPattern()
     val matcher = pattern.matcher(chordLine)
     val chordGroups = mutableListOf<ChordPair>()
     var lastText: String = ""

@@ -3,6 +3,7 @@ package eu.karelhovorka.zpevnik.formatter
 
 import eu.karelhovorka.zpevnik.text.SectionTokenizer
 import eu.karelhovorka.zpevnik.text.SongText
+import mock.*
 
 abstract class SongFormatter {
 

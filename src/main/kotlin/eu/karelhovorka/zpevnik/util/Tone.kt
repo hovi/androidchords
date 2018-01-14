@@ -1,7 +1,7 @@
 package eu.karelhovorka.zpevnik.util
 
 import eu.karelhovorka.zpevnik.music.Interval
-import java.util.*
+import mock.*
 
 enum class Tone private constructor(vararg areaTones: CountrySpecificToneName) {
     // @formatter:off

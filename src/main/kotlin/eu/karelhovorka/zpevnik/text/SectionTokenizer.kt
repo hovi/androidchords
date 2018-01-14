@@ -2,18 +2,16 @@ package eu.karelhovorka.zpevnik.text
 
 
 import eu.karelhovorka.zpevnik.text.section.parseSectionText
-import java.lang.NumberFormatException
-import java.util.*
-import java.util.regex.Pattern
+import mock.*
 
 class SectionTokenizer {
     private val SECTION_TYPE_BASIC_REGEX = "^$TYPE_REGEX$".toRegex()
 
     private fun splitRegex(): String {
-        val sb = StringBuilder()
+        var sb = ""
         for (sectionType in SectionType.values()) {
             for (name in sectionType.names) {
-                sb.append("|$name:")
+                sb += ("|$name:")
             }
 
         }
@@ -24,7 +22,7 @@ class SectionTokenizer {
         try {
             return getSections(text.trimEnd())
         } catch (e: Exception) {
-            e.printStackTrace()
+            //e.printStackTrace()
             return listOf(Section(parseSectionText(text.trimEnd())))
         }
     }
@@ -97,16 +95,16 @@ class SectionTokenizer {
         @JvmField
         val TYPE_REGEX = "(?:[A-Z][A-Za-z]*([0-9]*):|([0-9]+)\\.)[\t ]*"
 
-        val TYPE_REGEX_PATTERN = Pattern.compile(TYPE_REGEX)
+        val TYPE_REGEX_PATTERN = TYPE_REGEX.toPattern()
 
-        val VALID_TEXT_PATTERN = Pattern.compile("^\\s*$TYPE_REGEX(?:\n|\r).*")
+        val VALID_TEXT_PATTERN = "^\\s*$TYPE_REGEX(?:\n|\r).*".toPattern()
 
         fun isValid(text: String): Boolean {
             try {
                 validate(text)
                 return true
             } catch (e: Exception) {
-                e.printStackTrace()
+                //e.printStackTrace()
                 return false
             }
 
@@ -116,7 +114,7 @@ class SectionTokenizer {
             if (!VALID_TEXT_PATTERN.matcher(text).find()) {
                 throw IllegalStateException("Not starting with section header")
             }
-            val m = Pattern.compile("$TYPE_REGEX(?:\n|\r)").matcher(text)
+            val m = "$TYPE_REGEX(?:\n|\r)".toPattern().matcher(text)
             var count = 0
             while (m.find()) {
                 count += 1
