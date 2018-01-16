@@ -16,6 +16,9 @@ public annotation class JvmField
 public annotation class JvmOverloads
 
 
+typealias JsModule = kotlin.js.JsModule
+
+
 object Math {
     fun min(a: Int, b: Int): Int {
         if (a < b) {
