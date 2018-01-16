@@ -59,8 +59,8 @@ dependencies {
 if (!jvm) {
 
     compileKotlin2Js {
-        kotlinOptions.outputFile = "${projectDir}/src/main/web/textgame.js"
-        kotlinOptions.moduleKind = "amd"
+        kotlinOptions.outputFile = "${projectDir}/src/main/web/chords.umd.js"
+        kotlinOptions.moduleKind = "umd"
         kotlinOptions.sourceMap = true
         kotlinOptions.sourceMapEmbedSources = "always"
         kotlinOptions.metaInfo = true
