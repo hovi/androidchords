@@ -48,7 +48,7 @@ class ToneTransposer(private val type: CountryCategory, private val htt: Modific
                     if (!m.group(5).isNullOrBlank() && !m.group(4).isNullOrBlank()) {
                         val tone2 = ToneTransposer.fromChordString("[" + m.group(5) + "]", type)
                         var tempChord = tone.transpose(step).getValue(type, htt) + m.group(3) + m.group(4) + tone2.transpose(step).getValue(type, htt)
-                        if (m.group(6) != null) {
+                        if (!m.group(6).isNullOrBlank()) {
                             tempChord += m.group(6)
                         }
                         sb += m.appendReplacement("[$tempChord]")
