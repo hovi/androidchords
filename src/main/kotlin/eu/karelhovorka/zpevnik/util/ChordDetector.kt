@@ -7,6 +7,32 @@ import mock.toPattern
 
 object ChordDetector {
 
+    @JvmStatic
+    fun hasInvalidChords(content: String): Boolean {
+        val withoutChords = Transposer.removeChords(content)
+        return withoutChords.matches("\\[[^]]*\\]".toRegex())
+    }
+
+/*    @JvmStatic
+    fun fixChord(chord: String): String {
+        for ((key, value) in invalidChordFixes) {
+            val pattern = Pattern.compile(key)
+            val matcher = pattern.matcher(chord)
+            if (matcher.matches()) {
+                return matcher.replaceAll(value)
+            }
+        }
+        return chord
+    }*/
+
+    val invalidChordFixes = mapOf<String, String>(
+            "Es" to "Eb",
+            "As" to "Ab",
+            "(?<tone>[A-H])is" to "\${tone}#",
+            "(?<tone>[A-H])es" to "\${tone}b",
+            "(?<tone>[A-H])(MOL|MI|mi|M)" to "\${tone}m",
+            "(?<tone>[A-H])(?<interval>[0-9]+)(?<mod>sus|maj|m)" to "\${tone}\${mod}\${interval}"
+    )
 
     @JvmStatic
     fun hasBracketChords(content: String): Boolean {

@@ -7,6 +7,8 @@ import org.junit.Test;
 public class TransposerTest extends TestCase {
 
     public void testRemoveChords() {
+        assertEquals("[Es]", Transposer.INSTANCE.removeChords("[Es]"));
+
         assertEquals("", Transposer.INSTANCE.removeChords("[C][D]"));
         assertEquals("", Transposer.INSTANCE.removeChords("[C D]"));
         assertEquals("", Transposer.INSTANCE.removeChords("[C,D]"));
