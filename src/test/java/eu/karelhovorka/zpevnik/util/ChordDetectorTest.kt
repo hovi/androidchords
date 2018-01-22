@@ -5,7 +5,6 @@ import org.junit.Test
 
 class ChordDetectorTest {
 
-/*
 
     @Test
     fun testFixInvalidChords() {
@@ -22,7 +21,11 @@ class ChordDetectorTest {
 
         assertEquals("Invalid", ChordDetector.fixChord("Invalid"))
     }
-*/
+
+    @Test
+    fun testInvalidChords() {
+        assertArrayEquals(arrayOf("Es"), ChordDetector.invalidChords("[Es]"))
+    }
 
 
     @Test

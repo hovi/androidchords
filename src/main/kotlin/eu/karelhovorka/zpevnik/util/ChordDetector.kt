@@ -7,23 +7,36 @@ import mock.toPattern
 
 object ChordDetector {
 
+    val BRACKED_CONTENT = "\\[(?<invalidchord>[^]]*)\\]"
+
     @JvmStatic
     fun hasInvalidChords(content: String): Boolean {
         val withoutChords = Transposer.removeChords(content)
-        return withoutChords.matches("\\[[^]]*\\]".toRegex())
+        return withoutChords.matches(BRACKED_CONTENT.toRegex())
     }
 
-/*    @JvmStatic
+    @JvmStatic
+    fun invalidChords(content: String): Array<String> {
+        val withoutChords = Transposer.removeChords(content)
+        val matcher = BRACKED_CONTENT.toPattern().matcher(withoutChords)
+        val invalidChords = mutableListOf<String>()
+        while (matcher.find()) {
+            invalidChords.add(matcher.group(1)!!)
+        }
+        return invalidChords.toTypedArray()
+
+    }
+
+    @JvmStatic
     fun fixChord(chord: String): String {
         for ((key, value) in invalidChordFixes) {
-            val pattern = Pattern.compile(key)
-            val matcher = pattern.matcher(chord)
-            if (matcher.matches()) {
-                return matcher.replaceAll(value)
+            val regex = key.toRegex()
+            if (regex.matches(chord)) {
+                return chord.replace(regex, value)
             }
         }
         return chord
-    }*/
+    }
 
     val invalidChordFixes = mapOf<String, String>(
             "Es" to "Eb",
@@ -32,7 +45,10 @@ object ChordDetector {
             "(?<tone>[A-H])es" to "\${tone}b",
             "(?<tone>[A-H])(MOL|MI|mi|M)" to "\${tone}m",
             "(?<tone>[A-H])(?<interval>[0-9]+)(?<mod>sus|maj|m)" to "\${tone}\${mod}\${interval}"
-    )
+    ).mapValues { it.value
+            .replace("\${tone}", "$1")
+            .replace("\${interval}", "$2")
+            .replace("\${mod}", "$3")}
 
     @JvmStatic
     fun hasBracketChords(content: String): Boolean {
