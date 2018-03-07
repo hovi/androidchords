@@ -47,7 +47,7 @@ dependencies {
         compile group: 'com.samskivert', name: 'jmustache', version: '1.13'
         compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        testCompile 'junit:junit:4.11'
+        testCompile 'junit:junit:4.12'
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     } else {
         //JS
