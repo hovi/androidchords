@@ -1,11 +1,12 @@
 package eu.karelhovorka.zpevnik.text
 
 
+import eu.karelhovorka.zpevnik.util.I18N
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
 import eu.karelhovorka.zpevnik.util.SongSettingsFormatter
 
 
-class SongText(val originalText: String, val title: String, private val displaySettings: SongDisplaySettings) {
+class SongText(val originalText: String, val title: String, private val displaySettings: SongDisplaySettings, val i18N: I18N) {
 
     val sections: List<Section>
 
@@ -24,7 +25,7 @@ class SongText(val originalText: String, val title: String, private val displayS
         checkNotNull(originalText, "originalText")
         checkNotNull(title, "title")
         checkNotNull(displaySettings, "songDisplaySettings")
-        val sectionTokenizer = SectionTokenizer()
+        val sectionTokenizer = SectionTokenizer(i18N)
         this.sections = sectionTokenizer.getSectionsOrSingleSection(originalText)
     }
 
@@ -46,12 +47,12 @@ class SongText(val originalText: String, val title: String, private val displayS
     companion object {
 
 
-        fun fromRawText(originalText: String, title: String, songDisplaySettings: SongDisplaySettings): SongText {
+        fun fromRawText(originalText: String, title: String, songDisplaySettings: SongDisplaySettings, i18n: I18N): SongText {
             checkNotNull(originalText, "originalText")
             checkNotNull(title, "title")
             checkNotNull(songDisplaySettings, "songDisplaySettings")
             val modifiedText = SongSettingsFormatter.modifyTextBasedOnSettings(originalText, songDisplaySettings)
-            return SongText(modifiedText, title, songDisplaySettings)
+            return SongText(modifiedText, title, songDisplaySettings, i18N = i18n)
         }
     }
 }

@@ -7,9 +7,10 @@ interface ISectionType {
     fun css(): String
     fun getShortcut(index: Int): String
     fun getLongName(index: Int): String
+    val name: String
 }
 
-class UnknownSectionType(val name: String): ISectionType {
+class UnknownSectionType(override val name: String): ISectionType {
     override fun css(): String {
         return "unknown-section"
     }
@@ -28,7 +29,7 @@ class UnknownSectionType(val name: String): ISectionType {
 
 }
 
-enum class SectionType private constructor(private val shortcut: String, private val longName: String, vararg names: String) : ISectionType {
+enum class SectionType constructor(private val shortcut: String, private val longName: String, vararg names: String) : ISectionType {
     INTRO("I", "Předehra", "I:", "U:", "Intro:", "Předehra:", "Úvod"),
     CHORUS("R", "Refrén", "R([0-9]*):", "Chorus:", "Refren:", "Ref:"),
     VERSE("S", "Sloka", "S([0-9]*):", "Sloka:", "V:", "([0-9]+)\\."),
@@ -50,6 +51,8 @@ enum class SectionType private constructor(private val shortcut: String, private
         Preconditions.checkArgument(names.size > 0, "at least 1 name must exist")
         this.names = names as Array<String>
     }
+
+
 
     override fun getShortcut(index: Int): String {
         return if (index == 0) {

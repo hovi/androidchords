@@ -2,9 +2,10 @@ package eu.karelhovorka.zpevnik.text
 
 
 import eu.karelhovorka.zpevnik.text.section.parseSectionText
+import eu.karelhovorka.zpevnik.util.I18N
 import mock.*
 
-class SectionTokenizer {
+class SectionTokenizer(private val i18n: I18N) {
     private val SECTION_TYPE_BASIC_REGEX = "^$TYPE_REGEX$".toRegex()
 
     private fun splitRegex(): String {
@@ -23,7 +24,7 @@ class SectionTokenizer {
             return getSections(text.trimEnd())
         } catch (e: Exception) {
             //e.printStackTrace()
-            return listOf(Section(parseSectionText(text.trimEnd())))
+            return listOf(Section(parseSectionText(text.trimEnd()), i18N = i18n))
         }
     }
 
@@ -69,7 +70,7 @@ class SectionTokenizer {
             index = 0;
         }
         sectionTypeCount.put(st, (sectionTypeCount.get(st) ?: 0) + 1)
-        return Section(parseSectionText(sb!!.toString()), st, null, 0, index)
+        return Section(parseSectionText(sb!!.toString()), st, null, 0, index, i18N = i18n)
     }
 
     fun mergeSections(originalSections: List<Section>): List<Section> {

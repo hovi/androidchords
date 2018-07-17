@@ -2,9 +2,10 @@ package eu.karelhovorka.zpevnik.text
 
 
 import eu.karelhovorka.zpevnik.text.section.SectionText
+import eu.karelhovorka.zpevnik.util.I18N
 import mock.JvmOverloads
 
-class Section @JvmOverloads constructor(val content: SectionText, val type: ISectionType = SectionType.UNKNOWN, val copyOf: Section? = null, val copyIndex: Int = 0, val index: Int = 0) {
+class Section @JvmOverloads constructor(val content: SectionText, val type: ISectionType = SectionType.UNKNOWN, val copyOf: Section? = null, val copyIndex: Int = 0, val index: Int = 0, val i18N: I18N) {
 
     val isCopy: Boolean
         get() = copyOf != null
@@ -23,6 +24,14 @@ class Section @JvmOverloads constructor(val content: SectionText, val type: ISec
 
     val longName: String
         get() = type.getLongName(index)
+
+    val localName: String
+        get() {
+            if (index == 0) {
+                return i18N.translate(type.name, index.toString())
+            }
+            return i18N.translate(type.name, index.toString()) + " (${index + 1})"
+        }
 
 
     fun sameContentAndType(another: Section?): Boolean {
@@ -71,7 +80,7 @@ class Section @JvmOverloads constructor(val content: SectionText, val type: ISec
     companion object {
 
         fun makeCopyOf(previousSection: Section): Section {
-            return Section(previousSection.content, previousSection.type, null, previousSection.copyIndex + 1, previousSection.index)
+            return Section(previousSection.content, previousSection.type, null, previousSection.copyIndex + 1, previousSection.index, i18N = previousSection.i18N)
         }
     }
 }
