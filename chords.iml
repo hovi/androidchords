@@ -17,6 +17,7 @@
         <compilerSettings />
         <compilerArguments>
           <option name="destination" value="$MODULE_DIR$/build/classes/kotlin/main" />
+          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.samskivert/jmustache/1.13/e140ea59bda952bba64537684c9094da49e14a9/jmustache-1.13.jar:/Users/karelhovorka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.70/b5b9449f73ce7bf312e89a7560cb3c209a0fa13e/kotlin-stdlib-1.2.70.jar:/Users/karelhovorka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.70/6ea722d7d0b9451293e739076ddb6a4108d57b6b/kotlin-stdlib-common-1.2.70.jar:/Users/karelhovorka/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="chords" />
@@ -43,29 +44,23 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/kotlin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/kotlin" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="jmustache-1.13" level="project" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="kotlin-stdlib-common-1.2.10" level="project" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="kotlin-stdlib-1.2.10" level="project" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="annotations-13.0" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="jmustache-1.13" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="kotlin-stdlib-common-1.2.10" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="kotlin-stdlib-1.2.10" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="annotations-13.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="jmustache-1.13" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="kotlin-stdlib-common-1.2.10" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="kotlin-test-junit-1.2.10" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="kotlin-test-1.2.10" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="kotlin-stdlib-1.2.10" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="annotations-13.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jmustache-1.13" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: kotlin-stdlib-1.2.70" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: kotlin-stdlib-common-1.2.70" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: annotations-13.0" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: kotlin-test-junit-1.2.70" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: kotlin-test-1.2.70" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: kotlin-test-annotations-common-1.2.70" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: kotlin-test-common-1.2.70" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: junit-4.12" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="Gradle: hamcrest-core-1.3" level="project" />
   </component>
 </module>

@@ -1,7 +1,7 @@
 def jvm = !project.hasProperty("js")
 
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.70'
     def jvm2 = project.hasProperty("jvm")
     repositories {
         mavenCentral()
@@ -44,15 +44,15 @@ repositories {
 dependencies {
     //JVM
     if (jvm) {
-        compile group: 'com.samskivert', name: 'jmustache', version: '1.13'
-        compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        testCompile 'junit:junit:4.12'
-        testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+        implementation group: 'com.samskivert', name: 'jmustache', version: '1.13'
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        testImplementation 'junit:junit:4.12'
+        testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     } else {
         //JS
-        compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-        testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+        testImplementation "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
     }
 }
 
