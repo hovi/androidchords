@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import eu.karelhovorka.zpevnik.text.SectionTokenizerTest;
 import eu.karelhovorka.zpevnik.text.SongDisplaySettings;
 import eu.karelhovorka.zpevnik.text.SongText;
+import eu.karelhovorka.zpevnik.util.I18N;
 
 import static eu.karelhovorka.zpevnik.text.SectionTokenizerTest.readFileFromTestResources;
 import static org.junit.Assert.assertEquals;
@@ -16,7 +17,7 @@ public class JMustacheTemplateSongFormatterTest {
     @Test
     public void formatHtml() throws Exception {
         MustacheTemplateSongFormatter formatter = JMustacheTemplateSongFormatter.Companion.fromTemplates("nothing", "chords");
-        String result = formatter.formatHtml(new SongText("", "", SongDisplaySettings.DEFAULT));
+        String result = formatter.formatHtml(new SongText("", "", SongDisplaySettings.DEFAULT, new I18N()));
         assertEquals(result, "nothing");
     }
 
@@ -28,7 +29,7 @@ public class JMustacheTemplateSongFormatterTest {
                 SectionTokenizerTest.readFileFromResources("/templates/legacy/main.html"),
                 SectionTokenizerTest.readFileFromResources("/templates/legacy/chords.html")
         );
-        String result = formatter.formatHtml(new SongText(readFileFromTestResources("/tokenizer/slunecnihrob.txt"), "Sluneční hrob", SongDisplaySettings.DEFAULT));
+        String result = formatter.formatHtml(new SongText(readFileFromTestResources("/tokenizer/slunecnihrob.txt"), "Sluneční hrob", SongDisplaySettings.DEFAULT, new I18N()));
 
         //writeToFile("/Users/Ef/Downloads/hrob.html", result);
         assertEquals(result, readFileFromTestResources("/results/slunecni-hrob-legacy.html"));

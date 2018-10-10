@@ -5,7 +5,7 @@ import eu.karelhovorka.zpevnik.text.section.parseSectionText
 import eu.karelhovorka.zpevnik.util.I18N
 import mock.*
 
-class SectionTokenizer(private val i18n: I18N) {
+class SectionTokenizer(private val i18n: I18N = I18N()) {
     private val SECTION_TYPE_BASIC_REGEX = "^$TYPE_REGEX$".toRegex()
 
     private fun splitRegex(): String {

@@ -7,6 +7,10 @@ import eu.karelhovorka.zpevnik.music.Interval;
 
 public class ToneTransposerTest extends TestCase {
 
+    public void test7Sus4() {
+        assertEquals("[F7sus4]", transpose("[E7sus4]", 1));
+    }
+
     public void testTransposeB() {
         Tone.CountryCategory countryCategory = Tone.CountryCategory.EASTERN;
         Tone.ModificationAbbreviation modificationAbbreviation = Tone.ModificationAbbreviation.FLAT;
