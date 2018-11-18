@@ -2,6 +2,7 @@ package eu.karelhovorka.zpevnik.util
 
 import eu.karelhovorka.zpevnik.music.Interval
 import mock.*
+import java.lang.IllegalArgumentException
 
 enum class Tone private constructor(vararg areaTones: CountrySpecificToneName) {
     // @formatter:off
@@ -19,6 +20,7 @@ GIS(CountrySpecificToneName("G#", "Ab", "Gis", "As", CountryCategory.EASTERN, 8)
 A(CountrySpecificToneName("A", CountryCategory.EASTERN, 9, "Bb"), CountrySpecificToneName("A", CountryCategory.WESTERN, 9)),
 AIS(CountrySpecificToneName("A#", "B", "Ais", "B", CountryCategory.EASTERN, 10, "Hb", "Hes"), CountrySpecificToneName("A#", "Bb", "Ais", "Bb", CountryCategory.WESTERN, 10)),
 H(CountrySpecificToneName("H", CountryCategory.EASTERN, 11, "Cb", "H", "Ces"), CountrySpecificToneName("B", CountryCategory.WESTERN, 11, "H", "Cb", "B", "Ces"));
+
 
  // @formatter:on
  /*
@@ -96,6 +98,17 @@ H(CountrySpecificToneName("H", CountryCategory.EASTERN, 11, "Cb", "H", "Ces"), C
     companion object {
 
         @JvmStatic
+        fun fromIndexOrNull(index: Int): Tone? {
+            val normalizedIndex = (index % values().size + values().size) % values().size
+            for (t in values()) {
+                if (t.index == normalizedIndex) {
+                    return t
+                }
+            }
+            return null
+        }
+
+        @JvmStatic
         fun fromIndex(index: Int): Tone {
             val normalizedIndex = (index % values().size + values().size) % values().size
             for (t in values()) {
@@ -103,7 +116,7 @@ H(CountrySpecificToneName("H", CountryCategory.EASTERN, 11, "Cb", "H", "Ces"), C
                     return t
                 }
             }
-            throw IllegalArgumentException("index: " + index)
+            throw IllegalArgumentException("Illegal index: $index")
         }
     }
 
