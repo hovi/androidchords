@@ -29,7 +29,7 @@ object Transposer {
     @JvmField
     val CHORD_REGEX = "\\[($FULL_CHORD)\\]"
 
-    private val MULTI_CHORD = ("\\[($FULL_CHORD,?\\s*){2,}\\]").toPattern()
+    private val MULTI_CHORD = ("\\[(\\s*$FULL_CHORD,?\\s*){2,}\\]").toPattern()
 
     fun getChordRegex(tone1: String, tone2: String): String {
         return "\\[($tone1)($TONE_ADDITIONS)((\\/)($tone2)(($TONE_ADDITIONS)))\\]"

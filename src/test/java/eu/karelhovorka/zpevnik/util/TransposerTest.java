@@ -63,6 +63,18 @@ public class TransposerTest extends TestCase {
         assertEquals("", Transposer.INSTANCE.mergeLine(""));
     }
 
+    public void testMergeSpaces() {
+        assertEquals("[Emi] [D] [Ami] ", Transposer.INSTANCE.mergeLine("[Emi D Ami ]"));
+
+        assertEquals(" [Emi] [D] [Ami]", Transposer.INSTANCE.mergeLine("[ Emi D Ami]"));
+
+        assertEquals("[Emi] [D] [Ami]", Transposer.INSTANCE.mergeLine("[Emi D Ami]"));
+
+        assertEquals("[Emi] [D] [Ami]", Transposer.INSTANCE.mergeLine("[Emi, D, Ami]"));
+
+        assertEquals("[Emi][D][Ami]", Transposer.INSTANCE.mergeLine("[Emi,D,Ami]"));
+    }
+
 
     @Test
     public void testReplacePlainChordsInlineSpaces() {

@@ -82,10 +82,18 @@ public class ToneTransposerTest extends TestCase {
         assertEquals("[G] [E] [F#]", transpose("[G# F G]", -1));
 
         assertEquals("1", "1,2".split("[,\\s*]")[0]);
+    }
+
+    public void testMultiBracket() {
+        assertEquals("[D#mi] [C#] [G#mi] X", transpose("[Emi D Ami ]X", -1));
+
+        assertEquals(" [D#mi] [C#] [G#mi]", transpose("[ Emi D Ami]", -1));
 
         assertEquals("[D#mi] [C#] [G#mi]", transpose("[Emi D Ami]", -1));
 
         assertEquals("[D#mi] [C#] [G#mi]", transpose("[Emi, D, Ami]", -1));
+
+        assertEquals("[D#mi][C#][G#mi]", transpose("[Emi,D,Ami]", -1));
     }
 
     public void testFailedValues() {
