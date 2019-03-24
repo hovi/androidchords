@@ -9,7 +9,7 @@ import eu.karelhovorka.zpevnik.util.I18N
 data class SectionTextBuilder(val lines: MutableList<SectionLine> = mutableListOf()) {
 
     fun build(): SectionText {
-        return SectionText(lines)
+        return SectionText(lines.toTypedArray())
     }
 
     fun sectionLine(init: SectionLineBuilder.() -> Unit): SectionLine {

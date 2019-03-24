@@ -94,7 +94,7 @@ data class ChordPair(val chord: String?, val text: String) {
 }
 
 
-data class SectionText(val lines: List<SectionLine>) {
+data class SectionText(val lines: Array<SectionLine>) {
 
     fun isEmpty(): Boolean {
         return lines.isEmpty() || lines.size == 1 && lines.first().isEmpty()
@@ -111,13 +111,28 @@ data class SectionText(val lines: List<SectionLine>) {
         return sb.toString().trimEnd()
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as SectionText
+
+        if (!lines.contentEquals(other.lines)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return lines.contentHashCode()
+    }
+
 }
 
 
 fun parseSectionText(fullText: String): SectionText {
     val result = mutableListOf<SectionLine>()
     if (fullText.isBlank()) {
-        return SectionText(result)
+        return SectionText(emptyArray())
     }
     val lines = fullText.trimEnd().split("\n".toRegex())
     var lineIndex = 0
@@ -146,7 +161,7 @@ fun parseSectionText(fullText: String): SectionText {
         }
         lineIndex++
     }
-    return SectionText(result)
+    return SectionText(result.toTypedArray())
 }
 
 fun parseSectionLineUpper(lines: String): SectionLine {
