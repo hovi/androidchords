@@ -68,16 +68,6 @@ if (!jvm) {
         //kotlinOptions.main = "call"
     }
 
-    kotlinFrontend {
-        npm {
-            dependency "requirejs" // production dependency
-            //devDependency "karma"     // development dependency
-        }
-        webpackBundle {
-            bundleName = "main"
-            contentPath = file('src/main/web')
-        }
-    }
 
     task assembleWeb(type: Sync) {
         configurations.compile.each { File file ->

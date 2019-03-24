@@ -1,4 +1,5 @@
 package eu.karelhovorka.zpevnik.music
+import mock.*
 
 enum class ToneMod(val value: Int) {
     DUR(0), MOL(1), UNKNOWN(-1);
