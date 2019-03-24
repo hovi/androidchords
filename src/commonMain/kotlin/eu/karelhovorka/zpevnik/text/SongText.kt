@@ -10,7 +10,7 @@ import kotlin.js.JsName
 @JsName("SongText")
 class SongText(val originalText: String, val title: String, private val displaySettings: SongDisplaySettings = SongDisplaySettings.DEFAULT, val i18N: I18N = I18N()) {
 
-    val sections: List<Section>
+    val sections: Array<Section>
 
     val css: String
         get() {
@@ -28,7 +28,7 @@ class SongText(val originalText: String, val title: String, private val displayS
         checkNotNull(title, "title")
         checkNotNull(displaySettings, "songDisplaySettings")
         val sectionTokenizer = SectionTokenizer(i18N)
-        this.sections = sectionTokenizer.getSectionsOrSingleSection(originalText)
+        this.sections = sectionTokenizer.getSectionsOrSingleSection(originalText).toTypedArray()
     }
 
     fun toMap(): Map<String, Any> {

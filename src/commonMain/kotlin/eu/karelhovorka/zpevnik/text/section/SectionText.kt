@@ -5,14 +5,14 @@ import eu.karelhovorka.zpevnik.util.Transposer
 import mock.toPattern
 import kotlin.math.min
 
-data class SectionLine(val chordToText: List<ChordPair>) {
+data class SectionLine(val chordToText: Array<ChordPair>) {
     var hasChords: Boolean
 
     init {
         hasChords = _hasChords()
     }
 
-    constructor(text: String) : this(listOf(ChordPair(null, text))) {
+    constructor(text: String) : this(arrayOf(ChordPair(null, text))) {
     }
 
     private fun _hasChords(): Boolean {
@@ -47,6 +47,24 @@ data class SectionLine(val chordToText: List<ChordPair>) {
 
     fun isEmpty(): Boolean {
         return chordToText.isEmpty() || chordToText.size == 1 && chordToText.first().isEmpty()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as SectionLine
+
+        if (!chordToText.contentEquals(other.chordToText)) return false
+        if (hasChords != other.hasChords) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = chordToText.contentHashCode()
+        result = 31 * result + hasChords.hashCode()
+        return result
     }
 
 }
@@ -188,7 +206,7 @@ fun parseSectionLineUpper(cLine: String, textLine: String): SectionLine {
     }
     lastText = textLine.substring(min(index, textLine.length))
     chordGroups.add(ChordPair(chord, lastText))
-    return SectionLine(chordGroups)
+    return SectionLine(chordGroups.toTypedArray())
 }
 
 fun parseSectionLineInline(line: String): SectionLine {
@@ -211,5 +229,5 @@ fun parseSectionLineInline(line: String): SectionLine {
     }
     lastText = chordLine.substring(index)
     chordGroups.add(ChordPair(chord, lastText))
-    return SectionLine(chordGroups)
+    return SectionLine(chordGroups.toTypedArray())
 }

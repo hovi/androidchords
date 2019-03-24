@@ -30,7 +30,7 @@ fun sectionText(init: SectionTextBuilder.() -> Unit): SectionText {
 
 data class SectionLineBuilder(val chordToText: MutableList<ChordPair> = mutableListOf()) {
     fun build(): SectionLine {
-        return SectionLine(chordToText)
+        return SectionLine(chordToText.toTypedArray())
     }
 
     fun chordPair(init: ChordPairBuilder.() -> Unit): ChordPair {

@@ -9,7 +9,7 @@
     <facet type="java-gradle" name="Java-Gradle">
       <configuration>
         <option name="BUILD_FOLDER_PATH" value="$MODULE_DIR$/build" />
-        <option name="BUILDABLE" value="true" />
+        <option name="BUILDABLE" value="false" />
       </configuration>
     </facet>
     <facet type="kotlin-language" name="Kotlin">
@@ -17,7 +17,7 @@
         <compilerSettings />
         <compilerArguments>
           <option name="destination" value="$MODULE_DIR$/build/classes/kotlin/main" />
-          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.samskivert/jmustache/1.13/e140ea59bda952bba64537684c9094da49e14a9/jmustache-1.13.jar:/Users/karelhovorka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.21/4bcc2012b84840e19e1e28074284cac908be0295/kotlin-stdlib-1.3.21.jar:/Users/karelhovorka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.21/f30e4a9897913e53d778f564110bafa1fef46643/kotlin-stdlib-common-1.3.21.jar:/Users/karelhovorka/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
+          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.samskivert/jmustache/1.13/e140ea59bda952bba64537684c9094da49e14a9/jmustache-1.13.jar:/home/karelhovorka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.21/4bcc2012b84840e19e1e28074284cac908be0295/kotlin-stdlib-1.3.21.jar:/home/karelhovorka/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.21/f30e4a9897913e53d778f564110bafa1fef46643/kotlin-stdlib-common-1.3.21.jar:/home/karelhovorka/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="chords" />
@@ -38,32 +38,32 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
-    <output url="file://$MODULE_DIR$/build/classes/java/main" />
-    <output-test url="file://$MODULE_DIR$/build/classes/java/test" />
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/main/kotlinjvm" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/kotlin" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/kotlin" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Gradle: jmustache-1.13" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: kotlin-stdlib-1.3.21" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: kotlin-stdlib-common-1.3.21" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: annotations-13.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="Gradle: kotlin-test-junit-1.3.21" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="Gradle: kotlin-test-1.3.21" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="Gradle: kotlin-test-annotations-common-1.3.21" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="Gradle: kotlin-test-common-1.3.21" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="Gradle: junit-4.12" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="Gradle: hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-js" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-jvm" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-js" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-jvm" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-jvm" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-jvm" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-jvm" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-metadata" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-jvm" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-js" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-jvm" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-js" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-js" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-metadata" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-js" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-js" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-js" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-jvm" level="project" />
+    <orderEntry type="library" exported="" name="chords.chords-metadata" level="project" />
   </component>
 </module>

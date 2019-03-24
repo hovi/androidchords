@@ -26,8 +26,8 @@ public class JMustacheTemplateSongFormatterTest {
 
 
         MustacheTemplateSongFormatter formatter = JMustacheTemplateSongFormatter.Companion.fromTemplates(
-                SectionTokenizerTest.readFileFromResources("/templates/legacy/main.html"),
-                SectionTokenizerTest.readFileFromResources("/templates/legacy/chords.html")
+                SectionTokenizerTest.Companion.readFileFromResources("/templates/legacy/main.html"),
+                SectionTokenizerTest.Companion.readFileFromResources("/templates/legacy/chords.html")
         );
         String result = formatter.formatHtml(new SongText(readFileFromTestResources("/tokenizer/slunecnihrob.txt"), "Sluneční hrob", SongDisplaySettings.DEFAULT, new I18N()));
 
