@@ -11,7 +11,7 @@ class SongDisplaySettings(val isDisplayText: Boolean, val isDisplayChords: Boole
     val css: String
         get() {
             val sb = StringBuilder(theme)
-            sb.append(" font-" + fontFamily)
+            sb.append(" font-$fontFamily")
             if (isUseBold) {
                 sb.append(" use-bold")
             }
