@@ -1,6 +1,7 @@
 package eu.karelhovorka.zpevnik.text
 
 
+import eu.karelhovorka.zpevnik.util.ChordDetector
 import eu.karelhovorka.zpevnik.util.I18N
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
 import eu.karelhovorka.zpevnik.util.SongSettingsFormatter
@@ -49,11 +50,14 @@ class SongText(val originalText: String, val title: String, private val displayS
     companion object {
 
 
-        fun fromRawText(originalText: String, title: String, songDisplaySettings: SongDisplaySettings, i18n: I18N): SongText {
+        fun fromRawText(originalText: String, title: String, songDisplaySettings: SongDisplaySettings, i18n: I18N = I18N(), wrapInHtml: Boolean = false): SongText {
             checkNotNull(originalText, "originalText")
             checkNotNull(title, "title")
             checkNotNull(songDisplaySettings, "songDisplaySettings")
-            val modifiedText = SongSettingsFormatter.modifyTextBasedOnSettings(originalText, songDisplaySettings)
+            var modifiedText = SongSettingsFormatter.modifyTextBasedOnSettings(originalText, songDisplaySettings)
+            if (wrapInHtml) {
+               modifiedText = ChordDetector.wrapWithAnchors(modifiedText)
+            }
             return SongText(modifiedText, title, songDisplaySettings, i18N = i18n)
         }
     }

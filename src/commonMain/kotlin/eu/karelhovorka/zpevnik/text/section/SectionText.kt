@@ -88,6 +88,10 @@ data class ChordPair(val chord: String?, val text: String) {
         return chord ?: "&nbsp;"
     }
 
+    fun withoutBrackets(): String {
+        return htmlChord().replace("[", "").replace("]", "")
+    }
+
     fun isEmpty(): Boolean {
         return chord == null && text.isEmpty()
     }
