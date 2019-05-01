@@ -1,6 +1,7 @@
 package eu.karelhovorka.zpevnik.util
 
 
+import eu.karelhovorka.zpevnik.formatter.SongFormatter
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
 import mock.toPattern
 import kotlin.jvm.JvmStatic
@@ -36,6 +37,17 @@ object ChordDetector {
             }
         }
         return chord
+    }
+
+    @JvmStatic
+    fun wrapWithAnchors(text: String, useSup: Boolean = true): String {
+        val replacement = if (useSup) {
+            " <a class='chord' href='" + SongFormatter.CHORD_URL_PROTOCOL + "$1'><sup>" + "$1" + "</sup></a> "
+        } else {
+            " <a class='chord' href='" + SongFormatter.CHORD_URL_PROTOCOL + "$1'>" + "$1" + "</a> "
+        }
+        return text.replace(Transposer.CHORD_REGEX.toRegex(), replacement)
+
     }
 
     val invalidChordFixes = mapOf<String, String>(

@@ -6,7 +6,7 @@ import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
 import eu.karelhovorka.zpevnik.util.Tone
 import kotlin.jvm.JvmField
 
-class SongDisplaySettings(val isDisplayText: Boolean, val isDisplayChords: Boolean, val isHideIdenticalSequences: Boolean, val isUseBold: Boolean, val isDoubleColumn: Boolean, val isResizeChords: Boolean, val interval: Interval, val countryCategory: Tone.CountryCategory, val modificationAbbreviation: Tone.ModificationAbbreviation, val theme: String, val fontFamily: String) {
+data class SongDisplaySettings(val isDisplayText: Boolean, val isDisplayChords: Boolean, val isHideIdenticalSequences: Boolean, val isUseBold: Boolean, val isDoubleColumn: Boolean, val isResizeChords: Boolean, val interval: Interval, val countryCategory: Tone.CountryCategory, val modificationAbbreviation: Tone.ModificationAbbreviation, val theme: String, val fontFamily: String) {
 
     val css: String
         get() {
