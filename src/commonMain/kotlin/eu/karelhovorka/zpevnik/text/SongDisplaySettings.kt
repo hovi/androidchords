@@ -5,8 +5,23 @@ import eu.karelhovorka.zpevnik.music.Interval
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
 import eu.karelhovorka.zpevnik.util.Tone
 import kotlin.jvm.JvmField
+import kotlin.jvm.JvmOverloads
 
-data class SongDisplaySettings(val isDisplayText: Boolean, val isDisplayChords: Boolean, val isHideIdenticalSequences: Boolean, val isUseBold: Boolean, val isDoubleColumn: Boolean, val isResizeChords: Boolean, val interval: Interval, val countryCategory: Tone.CountryCategory, val modificationAbbreviation: Tone.ModificationAbbreviation, val theme: String, val fontFamily: String) {
+
+data class SongDisplaySettings @JvmOverloads constructor(
+        val isDisplayText: Boolean = true,
+        val isDisplayChords: Boolean = true,
+        val isHideIdenticalSequences: Boolean = false,
+        val isUseBold: Boolean = false,
+        val isDoubleColumn: Boolean = false,
+        val isResizeChords: Boolean = false,
+        val showComments: Boolean = false,
+        val interval: Interval = Interval.PERFECT_UNISON,
+        val countryCategory: Tone.CountryCategory = Tone.CountryCategory.EASTERN,
+        val modificationAbbreviation: Tone.ModificationAbbreviation = Tone.ModificationAbbreviation.SHARP,
+        val theme: String = DARK_THEME,
+        val fontFamily: String = DEFAULT_FONT
+) {
 
     val css: String
         get() {
@@ -29,6 +44,11 @@ data class SongDisplaySettings(val isDisplayText: Boolean, val isDisplayChords: 
             }
             if (isDisplayText) {
                 sb.append(" display-text")
+            }
+            if (showComments) {
+                sb.append(" show-comments")
+            } else {
+                sb.append(" hide-comments")
             }
             return sb.toString()
         }
@@ -58,6 +78,6 @@ data class SongDisplaySettings(val isDisplayText: Boolean, val isDisplayChords: 
         val LEGACY_THEME = "legacy"
 
         @JvmField
-        val DEFAULT = SongDisplaySettings(true, true, false, false, false, false, Interval.PERFECT_UNISON, Tone.CountryCategory.EASTERN, Tone.ModificationAbbreviation.SHARP, DARK_THEME, DEFAULT_FONT)
+        val DEFAULT = SongDisplaySettings()
     }
 }

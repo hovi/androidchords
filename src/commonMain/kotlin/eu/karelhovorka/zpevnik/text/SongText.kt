@@ -6,6 +6,7 @@ import eu.karelhovorka.zpevnik.util.I18N
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
 import eu.karelhovorka.zpevnik.util.SongSettingsFormatter
 import kotlin.js.JsName
+import kotlin.jvm.JvmOverloads
 
 
 @JsName("SongText")
@@ -49,7 +50,7 @@ class SongText(val originalText: String, val title: String, private val displayS
 
     companion object {
 
-
+        @JvmOverloads
         fun fromRawText(originalText: String, title: String, songDisplaySettings: SongDisplaySettings, i18n: I18N = I18N(), wrapInHtml: Boolean = false): SongText {
             checkNotNull(originalText, "originalText")
             checkNotNull(title, "title")

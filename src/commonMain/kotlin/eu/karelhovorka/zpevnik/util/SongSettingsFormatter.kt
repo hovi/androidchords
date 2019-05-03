@@ -21,6 +21,12 @@ object SongSettingsFormatter {
         } else {
             text = Transposer.removeChords(text)
         }
+        if (settings.showComments) {
+            text = Comments.markComments(text)
+        } else {
+            text = Comments.hideComments(text)
+        }
+
         return text.trimEnd()
     }
 }
