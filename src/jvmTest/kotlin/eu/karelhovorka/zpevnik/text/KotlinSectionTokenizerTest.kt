@@ -102,6 +102,38 @@ public class KotlinSectionTokenizerTest {
         )
     }
 
+
+    @Test
+    fun testNoCommentUpper() {
+        val sectionTokenizer = SectionTokenizer()
+        val sectionList = sectionTokenizer.getSections("""
+R:
+[A E]
+Radka
+        """.trimMargin().trimStart())
+
+        assertEquals(
+                sections {
+                    section {
+                        type = SectionType.CHORUS
+                        sectionText {
+                            sectionLine {
+                                chordPair {
+                                    chord = "[A]"
+                                    text = "Ra"
+                                }
+                                chordPair {
+                                    chord = "[E]"
+                                    text = "dka"
+                                }
+                            }
+                        }
+                    }
+                },
+                sectionList
+        )
+    }
+
     @Test
     fun testCopySectionsChorus() {
         val sectionTokenizer = SectionTokenizer()
