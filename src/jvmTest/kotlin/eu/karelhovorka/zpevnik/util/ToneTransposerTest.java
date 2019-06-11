@@ -11,6 +11,12 @@ public class ToneTransposerTest extends TestCase {
         assertEquals("[F7sus4]", transpose("[E7sus4]", 1));
     }
 
+    public void testSpecialCharChords() {
+        assertEquals("[F-]", transpose("[E-]", 1));
+        assertEquals("[F°]", transpose("[E°]", 1));
+        assertEquals("[FΔ]", transpose("[EΔ]", 1));
+    }
+
     public void testTransposeB() {
         Tone.CountryCategory countryCategory = Tone.CountryCategory.EASTERN;
         Tone.ModificationAbbreviation modificationAbbreviation = Tone.ModificationAbbreviation.FLAT;

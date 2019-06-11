@@ -11,7 +11,7 @@ object Transposer {
 
     val SINGLE_TONE = "[A-Habcdefgh]\\#?b?" // b
 
-    val TONE_ADDITIONS = "7?(?:sus|maj|mimaj|add|aug|dim|min|mi|m|b|\\+)?[1-9]{0,2}(?:\\+)?"
+    val TONE_ADDITIONS = "7?(?:sus|maj|mimaj|add|aug|dim|min|mi|m|b|\\+|-|°|Δ)?[1-9]{0,2}(?:\\+)?"
 
     // private static final String SINGLE_CHORD = "(" + SINGLE_TONE + ")" +
     // TONE_ADDITIONS;
