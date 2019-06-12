@@ -188,24 +188,6 @@ fun parseSectionLineUpper(cLine: String, textLine: String): SectionLine {
     var index = 0
     var lastText: String
     var offset = 0
-    val results = Regex(patternStr).findAll(chordLine)
-/*    for (matchResult in results) {
-        if (matchResult.range.start > 0) {
-            if (chord == null) {
-                chordGroups.add(ChordPair(null, textLine.substring(0, Math.min(matchResult.range.start, textLine.length))))
-            } else {
-                offset += 2
-                if (index < 0 || index > textLine.length) {
-                    lastText = ""
-                } else {
-                    lastText = textLine.substring(index, Math.min(matchResult.range.start - offset, textLine.length))
-                }
-                chordGroups.add(ChordPair(chord, lastText))
-            }
-        }
-        chord = chordLine.substring(matchResult.range.start, matchResult.range.last + 1)
-        index = matchResult.range.start - offset
-    }*/
     while (matcher.find()) {
         if (matcher.start() > 0) {
             if (chord == null) {
@@ -235,7 +217,7 @@ fun parseSectionLineInline(line: String): SectionLine {
     val pattern = patternStr.toPattern()
     val matcher = pattern.matcher(chordLine)
     val chordGroups = mutableListOf<ChordPair>()
-    var lastText: String = ""
+    var lastText: String
     var chord: String? = null
     var index = 0
     while (matcher.find()) {
