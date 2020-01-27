@@ -10,7 +10,24 @@ ${generateIntervalImports().joinToString("\n")}
 
 enum class ChordType(val longName: String, val shortcuts: Array<String>, val intervals: Array<Interval>) {
 
-${g().joinToString(",", postfix = ";")}
+${g().joinToString(",\n", postfix = ";")}
+
+
+    val semiToneArray: ByteArray = ByteArray(size = 12).also { b ->
+        intervals.forEach { b[it.step] = 1 }
+    }
+
+    val steps: IntArray = IntArray(size = intervals.size).also { intArray ->
+        intervals.forEachIndexed { index, interval ->
+            intArray[index] = interval.step
+        }
+    }
+    
+    companion object {
+        fun fromString(type: String): ChordType {
+            return values().firstOrNull { type == it.name || type == it.longName || type in it.shortcuts } ?: UNKNOWN_CHORD
+        }
+    }
 
 }
 """.trimIndent()
@@ -51,13 +68,13 @@ fun g(): List<String> {
                 val suffixes = cols[1].split(",").map { it.trim() }
                 val intervals = cols[2].split(",").map { it.trim() }
                 val enumName = name.replace("[ -]".toRegex(), "_").toUpperCase()
-                ("""
-    $enumName(
-        longName = "$name",
-        shortcuts = arrayOf(${suffixes.joinToString(separator = "\",\"", prefix = "\"", postfix = "\"")}),
-        intervals = arrayOf(${intervals.joinToString(separator = ",")})
-    )
-                """.trimIndent())
+
+                """    $enumName(
+            longName = "$name",
+            shortcuts = arrayOf(${suffixes.joinToString(separator = "\", \"", prefix = "\"", postfix = "\"")}),
+            intervals = arrayOf(${intervals.joinToString(separator = ", ")})
+    )"""
+
             }
 }
 

@@ -56,6 +56,8 @@ Add4;add4,add11; P1,M3,P4,P5
 #other
 Open five;5; P1,P5
 
+Unknown chord;unknown; P1
+
 """.trimIndent()
 
 

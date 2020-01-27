@@ -4,7 +4,7 @@ import eu.karelhovorka.zpevnik.music.Interval
 import mock.*
 import kotlin.jvm.JvmStatic
 
-enum class Tone private constructor(vararg areaTones: CountrySpecificToneName) {
+enum class Tone(vararg areaTones: CountrySpecificToneName) {
     // @formatter:off
     C(CountrySpecificToneName("C", CountryCategory.EASTERN, 0, "His", "H#"), CountrySpecificToneName("C", CountryCategory.WESTERN, 0, "Bis", "B#")),
 CIS(CountrySpecificToneName("C#", "Db", "Cis", "Des", CountryCategory.EASTERN, 1), CountrySpecificToneName("C#", "Db", "Cis", "Des", CountryCategory.WESTERN, 1)),
@@ -23,13 +23,6 @@ H(CountrySpecificToneName("H", CountryCategory.EASTERN, 11, "Cb", "H", "Ces"), C
 
 
  // @formatter:on
- /*
-	 * C( 0, "C", "His", "H#"), Cis(1, "C#", "Db", "Cis", "Des"), D(2, "D"),
-	 * Dis(3, "D#", "Eb", "Dis", "Es"), E(4, "E", "Fes", "Fb"), F(5, "F", "Eis",
-	 * "E#"), Fis(6, "F#", "Gb", "Fis", "Ges"), G(7, "G"), Gis( 8, "G#", "Ab",
-	 * "Gis", "As"), A(9, "A"), Ais(10, "A#", "Hb", "Ais", "B"), H(11, "H",
-	 * "Cb", "Ces");
-	 */
  private val aliases = HashMap<CountryCategory, CountrySpecificToneName>()
 
     private val index: Int
