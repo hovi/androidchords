@@ -1,7 +1,6 @@
 import eu.karelhovorka.zpevnik.music.Interval
 import eu.karelhovorka.zpevnik.text.SongDisplaySettings
 import eu.karelhovorka.zpevnik.text.SongText
-import eu.karelhovorka.zpevnik.util.ChordDetector
 import kotlin.browser.document
 
 
@@ -53,7 +52,7 @@ val tplLegacy = """
 """.trimIndent()
 
 
-fun main(args: Array<String>) {
+fun parseTexts() {
     val templates = mapOf(
             "inline" to tplInline,
             "upper" to tplUpper,
@@ -61,8 +60,7 @@ fun main(args: Array<String>) {
             "" to tplLegacy
     )
 
-
-    println("HELLO WORLD CHORDS 1.2")
+    println("HELLO WORLD CHORDS 1.3")
     val originalText = document.querySelector(".source-song-text")!!.innerHTML
     val title = document.querySelector(".source-song-title")!!.innerHTML
     val step = (document.querySelector(".source-song-step")!!.innerHTML).toInt()
@@ -81,5 +79,13 @@ fun main(args: Array<String>) {
     val output = js("Mustache.render(template, ctx)")
     val target = document.querySelector(".song-wrap")!!
     target.innerHTML = output
+}
+
+fun main(args: Array<String>) {
+    try {
+        parseTexts()
+    } catch (e: Exception) {
+        println(e)
+    }
 }
 

@@ -16,7 +16,7 @@ data class SongDisplaySettings @JvmOverloads constructor(
         val isDoubleColumn: Boolean = false,
         val isResizeChords: Boolean = false,
         val showComments: Boolean = false,
-        val interval: Interval = Interval.PERFECT_UNISON,
+        val interval: Interval = Interval.of(0),
         val countryCategory: Tone.CountryCategory = Tone.CountryCategory.EASTERN,
         val modificationAbbreviation: Tone.ModificationAbbreviation = Tone.ModificationAbbreviation.SHARP,
         val theme: String = DARK_THEME,
