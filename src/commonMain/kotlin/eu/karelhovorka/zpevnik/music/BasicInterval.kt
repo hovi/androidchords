@@ -3,157 +3,157 @@ package eu.karelhovorka.zpevnik.music
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
 
-enum class BasicInterval(override val step: Int, val intervalName: String, val latin: String, val index: Int, type: IntervalType): Interval {
+enum class BasicInterval(override val step: Int, val intervalName: String, val latin: String, val number: Int, val quality: IntervalQuality): Interval {
     PERFECT_UNISON (
     step = 0, 
     intervalName = "Perfect unison",
     latin = "unisonus",
-    index = 1,
-    type = IntervalType.fromShortcut('P')
+    number = 1,
+    quality = IntervalQuality.fromShortcut('P')
 ),MINOR_SECOND (
     step = 1, 
     intervalName = "Minor second",
     latin = "semitonus",
-    index = 2,
-    type = IntervalType.fromShortcut('m')
+    number = 2,
+    quality = IntervalQuality.fromShortcut('m')
 ),AUGMENTED_UNISON (
     step = 1, 
     intervalName = "Augmented unison",
     latin = "unisonus superflua",
-    index = 1,
-    type = IntervalType.fromShortcut('A')
+    number = 1,
+    quality = IntervalQuality.fromShortcut('A')
 ),MAJOR_SECOND (
     step = 2, 
     intervalName = "Major second",
     latin = "tonus",
-    index = 2,
-    type = IntervalType.fromShortcut('M')
+    number = 2,
+    quality = IntervalQuality.fromShortcut('M')
 ),DIMINISHED_THIRD (
     step = 2, 
     intervalName = "Diminished third",
     latin = "-",
-    index = 3,
-    type = IntervalType.fromShortcut('d')
+    number = 3,
+    quality = IntervalQuality.fromShortcut('d')
 ),MINOR_THIRD (
     step = 3, 
     intervalName = "Minor third",
     latin = "semiditonus",
-    index = 3,
-    type = IntervalType.fromShortcut('m')
+    number = 3,
+    quality = IntervalQuality.fromShortcut('m')
 ),AUGMENTED_SECOND (
     step = 3, 
     intervalName = "Augmented second",
     latin = "tonus superflua",
-    index = 2,
-    type = IntervalType.fromShortcut('A')
+    number = 2,
+    quality = IntervalQuality.fromShortcut('A')
 ),MAJOR_THIRD (
     step = 4, 
     intervalName = "Major third",
     latin = "ditonus",
-    index = 3,
-    type = IntervalType.fromShortcut('M')
+    number = 3,
+    quality = IntervalQuality.fromShortcut('M')
 ),DIMINISHED_FOURTH (
     step = 4, 
     intervalName = "Diminished fourth",
     latin = "semidiatessaron",
-    index = 4,
-    type = IntervalType.fromShortcut('d')
+    number = 4,
+    quality = IntervalQuality.fromShortcut('d')
 ),PERFECT_FOURTH (
     step = 5, 
     intervalName = "Perfect fourth",
     latin = "diatessaron",
-    index = 4,
-    type = IntervalType.fromShortcut('P')
+    number = 4,
+    quality = IntervalQuality.fromShortcut('P')
 ),AUGMENTED_THIRD (
     step = 5, 
     intervalName = "Augmented third",
     latin = "ditonus superflua",
-    index = 3,
-    type = IntervalType.fromShortcut('A')
+    number = 3,
+    quality = IntervalQuality.fromShortcut('A')
 ),DIMINISHED_FIFTH (
     step = 6, 
     intervalName = "Diminished fifth",
     latin = "semidiapente, semitritonus",
-    index = 5,
-    type = IntervalType.fromShortcut('d')
+    number = 5,
+    quality = IntervalQuality.fromShortcut('d')
 ),AUGMENTED_FOURTH (
     step = 6, 
     intervalName = "Augmented fourth",
     latin = "tritonus",
-    index = 4,
-    type = IntervalType.fromShortcut('A')
+    number = 4,
+    quality = IntervalQuality.fromShortcut('A')
 ),PERFECT_FIFTH (
     step = 7, 
     intervalName = "Perfect fifth",
     latin = "diapente",
-    index = 5,
-    type = IntervalType.fromShortcut('P')
+    number = 5,
+    quality = IntervalQuality.fromShortcut('P')
 ),DIMINISHED_SIXTH (
     step = 7, 
     intervalName = "Diminished sixth",
     latin = "semihexachordum",
-    index = 6,
-    type = IntervalType.fromShortcut('d')
+    number = 6,
+    quality = IntervalQuality.fromShortcut('d')
 ),MINOR_SIXTH (
     step = 8, 
     intervalName = "Minor sixth",
     latin = "hexachordum minus, semitonus maius cum diapente, tetratonus",
-    index = 6,
-    type = IntervalType.fromShortcut('m')
+    number = 6,
+    quality = IntervalQuality.fromShortcut('m')
 ),AUGMENTED_FIFTH (
     step = 8, 
     intervalName = "Augmented fifth",
     latin = "diapente superflua",
-    index = 5,
-    type = IntervalType.fromShortcut('A')
+    number = 5,
+    quality = IntervalQuality.fromShortcut('A')
 ),MAJOR_SIXTH (
     step = 9, 
     intervalName = "Major sixth",
     latin = "hexachordum maius, tonus cum diapente",
-    index = 6,
-    type = IntervalType.fromShortcut('M')
+    number = 6,
+    quality = IntervalQuality.fromShortcut('M')
 ),DIMINISHED_SEVENTH (
     step = 9, 
     intervalName = "Diminished seventh",
     latin = "semiheptachordum",
-    index = 7,
-    type = IntervalType.fromShortcut('d')
+    number = 7,
+    quality = IntervalQuality.fromShortcut('d')
 ),MINOR_SEVENTH (
     step = 10, 
     intervalName = "Minor seventh",
     latin = "heptachordum minus, semiditonus cum diapente, pentatonus",
-    index = 7,
-    type = IntervalType.fromShortcut('m')
+    number = 7,
+    quality = IntervalQuality.fromShortcut('m')
 ),AUGMENTED_SIXTH (
     step = 10, 
     intervalName = "Augmented sixth",
     latin = "hexachordum superflua",
-    index = 6,
-    type = IntervalType.fromShortcut('A')
+    number = 6,
+    quality = IntervalQuality.fromShortcut('A')
 ),MAJOR_SEVENTH (
     step = 11, 
     intervalName = "Major seventh",
     latin = "heptachordum maius, ditonus cum diapente",
-    index = 7,
-    type = IntervalType.fromShortcut('M')
+    number = 7,
+    quality = IntervalQuality.fromShortcut('M')
 ),DIMINISHED_OCTAVE (
     step = 11, 
     intervalName = "Diminished octave",
     latin = "semidiapason",
-    index = 8,
-    type = IntervalType.fromShortcut('d')
+    number = 8,
+    quality = IntervalQuality.fromShortcut('d')
 ),PERFECT_OCTAVE (
     step = 12, 
     intervalName = "Perfect octave",
     latin = "diapason",
-    index = 8,
-    type = IntervalType.fromShortcut('P')
+    number = 8,
+    quality = IntervalQuality.fromShortcut('P')
 ),AUGMENTED_SEVENTH (
     step = 12, 
     intervalName = "Augmented seventh",
     latin = "heptachordum superflua",
-    index = 7,
-    type = IntervalType.fromShortcut('A')
+    number = 7,
+    quality = IntervalQuality.fromShortcut('A')
 );
 
     companion object {

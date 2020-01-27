@@ -38,7 +38,7 @@ package eu.karelhovorka.zpevnik.music
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
 
-enum class BasicInterval(override val step: Int, val intervalName: String, val latin: String, val index: Int, type: IntervalType): Interval {
+enum class BasicInterval(override val step: Int, val intervalName: String, val latin: String, val number: Int, val quality: IntervalQuality): Interval {
     ${generateIntervals().joinToString(separator = ",", postfix = ";")}
 
     companion object {
@@ -85,16 +85,16 @@ fun generateIntervals(): List<String> {
         val name = cols[1]
         val latin = cols[3]
         val short = cols[2]
-        val index = short.replace(SHRT_REGEX, "$2").toInt()
-        val type = short.replace(SHRT_REGEX, "$1")[0]
+        val number = short.replace(SHRT_REGEX, "$2").toInt()
+        val quality = short.replace(SHRT_REGEX, "$1")[0]
         val enum = name.replace(" ", "_").toUpperCase()
         ("""
 $enum (
     step = $semiTone, 
     intervalName = "$name",
     latin = "$latin",
-    index = $index,
-    type = IntervalType.fromShortcut('$type')
+    number = $number,
+    quality = IntervalQuality.fromShortcut('$quality')
 )
 			""".trimIndent())
     }
@@ -107,7 +107,6 @@ fun generateIntervalAliases(): List<String> {
         val name = cols[1]
         val latin = cols[3]
         val short = cols[2]
-        val index = short.replace(SHRT_REGEX, "$2").toInt()
         val type = short.replace(SHRT_REGEX, "$1")[0]
         val enum = name.replace(" ", "_").toUpperCase()
         ("""
@@ -135,13 +134,6 @@ fun generateIntervalImports(): List<String> {
         val latin = cols[3]
         val shrt = cols[2]
         val type = shrt.replace(SHRT_REGEX, "$1")[0]
-        val index = shrt
-                .replace(
-                        SHRT_REGEX,
-                        "$2"
-                )
-                .toInt()
-
         val enum = name.replace(" ", "_").toUpperCase()
         ("""
             import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.$shrt

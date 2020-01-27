@@ -1,20 +1,33 @@
 package eu.karelhovorka.zpevnik.music
 
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.A5
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M2
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M3
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M6
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M7
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M9
 import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P1
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P11
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P4
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P5
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.d5
-import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.d7
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.m2
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.A1
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M2
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.d3
 import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.m3
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.A2
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M3
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.d4
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P4
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.A3
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.d5
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.A4
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P5
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.d6
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.m6
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.A5
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M6
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.d7
 import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.m7
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.A6
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M7
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.d8
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P8
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.A7
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M9
 import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.m9
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P11
 
 enum class ChordType(val longName: String, val shortcuts: Array<String>, val intervals: Array<Interval>) {
 
@@ -229,11 +242,10 @@ enum class ChordType(val longName: String, val shortcuts: Array<String>, val int
             intArray[index] = interval.step
         }
     }
-
+    
     companion object {
         fun fromString(type: String): ChordType {
-            return values().firstOrNull { type == it.name || type == it.longName || type in it.shortcuts }
-                    ?: UNKNOWN_CHORD
+            return values().firstOrNull { type == it.name || type == it.longName || type in it.shortcuts } ?: UNKNOWN_CHORD
         }
     }
 
