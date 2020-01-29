@@ -2,8 +2,8 @@ package eu.karelhovorka.zpevnik.music
 
 val chords = """
 # triads
-Major triad;    dur,,M,maj; P1,M3,P5
-Minor triad;    m,-,mi,min; P1,m3,P5
+Major triad;    dur,,M,maj,major; P1,M3,P5
+Minor triad;    m,-,mi,min,minor; P1,m3,P5
 Augmented triad;aug,+5,#5;  P1,M3,A5
 Diminished triad;dim,-5,b5; P1,m3,d5
 
@@ -14,7 +14,7 @@ Minor sixth;    m6,m(add6); P1,m3,P5,M6
 # sevenths
 Dominant seventh;7;         P1,M3,P5,m7
 Major seventh;maj7,Δ7,Δ,M7; P1,M3,P5,M7
-Minor major seventh;mM7,m#7,-M7,-Δ7,-Δ; P1,m3,P5,M7
+Minor major seventh;mM7,m#7,-M7,-Δ7,-Δ,m(maj7),-(maj7); P1,m3,P5,M7
 Minor seventh;m7,m-7; P1,m3,P5,m7
 Augmented major seventh;Δ(#5),Δ(+5),M7(+5),M7(#5),maj7(+5),maj7(#5); P1,M3,A5,M7
 Augmented seventh;aug7,7(#5),7(+5); P1,M3,A5,m7
@@ -34,6 +34,8 @@ Half diminished ninth;ø(9); P1,m3,d5,m7,M9
 Half diminished minor ninth;ø(b9); P1,m3,d5,m7,m9
 Diminished ninth;o(9),dim(9); P1,m3,d5,d7,M9
 Diminished minor ninth;o(b9),dim(b9); P1,m3,d5,d7,m9
+Major sixth ninth; 69   ; P1,M3,P5,M6,M9
+minor sixth ninth; m69   ; P1,m3,P5,M6,M9
 
 # elevenths
 Eleventh;11; P1,M3,P5,m7,M9,P11
@@ -51,6 +53,7 @@ Sus4;sus4,sus;  P1,P4,P5
 
 # add
 Add2;add2,add9; P1,M2,M3,P5
+MAdd2;m(add2),m(add9); P1,M2,m3,P5
 Add4;add4,add11; P1,M3,P4,P5
 
 #other
@@ -59,7 +62,6 @@ Open five;5; P1,P5
 Unknown chord;unknown; P1
 
 """.trimIndent()
-
 
 
 const val intervals = """
@@ -95,3 +97,47 @@ M9,M2
 m9,m2
 P11,P4
 """.trimIndent()
+
+val chordTypeSuffixes: List<String> = listOf(
+        "major",
+        "minor",
+        "dim",
+        "dim7",
+        "sus2",
+        "sus4",
+        "7sus4",
+        "7sg",
+        "alt",
+        "aug",
+        "6",
+        "69",
+        "7",
+        "7b5",
+        "aug7",
+        "9",
+        "9b5",
+        "aug9",
+        "7b9",
+        "7#9",
+        "11",
+        "9#11",
+        "13",
+        "maj7",
+        "maj7b5",
+        "maj7#5",
+        "maj9",
+        "maj11",
+        "maj13",
+        "m6",
+        "m69",
+        "m7",
+        "m7b5",
+        "m9",
+        "m11",
+        "mmaj7",
+        "mmaj7b5",
+        "mmaj9",
+        "mmaj11",
+        "add9",
+        "madd9"
+)

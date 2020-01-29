@@ -33,12 +33,12 @@ enum class ChordType(val longName: String, val shortcuts: Array<String>, val int
 
     MAJOR_TRIAD(
             longName = "Major triad",
-            shortcuts = arrayOf("dur", "", "M", "maj"),
+            shortcuts = arrayOf("dur", "", "M", "maj", "major"),
             intervals = arrayOf(P1, M3, P5)
     ),
     MINOR_TRIAD(
             longName = "Minor triad",
-            shortcuts = arrayOf("m", "-", "mi", "min"),
+            shortcuts = arrayOf("m", "-", "mi", "min", "minor"),
             intervals = arrayOf(P1, m3, P5)
     ),
     AUGMENTED_TRIAD(
@@ -73,7 +73,7 @@ enum class ChordType(val longName: String, val shortcuts: Array<String>, val int
     ),
     MINOR_MAJOR_SEVENTH(
             longName = "Minor major seventh",
-            shortcuts = arrayOf("mM7", "m#7", "-M7", "-Δ7", "-Δ"),
+            shortcuts = arrayOf("mM7", "m#7", "-M7", "-Δ7", "-Δ", "m(maj7)", "-(maj7)"),
             intervals = arrayOf(P1, m3, P5, M7)
     ),
     MINOR_SEVENTH(
@@ -161,6 +161,16 @@ enum class ChordType(val longName: String, val shortcuts: Array<String>, val int
             shortcuts = arrayOf("o(b9)", "dim(b9)"),
             intervals = arrayOf(P1, m3, d5, d7, m9)
     ),
+    MAJOR_SIXTH_NINTH(
+            longName = "Major sixth ninth",
+            shortcuts = arrayOf("69"),
+            intervals = arrayOf(P1, M3, P5, M6, M9)
+    ),
+    MINOR_SIXTH_NINTH(
+            longName = "minor sixth ninth",
+            shortcuts = arrayOf("m69"),
+            intervals = arrayOf(P1, m3, P5, M6, M9)
+    ),
     ELEVENTH(
             longName = "Eleventh",
             shortcuts = arrayOf("11"),
@@ -215,6 +225,11 @@ enum class ChordType(val longName: String, val shortcuts: Array<String>, val int
             longName = "Add2",
             shortcuts = arrayOf("add2", "add9"),
             intervals = arrayOf(P1, M2, M3, P5)
+    ),
+    MADD2(
+            longName = "MAdd2",
+            shortcuts = arrayOf("m(add2)", "m(add9)"),
+            intervals = arrayOf(P1, M2, m3, P5)
     ),
     ADD4(
             longName = "Add4",

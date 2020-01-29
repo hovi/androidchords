@@ -52,6 +52,28 @@ enum class BasicInterval(override val step: Int, val intervalName: String, val l
 }
 """.trimIndent()
 
+
+fun generateAliases() {
+    chordTypeSuffixes.forEach {
+        addAllAliases(it)
+    }
+}
+
+fun addAllAliases(suffix: String) {
+    val a = ChordType.values().filter { ct ->
+        val shortcuts = ct.shortcuts.map { stcts -> stcts.replace("[()]".toRegex(), "") }
+        //println(shortcuts)
+        suffix in shortcuts || ct.longName == suffix
+    }.map {
+        it.shortcuts.forEach {
+            println(""""$it": "$suffix", """)
+        }
+    }
+    if (a.isEmpty()) {
+        //println("EMPTY $suffix")
+    }
+}
+
 fun generateCodeChordType(): String {
     return clsChordType
 }
