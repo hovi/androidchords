@@ -46,6 +46,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Gradle: chords.chords-jvm" level="project" />
   </component>
 </module>
