@@ -28,6 +28,8 @@ import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.A7
 import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M9
 import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.m9
 import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P11
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M13
+import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.m13
 
 enum class ChordType(val longName: String, val shortcuts: Array<String>, val intervals: Array<Interval>) {
 
@@ -211,6 +213,41 @@ enum class ChordType(val longName: String, val shortcuts: Array<String>, val int
             shortcuts = arrayOf("o11", "dim11"),
             intervals = arrayOf(P1, m3, d5, d7, M9, P11)
     ),
+    MAJOR_THIRTEENTH(
+            longName = "Major thirteenth",
+            shortcuts = arrayOf("M13", "Δ(13)", "maj(13)"),
+            intervals = arrayOf(P1, M3, P5, M7, M9, P11, M13)
+    ),
+    THIRTEENTH(
+            longName = "Thirteenth",
+            shortcuts = arrayOf("13"),
+            intervals = arrayOf(P1, M3, P5, m7, M9, P11, M13)
+    ),
+    MINOR_MAJOR_THIRTEENTH(
+            longName = "Minor major thirteenth",
+            shortcuts = arrayOf("M13", "Δ(13)", "maj(13)"),
+            intervals = arrayOf(P1, m3, P5, M7, M9, P11, M13)
+    ),
+    MINOR_THIRTEENTH(
+            longName = "Minor thirteenth",
+            shortcuts = arrayOf("M13", "Δ(13)", "maj(13)"),
+            intervals = arrayOf(P1, m3, P5, m7, M9, P11, M13)
+    ),
+    AUGMENTED_MAJOR_THIRTEENTH(
+            longName = "Augmented major thirteenth",
+            shortcuts = arrayOf("aug(maj13)", "+M13", "+maj(13)", "+Δ(13)"),
+            intervals = arrayOf(P1, M3, A5, M7, M9, P11, M13)
+    ),
+    AUGMENTED__THIRTEENTH(
+            longName = "Augmented  thirteenth",
+            shortcuts = arrayOf("+13", "13#5", "13+5", "aug13"),
+            intervals = arrayOf(P1, M3, A5, m7, M9, P11, M13)
+    ),
+    HALF_DIMINISHED_THIRTEENTH(
+            longName = "Half-diminished thirteenth",
+            shortcuts = arrayOf("ø13"),
+            intervals = arrayOf(P1, m3, d5, m7, M9, P11, M13)
+    ),
     SUS2(
             longName = "Sus2",
             shortcuts = arrayOf("sus2"),
@@ -257,10 +294,11 @@ enum class ChordType(val longName: String, val shortcuts: Array<String>, val int
             intArray[index] = interval.step
         }
     }
-    
+
     companion object {
         fun fromString(type: String): ChordType {
-            return values().firstOrNull { type == it.name || type == it.longName || type in it.shortcuts } ?: UNKNOWN_CHORD
+            return values().firstOrNull { type == it.name || type == it.longName || type in it.shortcuts.map { it.replace("[()]".toRegex(), "") } }
+                    ?: UNKNOWN_CHORD
         }
     }
 

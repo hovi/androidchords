@@ -25,7 +25,7 @@ ${g().joinToString(",\n", postfix = ";")}
     
     companion object {
         fun fromString(type: String): ChordType {
-            return values().firstOrNull { type == it.name || type == it.longName || type in it.shortcuts } ?: UNKNOWN_CHORD
+            return values().firstOrNull { type == it.name || type == it.longName || type in it.shortcuts.map { it.replace("[()]".toRegex(), "") } } ?: UNKNOWN_CHORD
         }
     }
 

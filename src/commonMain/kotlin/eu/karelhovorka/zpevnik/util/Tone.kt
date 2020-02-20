@@ -1,31 +1,32 @@
 package eu.karelhovorka.zpevnik.util
 
 import eu.karelhovorka.zpevnik.music.Interval
-import mock.*
 import kotlin.jvm.JvmStatic
+
+fun Int.toToneIndex(size: Int = 12): Int {
+    return (this % 12 + 12) % 12
+}
 
 enum class Tone(vararg areaTones: CountrySpecificToneName) {
     // @formatter:off
     C(CountrySpecificToneName("C", CountryCategory.EASTERN, 0, "His", "H#"), CountrySpecificToneName("C", CountryCategory.WESTERN, 0, "Bis", "B#")),
-CIS(CountrySpecificToneName("C#", "Db", "Cis", "Des", CountryCategory.EASTERN, 1), CountrySpecificToneName("C#", "Db", "Cis", "Des", CountryCategory.WESTERN, 1)),
-D(CountrySpecificToneName("D", CountryCategory.EASTERN, 2), CountrySpecificToneName("D", CountryCategory.WESTERN, 2)),
-DIS(CountrySpecificToneName("D#", "Eb", "Dis", "Es", CountryCategory.EASTERN, 3), CountrySpecificToneName("D#", "Eb", "Dis", "Es", CountryCategory.WESTERN, 3)),
- //E(new AreaTone("E", "Fb", "E", "Fes", ToneNameType.EASTERN, 4), new AreaTone("E", "Fb", "E", "Fes", ToneNameType.WESTERN, 4)),
+    CIS(CountrySpecificToneName("C#", "Db", "Cis", "Des", CountryCategory.EASTERN, 1), CountrySpecificToneName("C#", "Db", "Cis", "Des", CountryCategory.WESTERN, 1)),
+    D(CountrySpecificToneName("D", CountryCategory.EASTERN, 2), CountrySpecificToneName("D", CountryCategory.WESTERN, 2)),
+    DIS(CountrySpecificToneName("D#", "Eb", "Dis", "Es", CountryCategory.EASTERN, 3), CountrySpecificToneName("D#", "Eb", "Dis", "Es", CountryCategory.WESTERN, 3)),
     E(CountrySpecificToneName("E", CountryCategory.EASTERN, 4, "Fes", "Fb"), CountrySpecificToneName("E", CountryCategory.WESTERN, 4, "Fes", "Fb")),
- //F(new AreaTone("E#", "F", "Eis", "F", ToneNameType.EASTERN, 5), new AreaTone("E#", "F", "Eis", "F", ToneNameType.WESTERN, 5)),
     F(CountrySpecificToneName("F", CountryCategory.EASTERN, 5, "Eis", "E#"), CountrySpecificToneName("F", CountryCategory.WESTERN, 5, "Eis", "E#")),
-FIS(CountrySpecificToneName("F#", "Gb", "Fis", "Ges", CountryCategory.EASTERN, 6), CountrySpecificToneName("F#", "Gb", "Fis", "Ges", CountryCategory.WESTERN, 6)),
-G(CountrySpecificToneName("G", CountryCategory.EASTERN, 7), CountrySpecificToneName("G", CountryCategory.WESTERN, 7)),
-GIS(CountrySpecificToneName("G#", "Ab", "Gis", "As", CountryCategory.EASTERN, 8), CountrySpecificToneName("G#", "Ab", "Gis", "As", CountryCategory.WESTERN, 8)),
-A(CountrySpecificToneName("A", CountryCategory.EASTERN, 9, "Bb"), CountrySpecificToneName("A", CountryCategory.WESTERN, 9)),
-AIS(CountrySpecificToneName("A#", "B", "Ais", "B", CountryCategory.EASTERN, 10, "Hb", "Hes"), CountrySpecificToneName("A#", "Bb", "Ais", "Bb", CountryCategory.WESTERN, 10)),
-H(CountrySpecificToneName("H", CountryCategory.EASTERN, 11, "Cb", "H", "Ces"), CountrySpecificToneName("B", CountryCategory.WESTERN, 11, "H", "Cb", "B", "Ces"));
+    FIS(CountrySpecificToneName("F#", "Gb", "Fis", "Ges", CountryCategory.EASTERN, 6), CountrySpecificToneName("F#", "Gb", "Fis", "Ges", CountryCategory.WESTERN, 6)),
+    G(CountrySpecificToneName("G", CountryCategory.EASTERN, 7), CountrySpecificToneName("G", CountryCategory.WESTERN, 7)),
+    GIS(CountrySpecificToneName("G#", "Ab", "Gis", "As", CountryCategory.EASTERN, 8), CountrySpecificToneName("G#", "Ab", "Gis", "As", CountryCategory.WESTERN, 8)),
+    A(CountrySpecificToneName("A", CountryCategory.EASTERN, 9, "Bb"), CountrySpecificToneName("A", CountryCategory.WESTERN, 9)),
+    AIS(CountrySpecificToneName("A#", "B", "Ais", "B", CountryCategory.EASTERN, 10, "Hb", "Hes"), CountrySpecificToneName("A#", "Bb", "Ais", "Bb", CountryCategory.WESTERN, 10)),
+    H(CountrySpecificToneName("H", CountryCategory.EASTERN, 11, "Cb", "H", "Ces"), CountrySpecificToneName("B", CountryCategory.WESTERN, 11, "H", "Cb", "B", "Ces"));
 
 
- // @formatter:on
- private val aliases = HashMap<CountryCategory, CountrySpecificToneName>()
+    // @formatter:on
+    private val aliases = HashMap<CountryCategory, CountrySpecificToneName>()
 
-    private val index: Int
+    val index: Int
 
     enum class CountryCategory {
         WESTERN, EASTERN
@@ -91,6 +92,11 @@ H(CountrySpecificToneName("H", CountryCategory.EASTERN, 11, "Cb", "H", "Ces"), C
     companion object {
 
         @JvmStatic
+        fun fromString(string: String, type: CountryCategory = CountryCategory.WESTERN): Tone? {
+            return values().find { string in it.aliases[type]!!.aliases }
+        }
+
+        @JvmStatic
         fun fromIndexOrNull(index: Int): Tone? {
             val normalizedIndex = (index % values().size + values().size) % values().size
             for (t in values()) {
@@ -113,4 +119,11 @@ H(CountrySpecificToneName("H", CountryCategory.EASTERN, 11, "Cb", "H", "Ces"), C
         }
     }
 
+    fun toString(category: CountryCategory): String {
+        return getAreaTone(category).aliases.first()
+    }
+
+    override fun toString(): String {
+        return toString(CountryCategory.WESTERN)
+    }
 }

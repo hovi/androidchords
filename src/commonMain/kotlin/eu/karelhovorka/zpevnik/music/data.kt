@@ -47,6 +47,18 @@ Augmented eleventh;aug11; P1,M3,A5,m7,M9,P11
 Half diminished eleventh;ø11; P1,m3,d5,m7,M9,P11
 Diminished eleventh;o11,dim11; P1,m3,d5,d7,M9,P11
 
+# thirteens
+Major thirteenth;M13,Δ(13),maj(13);         P1,M3,P5,M7,M9,P11,M13
+Thirteenth;13;                              P1,M3,P5,m7,M9,P11,M13
+Minor major thirteenth;M13,Δ(13),maj(13);   P1,m3,P5,M7,M9,P11,M13
+Minor thirteenth;M13,Δ(13),maj(13);         P1,m3,P5,m7,M9,P11,M13
+
+Augmented major thirteenth;aug(maj13),+M13,+maj(13),+Δ(13); P1,M3,A5,M7,M9,P11,M13
+Augmented  thirteenth;+13,13#5,13+5,aug13;                  P1,M3,A5,m7,M9,P11,M13
+Half-diminished thirteenth;ø13; P1,m3,d5,m7,M9,P11,M13
+
+
+
 # sus
 Sus2;sus2;      P1,M2,P5
 Sus4;sus4,sus;  P1,P4,P5
@@ -96,6 +108,8 @@ val intervalAliases = """
 M9,M2
 m9,m2
 P11,P4
+M13,M6
+m13,m6
 """.trimIndent()
 
 val chordTypeSuffixes: List<String> = listOf(

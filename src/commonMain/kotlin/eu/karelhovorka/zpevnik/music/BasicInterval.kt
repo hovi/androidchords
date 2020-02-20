@@ -241,6 +241,12 @@ val m9: Interval
 val P11: Interval
     @JvmName("getP4P1152")
     get() = P4
+val M13: Interval
+    @JvmName("getM6M1354")
+    get() = M6
+val m13: Interval
+    @JvmName("getm6m1354")
+    get() = m6
         
         @JvmStatic
         fun of(step: Int): Interval {
