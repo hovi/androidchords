@@ -1,7 +1,11 @@
 import eu.karelhovorka.zpevnik.music.Interval
 import eu.karelhovorka.zpevnik.text.SongDisplaySettings
 import eu.karelhovorka.zpevnik.text.SongText
+import org.w3c.dom.Element
+import org.w3c.dom.HTMLElement
+import org.w3c.dom.asList
 import kotlin.browser.document
+import kotlin.dom.hasClass
 
 
 var tplUpper = """
@@ -48,44 +52,70 @@ val tplInline = """
 """.trimIndent()
 
 val tplLegacy = """
-<div id="content" class="content">{{originalText}}</div>
+<div id="content" class="content">{{filledSections}}</div>
 """.trimIndent()
 
 
+fun makeTemplates(): Map<String, String> {
+    return document.querySelectorAll(".song-templates > div").asList().map {
+        val element = it as HTMLElement
+        element.className to element.innerHTML
+    }.toMap()
+}
+
+
 fun parseTexts() {
-    val templates = mapOf(
+    println("HELLO WORLD CHORDS 1.3")
+    val step = (document.querySelector(".source-song-step")!!.innerHTML).toInt()
+    val songDisplaySettings = SongDisplaySettings.DEFAULT.copy(
+            interval = Interval.of(step)
+    )
+    val templateName = document.querySelector(".source-song-template")!!.innerHTML
+    val chordReplacement: String? = if (templateName == "legacy") {
+        " <a class='chord'>$1</a> "
+    } else {
+        null
+    }
+    parse(
+            originalText = document.querySelector(".source-song-text")!!.innerHTML,
+            templateName = templateName,
+            title = document.querySelector(".source-song-title")!!.innerHTML,
+            target = document.querySelector(".song-wrap")!!,
+            songDisplaySettings = songDisplaySettings,
+            chordReplacement = chordReplacement
+    )
+}
+
+fun parse(originalText: String, target: Element, templateName: String, songDisplaySettings: SongDisplaySettings = SongDisplaySettings.DEFAULT, title: String = "", chordReplacement: String? = null) {
+    val templates_ = mapOf(
             "inline" to tplInline,
             "upper" to tplUpper,
             "legacy" to tplLegacy,
             "" to tplLegacy
     )
-
-    println("HELLO WORLD CHORDS 1.3")
-    val originalText = document.querySelector(".source-song-text")!!.innerHTML
-    val title = document.querySelector(".source-song-title")!!.innerHTML
-    val step = (document.querySelector(".source-song-step")!!.innerHTML).toInt()
-    val songDisplaySettings = SongDisplaySettings.DEFAULT.copy(
-            interval = Interval.of(step)
-    )
-
-    js("Mustache.escape = function(text) {return text;};")
-    val templateName = document.querySelector(".source-song-template")!!.innerHTML
-    val template = templates[templateName]
-    println("-$templateName-")
+    val templates = makeTemplates()
     val wrap = templateName == "" || templateName == "legacy"
-    val ctx = SongText.fromRawText(originalText = originalText, title = title, songDisplaySettings = songDisplaySettings, wrapInHtml = wrap)
+    val ctx = SongText.fromRawText(originalText = originalText, title = title, songDisplaySettings = songDisplaySettings, chordReplacement = chordReplacement)
+    val template = templates[templateName]!!
+    target.innerHTML = renderMustache(template, ctx)
+}
 
+fun disableEscaping() {
+    js("Mustache.escape = function(text) {return text;};")
+}
 
-    val output = js("Mustache.render(template, ctx)")
-    val target = document.querySelector(".song-wrap")!!
-    target.innerHTML = output
+fun renderMustache(template: String, ctx: Any): dynamic {
+    val t = template
+    val c = ctx
+    return js("Mustache.render(t, c)")
+}
+
+fun doParsing(): Boolean {
+    return document.body?.hasClass("parse-song") == true
 }
 
 fun main(args: Array<String>) {
-    try {
-        parseTexts()
-    } catch (e: Exception) {
-        println(e)
-    }
+    disableEscaping()
+    parseTexts()
 }
 

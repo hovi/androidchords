@@ -39,13 +39,17 @@ object ChordDetector {
         return chord
     }
 
-    @JvmStatic
     fun wrapWithAnchors(text: String, useSup: Boolean = true): String {
         val replacement = if (useSup) {
             " <a class='chord' href='" + SongFormatter.CHORD_URL_PROTOCOL + "$1'><sup>" + "$1" + "</sup></a> "
         } else {
             " <a class='chord' href='" + SongFormatter.CHORD_URL_PROTOCOL + "$1'>" + "$1" + "</a> "
         }
+        return wrapWithAnchors(text, replacement)
+    }
+
+    @JvmStatic
+    fun wrapWithAnchors(text: String, replacement: String): String {
         return text.replace(Transposer.CHORD_REGEX.toRegex(), replacement)
 
     }
