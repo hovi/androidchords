@@ -33,6 +33,15 @@ class SongText(val originalText: String, val title: String, private val displayS
         this.sections = sectionTokenizer.getSectionsOrSingleSection(originalText).toTypedArray()
     }
 
+    val filledSections: String by lazy {
+        val text = sections.mapNotNull { it.content.originalText }.joinToString("")
+        if (text.isBlank()) {
+            originalText.trimEnd()
+        } else {
+            text.trimEnd()
+        }
+    }
+
     fun toMap(): Map<String, Any> {
         val map = HashMap<String, Any>()
         map.put("title", title)
@@ -57,7 +66,7 @@ class SongText(val originalText: String, val title: String, private val displayS
             checkNotNull(songDisplaySettings, "songDisplaySettings")
             var modifiedText = SongSettingsFormatter.modifyTextBasedOnSettings(originalText, songDisplaySettings)
             if (wrapInHtml) {
-               modifiedText = ChordDetector.wrapWithAnchors(modifiedText)
+                modifiedText = ChordDetector.wrapWithAnchors(modifiedText)
             }
             return SongText(modifiedText, title, songDisplaySettings, i18N = i18n)
         }

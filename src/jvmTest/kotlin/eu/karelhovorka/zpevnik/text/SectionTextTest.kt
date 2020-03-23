@@ -19,7 +19,7 @@ class SectionTextTest {
 
                     }
                 }
-                , parseSectionText("no chords there"))
+                , parseSectionText("", "no chords there"))
     }
 
     @Test
@@ -34,7 +34,7 @@ class SectionTextTest {
 
                     }
                 }
-                , parseSectionText("[A]no chords there"))
+                , parseSectionText("", "[A]no chords there"))
     }
 
     @Test
@@ -48,7 +48,7 @@ class SectionTextTest {
                         }
                     }
                 }
-                , parseSectionText("[A]\nno chords there"))
+                , parseSectionText("", "[A]\nno chords there"))
     }
 
     @Test
@@ -73,7 +73,7 @@ class SectionTextTest {
                         }
                     }
                 }
-                , parseSectionText("[A]\nno chords there\n\n[A]inline text"))
+                , parseSectionText("", "[A]\nno chords there\n\n[A]inline text"))
     }
 
     @Test
@@ -103,7 +103,7 @@ class SectionTextTest {
                         }
                     }
                 }
-                , parseSectionText("[A]\nno chords there\nX\nY\n[A]inline text"))
+                , parseSectionText("", "[A]\nno chords there\nX\nY\n[A]inline text"))
     }
 
     @Test
@@ -133,7 +133,7 @@ class SectionTextTest {
                         }
                     }
                 }
-                , parseSectionText("[A]\nno chords there\n\n\n[A]inline text"))
+                , parseSectionText("", "[A]\nno chords there\n\n\n[A]inline text"))
     }
 
 
@@ -158,7 +158,7 @@ class SectionTextTest {
                         }
                     }
                 }
-                , parseSectionText("[A]\n\nA"))
+                , parseSectionText("", "[A]\n\nA"))
 
     }
 
@@ -198,7 +198,7 @@ class SectionTextTest {
                         }
                     }
                 }
-                , parseSectionText(text2))
+                , parseSectionText("", text2))
 
     }
 
@@ -222,7 +222,7 @@ class SectionTextTest {
                         }
                     }
                 }
-                , parseSectionText(text2))
+                , parseSectionText("", text2))
 
     }
 
@@ -261,7 +261,7 @@ class SectionTextTest {
                         }
                     }
                 }
-                , parseSectionText(text2))
+                , parseSectionText("", text2))
 
     }
 
