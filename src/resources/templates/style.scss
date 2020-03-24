@@ -1,0 +1,136 @@
+/* reset */
+
+img {
+    max-width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* functional */
+
+.hide-comments comment {
+    display: none;
+}
+
+.font-monospace, .font-monospace .chord {
+    font-family: 'monospace' !important;
+}
+.font-serif, .font-serif .chord {
+    font-family: 'serif' !important;
+}
+.font-normal, .font-normal .chord {
+    font-family: 'normal' !important;
+}
+.double-column {
+    column-count: 2; column-gap: 30px; -webkit-column-count: 2; -webkit-column-gap: 30px;
+}
+.resize-chords .chord { font-size: 150% !important; }
+.use-bold, .use-bold .chord {
+    font-weight: 900 !important;
+}
+
+.main-song-content {
+
+/* basic formatting */
+
+.chord {
+    text-decoration: none;
+}
+
+.content {
+    white-space: pre-wrap; tab-size: 1;
+}
+
+comment {
+    display: inline-block;
+    font-style: italic;
+}
+.header {
+    padding: 0.25rem 0.25rem;
+    padding-bottom: 0;
+    margin: 0.5rem 0.25rem 0.25rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+.section-single-unknown .header {
+    display: none;
+}
+.section-content {
+    padding: 0.25rem 0.5rem;
+}
+
+/* theme */
+
+color: black; background-color: white;
+.chord { color: blue !important; }
+.header { border-bottom-color: black; }
+
+&.light {
+    color: black; background-color: white;
+    .chord { color: blue !important; }
+    .header { border-bottom-color: black; }
+}
+
+&.dark {
+    background-color: black; color: white;
+    .chord { color: #FFD050 !important; }
+    .header { border-bottom: 1px solid #FFD050; }
+}
+
+/* template-specific */
+&.upper {
+    .empty-chord .chord {
+        width: 0;
+    }
+    .song-chord {
+        padding-right: 0.2em;
+    }
+    .song-text-line, .section {
+        clear: both;
+    }
+    .song-text-line {
+        display: flex;
+        flex-wrap: wrap;
+        min-height: 1rem;
+    }
+    .song-chord-pair {
+
+    }
+    .song-line-no-chords .song-chord {
+        display: none;
+    }
+}
+
+&.inline {
+    .chord {
+        display: inline-block;
+        padding: 0 0.2rem;
+        vertical-align: super;
+        font-size: smaller;
+    }
+    .content {
+        line-height: 1.5;
+    }
+    .song-line.empty-line {
+        height: 1rem;
+    }
+    .song-text-line {
+        min-height: 1rem;
+    }
+    .song-text-line, .section {
+        clear: both;
+    }
+    .song-chord-pair {
+        float: left;
+    }
+}
+
+&.legacy {
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+
+}
