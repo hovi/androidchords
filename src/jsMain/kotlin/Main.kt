@@ -1,6 +1,7 @@
 import eu.karelhovorka.zpevnik.music.Interval
 import eu.karelhovorka.zpevnik.text.SongDisplaySettings
 import eu.karelhovorka.zpevnik.text.SongText
+import eu.karelhovorka.zpevnik.util.CsHardcoded
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.asList
@@ -66,7 +67,7 @@ fun makeTemplates(): Map<String, String> {
 
 fun parseTexts() {
     println("HELLO WORLD CHORDS 1.3")
-    val step = (document.querySelector(".source-song-step")!!.innerHTML).toInt()
+    val step = (document.querySelector(".source-song-step")?.innerHTML)?.toIntOrNull() ?: 0
     val songDisplaySettings = SongDisplaySettings.DEFAULT.copy(
             interval = Interval.of(step)
     )
@@ -95,7 +96,7 @@ fun parse(originalText: String, target: Element, templateName: String, songDispl
     )
     val templates = makeTemplates()
     val wrap = templateName == "" || templateName == "legacy"
-    val ctx = SongText.fromRawText(originalText = originalText, title = title, songDisplaySettings = songDisplaySettings, chordReplacement = chordReplacement)
+    val ctx = SongText.fromRawText(originalText = originalText, title = title, songDisplaySettings = songDisplaySettings, chordReplacement = chordReplacement, i18n = CsHardcoded)
     val template = templates[templateName]!!
     target.innerHTML = renderMustache(template, ctx)
 }
