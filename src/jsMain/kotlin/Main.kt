@@ -2,9 +2,7 @@ import eu.karelhovorka.zpevnik.music.Interval
 import eu.karelhovorka.zpevnik.text.SongDisplaySettings
 import eu.karelhovorka.zpevnik.text.SongText
 import eu.karelhovorka.zpevnik.util.CsHardcoded
-import org.w3c.dom.Element
-import org.w3c.dom.HTMLElement
-import org.w3c.dom.asList
+import org.w3c.dom.*
 import kotlin.browser.document
 import kotlin.dom.hasClass
 
@@ -65,24 +63,29 @@ fun makeTemplates(): Map<String, String> {
 }
 
 
-fun parseTexts() {
-    println("HELLO WORLD CHORDS 1.3")
-    val step = (document.querySelector(".source-song-step")?.innerHTML)?.toIntOrNull() ?: 0
-    val songDisplaySettings = SongDisplaySettings.DEFAULT.copy(
-            interval = Interval.of(step)
-    )
-    val templateName = document.querySelector(".source-song-template")!!.innerHTML
-    val chordReplacement: String? = if (templateName == "legacy") {
+fun templateName(): String {
+    return document.querySelector(".song-settings .template")!!.innerHTML
+}
+
+fun chordReplacement(templateName: String? = null): String? {
+    val tpl = templateName ?: templateName()
+    return if (tpl == "legacy") {
         " <a class='chord'>$1</a> "
     } else {
         null
     }
+}
+
+fun parseTexts() {
+    println("HELLO WORLD CHORDS 1.3")
+    val templateName = templateName()
+    val chordReplacement = chordReplacement(templateName)
     parse(
             originalText = document.querySelector(".source-song-text")!!.innerHTML,
             templateName = templateName,
             title = document.querySelector(".source-song-title")!!.innerHTML,
             target = document.querySelector(".song-wrap")!!,
-            songDisplaySettings = songDisplaySettings,
+            songDisplaySettings = songDisplaySettings(),
             chordReplacement = chordReplacement
     )
 }
@@ -115,8 +118,54 @@ fun doParsing(): Boolean {
     return document.body?.hasClass("parse-song") == true
 }
 
+fun songDisplaySettings(): SongDisplaySettings {
+    val step = (document.querySelector(".source-song-step")?.innerHTML)?.toIntOrNull() ?: 0
+    val displayChords = document.querySelector(".song-settings .display-chords")?.innerHTML?.toBoolean() == true
+    return SongDisplaySettings.DEFAULT.copy(
+            interval = Interval.of(step),
+            isDisplayChords = displayChords
+    )
+}
+
+fun watch() {
+    val templateName = templateName()
+    val chordReplacement = chordReplacement(templateName)
+    fun onValue(value: String, step: Int) {
+        //val step = (document.querySelector(".source-song-step")?.innerHTML)?.toIntOrNull() ?: 0
+        val songDisplaySettings = songDisplaySettings().copy(
+                interval = Interval.of(step)
+        )
+        parse(
+                originalText = value,
+                templateName = templateName,
+                title = document.querySelector(".source-song-title")!!.innerHTML,
+                target = document.querySelector(".song-wrap")!!,
+                songDisplaySettings = songDisplaySettings,
+                chordReplacement = chordReplacement
+        )
+    }
+
+    fun step(): Int {
+        return (document.querySelector("#id_step") as HTMLInputElement?)?.value?.toIntOrNull()
+                ?: 0
+    }
+
+    (document.querySelector("#id_text") as HTMLTextAreaElement?)?.let { t ->
+        document.querySelector("#id_step")?.addEventListener("change", {
+            onValue(t.value, step())
+        })
+        t.addEventListener("change", {
+            onValue(t.value, step())
+        })
+        t.addEventListener("keyup", {
+            onValue(t.value, step())
+        })
+    }
+}
+
 fun main(args: Array<String>) {
     disableEscaping()
     parseTexts()
+    watch()
 }
 
