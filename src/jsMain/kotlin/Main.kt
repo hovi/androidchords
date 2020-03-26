@@ -118,12 +118,19 @@ fun doParsing(): Boolean {
     return document.body?.hasClass("parse-song") == true
 }
 
+fun booleanOrFalse(selector: String, default: Boolean): Boolean {
+    return document.querySelector(selector)?.innerHTML?.toBoolean() ?: default
+}
+
 fun songDisplaySettings(): SongDisplaySettings {
     val step = (document.querySelector(".source-song-step")?.innerHTML)?.toIntOrNull() ?: 0
-    val displayChords = document.querySelector(".song-settings .display-chords")?.innerHTML?.toBoolean() == true
     return SongDisplaySettings.DEFAULT.copy(
             interval = Interval.of(step),
-            isDisplayChords = displayChords
+            isDisplayChords = booleanOrFalse(".song-settings .display-chords", true),
+            isDoubleColumn = booleanOrFalse(".song-settings .double_column", false),
+            isDisplayText = booleanOrFalse(".song-settings .show_text", true),
+            isHideIdenticalSequences = booleanOrFalse(".song-settings .hide_identical_sequences", false),
+            showComments = booleanOrFalse(".song-settings .show_comments", true)
     )
 }
 
