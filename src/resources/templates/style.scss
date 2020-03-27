@@ -134,3 +134,15 @@ color: black; background-color: white;
 
 
 }
+
+.song-metadata {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: 1px solid black;
+    .bpm {
+        padding: 0 0.5em;
+    }
+
+}

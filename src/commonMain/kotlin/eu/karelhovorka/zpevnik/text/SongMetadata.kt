@@ -9,4 +9,7 @@ data class SongMetadata(
         val key: Tone? = null,
         val durationSeconds: Float? = null,
         val mode: ToneMod = ToneMod.UNKNOWN
-)
+) {
+
+
+}

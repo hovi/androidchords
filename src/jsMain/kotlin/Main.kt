@@ -1,58 +1,11 @@
 import eu.karelhovorka.zpevnik.music.Interval
 import eu.karelhovorka.zpevnik.text.SongDisplaySettings
+import eu.karelhovorka.zpevnik.text.SongMetadata
 import eu.karelhovorka.zpevnik.text.SongText
 import eu.karelhovorka.zpevnik.util.CsHardcoded
 import org.w3c.dom.*
 import kotlin.browser.document
 import kotlin.dom.hasClass
-
-
-var tplUpper = """
-<div id='content'>
-    {{#sections}}
-    <div class='{{css}}"'>
-        <div class="header">{{localName}}</div>
-        <div class="section-content">
-            {{#content.lines}}
-            <div class='song-text-line {{css}}'>
-                {{#chordToText}}
-                <div class="song-chord-pair {{css}}">
-                    <div class="song-chord"><a class='chord' href='chord://{{withoutBrackets}}'>{{{withoutBrackets}}}</a></div>
-                    <div class="song-text content" style="">{{text}}</div>
-                </div>
-                {{/chordToText}}
-            </div>
-            {{/content.lines}}
-        </div>
-    </div>
-    {{/sections}}
-    {{^sections}}<div class="single-content content">{{originalText}}</div>{{/sections}}
-</div>
-    """.trimIndent()
-
-val tplInline = """
-<div id='content'>
-    {{#sections}}
-    <div class='{{css}}"'>
-        <div class="header">{{localName}}</div>
-        <div class="section-content">
-            {{#content.lines}}
-            <div class='song-text-line {{css}}'>
-                {{#chordToText}}
-                <div class="song-chord-pair {{css}} content"><a class='chord' href='chord://{{withoutBrackets}}'>{{{withoutBrackets}}}</a>{{text}}</div>
-                {{/chordToText}}
-            </div>
-            {{/content.lines}}
-        </div>
-    </div>
-    {{/sections}}
-    {{^sections}}<div class="single-content content">{{originalText}}</div>{{/sections}}
-</div>
-""".trimIndent()
-
-val tplLegacy = """
-<div id="content" class="content">{{filledSections}}</div>
-""".trimIndent()
 
 
 fun makeTemplates(): Map<String, String> {
@@ -79,27 +32,26 @@ fun chordReplacement(templateName: String? = null): String? {
 fun parseTexts() {
     println("HELLO WORLD CHORDS 1.3")
     val templateName = templateName()
-    val chordReplacement = chordReplacement(templateName)
     parse(
             originalText = document.querySelector(".source-song-text")!!.innerHTML,
             templateName = templateName,
             title = document.querySelector(".source-song-title")!!.innerHTML,
             target = document.querySelector(".song-wrap")!!,
-            songDisplaySettings = songDisplaySettings(),
-            chordReplacement = chordReplacement
+            songDisplaySettings = songDisplaySettings()
     )
 }
 
-fun parse(originalText: String, target: Element, templateName: String, songDisplaySettings: SongDisplaySettings = SongDisplaySettings.DEFAULT, title: String = "", chordReplacement: String? = null) {
-    val templates_ = mapOf(
-            "inline" to tplInline,
-            "upper" to tplUpper,
-            "legacy" to tplLegacy,
-            "" to tplLegacy
-    )
+fun parse(
+        originalText: String,
+        target: Element,
+        templateName: String,
+        songDisplaySettings: SongDisplaySettings = SongDisplaySettings.DEFAULT,
+        title: String = ""
+) {
+    val chordReplacement = chordReplacement(templateName)
     val templates = makeTemplates()
-    val wrap = templateName == "" || templateName == "legacy"
-    val ctx = SongText.fromRawText(originalText = originalText, title = title, songDisplaySettings = songDisplaySettings, chordReplacement = chordReplacement, i18n = CsHardcoded)
+    val songMetadata = songMetadata()
+    val ctx = SongText.fromRawText(originalText = originalText, title = title, songDisplaySettings = songDisplaySettings, chordReplacement = chordReplacement, i18n = CsHardcoded, metadata = songMetadata)
     val template = templates[templateName]!!
     target.innerHTML = renderMustache(template, ctx)
 }
@@ -118,8 +70,12 @@ fun doParsing(): Boolean {
     return document.body?.hasClass("parse-song") == true
 }
 
-fun booleanOrFalse(selector: String, default: Boolean): Boolean {
-    return document.querySelector(selector)?.innerHTML?.toBoolean() ?: default
+fun booleanOrFalse(selector: String, default: Boolean, root: Element = document.body!!): Boolean {
+    return root.querySelector(selector)?.innerHTML?.toBoolean() ?: default
+}
+
+fun stringOrNull(selector: String, root: Element = document.body!!): String? {
+    return root.querySelector(selector)?.innerHTML
 }
 
 fun songDisplaySettings(): SongDisplaySettings {
@@ -134,9 +90,20 @@ fun songDisplaySettings(): SongDisplaySettings {
     )
 }
 
+fun songMetadata(): SongMetadata? {
+    val metawrap = document.querySelector(".song-meta") ?: return null
+    return SongMetadata(
+            bpm = stringOrNull(selector = ".bpm", root = metawrap)?.toFloatOrNull(),
+            capo = stringOrNull(selector = ".capo", root = metawrap)?.toIntOrNull(),
+            durationSeconds = stringOrNull(selector = ".length", root = metawrap)?.toFloatOrNull()
+            //key = Tone.fromString(stringOrNull(selector = ".length", root = metawrap) ?: "")
+    )
+}
+
+
 fun watch() {
     val templateName = templateName()
-    val chordReplacement = chordReplacement(templateName)
+
     fun onValue(value: String, step: Int) {
         //val step = (document.querySelector(".source-song-step")?.innerHTML)?.toIntOrNull() ?: 0
         val songDisplaySettings = songDisplaySettings().copy(
@@ -147,8 +114,7 @@ fun watch() {
                 templateName = templateName,
                 title = document.querySelector(".source-song-title")!!.innerHTML,
                 target = document.querySelector(".song-wrap")!!,
-                songDisplaySettings = songDisplaySettings,
-                chordReplacement = chordReplacement
+                songDisplaySettings = songDisplaySettings
         )
     }
 

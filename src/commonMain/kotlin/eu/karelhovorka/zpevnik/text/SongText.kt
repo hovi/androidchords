@@ -60,7 +60,7 @@ class SongText(val originalText: String, val title: String, private val displayS
     companion object {
 
         @JvmOverloads
-        fun fromRawText(originalText: String, title: String, songDisplaySettings: SongDisplaySettings, i18n: I18N = I18N(), chordReplacement: String? = null): SongText {
+        fun fromRawText(originalText: String, title: String, songDisplaySettings: SongDisplaySettings, i18n: I18N = I18N(), chordReplacement: String? = null, metadata: SongMetadata? = null): SongText {
             checkNotNull(originalText, "originalText")
             checkNotNull(title, "title")
             checkNotNull(songDisplaySettings, "songDisplaySettings")
@@ -68,7 +68,7 @@ class SongText(val originalText: String, val title: String, private val displayS
             if (chordReplacement != null) {
                 modifiedText = ChordDetector.wrapWithAnchors(modifiedText, replacement = chordReplacement)
             }
-            return SongText(modifiedText, title, songDisplaySettings, i18N = i18n)
+            return SongText(modifiedText, title, songDisplaySettings, i18N = i18n, metadata = metadata ?: SongMetadata())
         }
     }
 }
