@@ -10,7 +10,7 @@ import kotlin.jvm.JvmOverloads
 
 
 @JsName("SongText")
-class SongText(val originalText: String, val title: String, private val displaySettings: SongDisplaySettings = SongDisplaySettings.DEFAULT, val i18N: I18N = I18N()) {
+class SongText(val originalText: String, val title: String, private val displaySettings: SongDisplaySettings = SongDisplaySettings.DEFAULT, val i18N: I18N = I18N(), val metadata: SongMetadata = SongMetadata()) {
 
     val sections: Array<Section>
 
