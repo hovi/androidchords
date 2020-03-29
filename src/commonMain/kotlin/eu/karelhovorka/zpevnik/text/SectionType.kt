@@ -10,7 +10,8 @@ interface ISectionType {
     val name: String
 }
 
-class UnknownSectionType(override val name: String): ISectionType {
+data class UnknownSectionType(override val name: String): ISectionType {
+
     override fun css(): String {
         return "unknown-section"
     }
@@ -31,9 +32,9 @@ class UnknownSectionType(override val name: String): ISectionType {
 
 enum class SectionType constructor(private val shortcut: String, private val longName: String, vararg names: String) : ISectionType {
     INTRO("I", "Předehra", "I:", "U:", "Intro:", "Předehra:", "Úvod"),
-    CHORUS("R", "Refrén", "R([0-9]*):", "Chorus:", "Refren:", "Ref:"),
-    VERSE("S", "Sloka", "S([0-9]*):", "Sloka:", "V:", "([0-9]+)\\."),
-    BRIDGE("B", "Bridge", "Bridge:", "B:"),
+    CHORUS("R", "Refrén", "R([0-9]*):", "Chorus([0-9]*):", "Refren([0-9]*):", "Ref([0-9]*):"),
+    VERSE("S", "Sloka", "S([0-9]*):", "Sloka([0-9]*):", "V([0-9]*):", "([0-9]+)\\."),
+    BRIDGE("B", "Bridge", "Bridge([0-9]*):", "B([0-9]*):"),
     NOTE("P", "Poznámka", "Note:", "Poznamka:"),
     SOLO("Solo", "Solo", "Solo:"),
     INTERMEZZO("M", "Mezihra", "Mezihra:", "M:", "Intermezzo:"),

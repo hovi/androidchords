@@ -1,5 +1,6 @@
 package eu.karelhovorka.zpevnik.text
 
+import eu.karelhovorka.zpevnik.text.SectionTokenizer.Companion.TYPE_REGEX
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -63,15 +64,16 @@ R:
         assertTrue("1.".matches(R))
         assertTrue("1.".matches(R))
         assertTrue("2.".matches(R))
-        assertEquals("1", SectionTokenizer.explicitVerseIndex("1."))
-
     }
 
     @Test
     fun basicRegex2() {
-        val TYPE_REGEX = "(?:A([0-9]*)|([0-9]+)B)".toRegex()
-        assertEquals("1", "A1".replace(TYPE_REGEX, "$1$2"))
-        assertEquals("2", "2B".replace(TYPE_REGEX, "$1$2"))
+        val TYPE_REGEX_ = "(?:A([0-9]*)|([0-9]+)B)".toRegex()
+        assertEquals("1", "A1".replace(TYPE_REGEX_, "$1$2"))
+        assertEquals("2", "2B".replace(TYPE_REGEX_, "$1$2"))
+
+        assertEquals("1", "A1:".replace(TYPE_REGEX.toRegex(), "$1$2"))
+        assertEquals("2", "2B:".replace(TYPE_REGEX.toRegex(), "$1$2"))
     }
 
 

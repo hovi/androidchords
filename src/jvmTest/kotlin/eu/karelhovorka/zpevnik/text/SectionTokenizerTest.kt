@@ -21,6 +21,59 @@ class SectionTokenizerTest {
         assertTrue("Recital: ".matches(TYPE_REGEX.toRegex()))
     }
 
+    @Test
+    fun testIndexVerse() {
+        val text = """
+1.
+sloka1
+2.
+sloka2
+1.
+V1:
+        """.trimIndent()
+        val sections = SectionTokenizer().getSections(text)
+        assertEquals(4, sections.size)
+        val first = sections.first()
+        val beforeLast = sections[2]
+        val last = sections.last()
+        assertTrue(last.sameContentAndType(first))
+        assertTrue(beforeLast.sameContentAndType(first))
+    }
+
+    @Test
+    fun testIndexChorus() {
+        val text = """
+R1:
+refren1
+R2:
+refren2
+Ref1:
+        """.trimIndent()
+        val sections = SectionTokenizer().getSections(text)
+        assertEquals(3, sections.size)
+        val first = sections.first()
+        val last = sections.last()
+        assertTrue(last.sameContentAndType(first))
+        assertEquals("R1:\nrefren1\n", last.content.originalText)
+    }
+
+    @Test
+    fun testIndexUnknown() {
+        val text = """
+U1:
+unknown1
+U2:
+unknown2
+U1:
+        """.trimIndent()
+        val sections = SectionTokenizer().getSections(text)
+        assertEquals(3, sections.size)
+        val first = sections.first()
+        val last = sections.last()
+        assertTrue(last.sameContentAndType(first))
+        assertEquals("U1:\nunknown1\n", last.content.originalText)
+    }
+
 
     @Test
     fun testValid() {
