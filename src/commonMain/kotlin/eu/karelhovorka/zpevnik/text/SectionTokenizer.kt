@@ -55,12 +55,19 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
         return mergeSections(sections)
     }
 
+    fun trimFuckingNulls(text: String): String {
+        if (text.startsWith("null")) {
+            return text.substring(4)
+        }
+        if (text.endsWith("null")) {
+            return text.substring(0, text.length - 4)
+        }
+        return text
+    }
+
     private fun parseSection(currentHeaderLine: String, sectionTypeCount: MutableMap<ISectionType, Int>, sb: StringBuilder): Section {
         val st = SectionType.fromName(currentHeaderLine)
-        var explicitIndex = currentHeaderLine.trim().replace(SECTION_TYPE_BASIC_REGEX, "$1$2")
-        if (explicitIndex.isBlank() || explicitIndex.startsWith("null")) {
-            explicitIndex = explicitVerseIndex(currentHeaderLine.trim()) ?: ""
-        }
+        val explicitIndex = trimFuckingNulls(currentHeaderLine.trim().replace(SECTION_TYPE_BASIC_REGEX, "$1$2"))
         var index = sectionTypeCount.get(st) ?: 0
         if (explicitIndex.isNotBlank()) {
             try {
@@ -96,13 +103,6 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
     companion object {
 
         val VERSE_INDEX_REGEX = "([0-9]*)\\.".toRegex()
-
-        fun explicitVerseIndex(line: String): String? {
-            if (line.matches(VERSE_INDEX_REGEX)) {
-                return line.replace(VERSE_INDEX_REGEX, "$1")
-            }
-            return null
-        }
 
         private val MINIMUM_SECTION_COUNT = 2
 
