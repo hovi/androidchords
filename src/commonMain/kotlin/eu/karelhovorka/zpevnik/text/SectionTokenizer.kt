@@ -13,7 +13,7 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
             return getSections(text.trimEnd())
         } catch (e: Exception) {
             //e.printStackTrace()
-            return listOf(Section(parseSectionText("", text.trimEnd()), i18N = i18n))
+            return listOf(Section(parseSectionText("", text.trimEnd()), i18N = i18n, type = SectionType.EMPTY))
         }
     }
 

@@ -40,7 +40,7 @@ enum class SectionType constructor(private val shortcut: String, private val lon
     INTERMEZZO("M", "Mezihra", "Mezihra:", "M:", "Intermezzo:"),
     OUTRO("O", "Outro", "Outro:"),
     SPEECH("Rec", "Recitál", "Recital:", "Rec\\.?:"),
-    UNKNOWN("?", "?");
+    EMPTY("", "");
 
     val names: Array<out String>
 
@@ -69,7 +69,7 @@ enum class SectionType constructor(private val shortcut: String, private val lon
 
         fun fromName(line: String?): ISectionType {
             if (line == null || line.isBlank()) {
-                return UNKNOWN
+                return EMPTY
             }
             for (sectionType in values()) {
                 for (name in sectionType.names) {

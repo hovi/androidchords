@@ -86,7 +86,7 @@ ref1
         assertEquals(2, sections.size)
         val first = sections.first()
         val last = sections.last()
-        assertEquals(first.type, SectionType.UNKNOWN)
+        assertEquals(first.type, SectionType.EMPTY)
         assertEquals(last.type, SectionType.CHORUS)
     }
 

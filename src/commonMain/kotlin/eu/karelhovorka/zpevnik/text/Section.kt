@@ -5,7 +5,7 @@ import eu.karelhovorka.zpevnik.text.section.SectionText
 import eu.karelhovorka.zpevnik.util.I18N
 import kotlin.jvm.JvmOverloads
 
-class Section @JvmOverloads constructor(val content: SectionText, val type: ISectionType = SectionType.UNKNOWN, val copyOf: Section? = null, val copyIndex: Int = 0, val index: Int = 0, val i18N: I18N) {
+class Section @JvmOverloads constructor(val content: SectionText, val type: ISectionType, val copyOf: Section? = null, val copyIndex: Int = 0, val index: Int = 0, val i18N: I18N) {
 
     val isCopy: Boolean
         get() = copyOf != null

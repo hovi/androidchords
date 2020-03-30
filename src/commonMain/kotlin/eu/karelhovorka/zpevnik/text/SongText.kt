@@ -18,8 +18,8 @@ class SongText(val originalText: String, val title: String, private val displayS
         get() {
             val sb = StringBuilder()
             sb.append(" has-sections")
-            if (sections.size == 1 && sections.first().type == SectionType.UNKNOWN) {
-                sb.append(" section-single-unknown")
+            if (sections.size == 1 && sections.first().type == SectionType.EMPTY) {
+                sb.append(" section-single-unknown section-single-empty")
             }
             sb.append(" " + displaySettings.css)
             return sb.toString()
