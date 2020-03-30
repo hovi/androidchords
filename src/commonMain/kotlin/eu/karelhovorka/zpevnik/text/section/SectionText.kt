@@ -133,8 +133,8 @@ data class SectionText(val lines: Array<SectionLine>, val originalText: String? 
 }
 
 
-fun parseSectionText(firstLine: String, textBody: String): SectionText {
-    val fullText = if (firstLine == "") {
+fun parseSectionText(firstLine: String?, textBody: String): SectionText {
+    val fullText = if (firstLine == null) {
         textBody
     } else {
         "$firstLine\n$textBody"
