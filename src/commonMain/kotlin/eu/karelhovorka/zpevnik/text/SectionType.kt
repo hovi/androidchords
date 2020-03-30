@@ -31,29 +31,26 @@ data class UnknownSectionType(override val name: String): ISectionType {
 }
 
 enum class SectionType constructor(private val shortcut: String, private val longName: String, vararg names: String) : ISectionType {
-    INTRO("I", "Předehra", "I:", "U:", "Intro:", "Předehra:", "Úvod"),
-    CHORUS("R", "Refrén", "R([0-9]*):", "Chorus([0-9]*):", "Refren([0-9]*):", "Ref([0-9]*):"),
+    INTRO("I", "Předehra", "I:", "U:", "Intro:", "Předehra:", "Úvod:"),
+    CHORUS("R", "Refrén", "R([0-9]*):", "Chorus([0-9]*):", "Refren([0-9]*)\\.?:", "Ref([0-9]*)\\.?:"),
     VERSE("S", "Sloka", "S([0-9]*):", "Sloka([0-9]*):", "V([0-9]*):", "([0-9]+)\\."),
     BRIDGE("B", "Bridge", "Bridge([0-9]*):", "B([0-9]*):"),
     NOTE("P", "Poznámka", "Note:", "Poznamka:"),
     SOLO("Solo", "Solo", "Solo:"),
     INTERMEZZO("M", "Mezihra", "Mezihra:", "M:", "Intermezzo:"),
     OUTRO("O", "Outro", "Outro:"),
-    SPEECH("Rec", "Recitál", "Recital:", "Rec:"),
-    UNKNOWN("?", "?", "");
+    SPEECH("Rec", "Recitál", "Recital:", "Rec\\.?:"),
+    UNKNOWN("?", "?");
 
-    val names: Array<String>
+    val names: Array<out String>
 
     override fun css(): String {
         return toString().toLowerCase()
     }
 
     init {
-        Preconditions.checkArgument(names.size > 0, "at least 1 name must exist")
-        this.names = names as Array<String>
+        this.names = names
     }
-
-
 
     override fun getShortcut(index: Int): String {
         return if (index == 0) {

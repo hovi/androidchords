@@ -47,7 +47,7 @@ R1:
 refren1
 R2:
 refren2
-Ref1:
+Ref1.:
         """.trimIndent()
         val sections = SectionTokenizer().getSections(text)
         assertEquals(3, sections.size)
@@ -59,19 +59,20 @@ Ref1:
 
     @Test
     fun testIndexUnknown() {
+        assertTrue("[A-Z][A-Za-z]*([0-9]*)\\.?:".toRegex().matches("U1.:"))
         val text = """
-U1:
+U1.:
 unknown1
 U2:
 unknown2
-U1:
+U1.:
         """.trimIndent()
         val sections = SectionTokenizer().getSections(text)
         assertEquals(3, sections.size)
         val first = sections.first()
         val last = sections.last()
         assertTrue(last.sameContentAndType(first))
-        assertEquals("U1:\nunknown1\n", last.content.originalText)
+        assertEquals("U1.:\nunknown1\n", last.content.originalText)
     }
 
 

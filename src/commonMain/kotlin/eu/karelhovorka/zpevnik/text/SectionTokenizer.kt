@@ -107,7 +107,7 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
         private val MINIMUM_SECTION_COUNT = 2
 
         @JvmField
-        val TYPE_REGEX = "(?:[A-Z][A-Za-z]*([0-9]*):|([0-9]+)\\.)[\t ]*"
+        val TYPE_REGEX = "(?:[A-Z][A-Za-z]*\\.?([0-9]*)\\.?:|([0-9]+)\\.)[\t ]*"
 
         val TYPE_REGEX_PATTERN = TYPE_REGEX.toPattern()
 
