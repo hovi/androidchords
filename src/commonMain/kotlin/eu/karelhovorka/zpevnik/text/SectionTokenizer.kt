@@ -37,14 +37,15 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
         var currentHeaderLine = ""
         for (line in lines) {
             if (line.trim().matches(SECTION_TYPE_BASIC_REGEX)) {
-                if (currentHeaderLine != "") {
-                    sections.add(parseSection(currentHeaderLine, sectionTypeCount, sb!!))
+                if (sb != null) {
+                    sections.add(parseSection(currentHeaderLine, sectionTypeCount, sb))
                 }
                 currentHeaderLine = line
                 sb = StringBuilder()
             } else {
                 if (sb == null) {
-                    throw IllegalArgumentException("Text does not start with a section, line: '$line'")
+                    //throw IllegalArgumentException("Text does not start with a section, line: '$line'")
+                    sb = StringBuilder()
                 }
                 sb.append(line + "\n")
             }

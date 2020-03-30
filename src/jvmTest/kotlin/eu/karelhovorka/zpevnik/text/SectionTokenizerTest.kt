@@ -75,6 +75,21 @@ U1.:
         assertEquals("U1.:\nunknown1\n", last.content.originalText)
     }
 
+    @Test
+    fun testNotStartingWithSection() {
+        val text = """
+unknown1
+R:
+ref1
+        """.trimIndent()
+        val sections = SectionTokenizer().getSections(text)
+        assertEquals(2, sections.size)
+        val first = sections.first()
+        val last = sections.last()
+        assertEquals(first.type, SectionType.UNKNOWN)
+        assertEquals(last.type, SectionType.CHORUS)
+    }
+
 
     @Test
     fun testValid() {
