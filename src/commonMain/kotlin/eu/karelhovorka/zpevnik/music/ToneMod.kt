@@ -1,4 +1,5 @@
 package eu.karelhovorka.zpevnik.music
+
 import kotlin.jvm.JvmStatic
 
 enum class ToneMod(val value: Int) {
@@ -14,6 +15,20 @@ enum class ToneMod(val value: Int) {
                 }
             }
             return UNKNOWN
+        }
+
+        fun fromString(text: String): ToneMod {
+            return when (text.toLowerCase()) {
+                "dur", "maj", "major", "0" -> {
+                    DUR
+                }
+                "mol", "mi", "min", "minor", "1" -> {
+                    MOL
+                }
+                else -> {
+                    UNKNOWN
+                }
+            }
         }
     }
 }
