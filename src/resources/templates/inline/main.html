@@ -3,92 +3,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{{title}}</title>
+    <link href="style.css"/>
     <style rel="stylesheet">
-        .hide-comments comment {
-            display: none;
-        }
-        comment {
-            display: block;
-            font-style: italic;
-        }
-        img {
-            max-width: 100%;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        .chord {
-            display: inline-block;
-            text-decoration: none;
-            color: blue !important;
-            padding: 0 0.2rem;
-            vertical-align: super;
-            font-size: smaller;
-        }
-        .content {
-            line-height: 1.5;
-            white-space: pre-wrap; tab-size: 1;
-        }
-        .header {
-            padding: 0.25rem 0.25rem;
-            padding-bottom: 0;
-            margin: 0rem 0.25rem 0.25rem;
-            border-bottom: 1px solid black;
-        }
-        .section-single-unknown .header {
-            display: none;
-        }
-        .section-content {
-            padding: 0.25rem 0.5rem;
-        }
-
-        .song-line.empty-line {
-            height: 1rem;
-        }
-
-        .song-text-line {
-            min-height: 1rem;
-        }
-
-        .song-text-line, .section {
-            clear: both;
-        }
-        .song-chord-pair {
-            float: left;
-        }
-
-        /* theme-specific */
-        .dark { background-color: black; color: white; }
-        .dark .chord { color: #FFD050 !important; }
-        .dark .section {
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.4);
-        }
-
-        /* settings-specific */
-        .font-monospace, .font-monospace .chord {
-            font-family: 'monospace' !important;
-        }
-        .font-serif, .font-serif .chord {
-            font-family: 'serif' !important;
-        }
-        .font-normal, .font-normal .chord {
-            font-family: 'normal' !important;
-        }
-        .double-column {
-            column-count: 2; column-gap: 30px; -webkit-column-count: 2; -webkit-column-gap: 30px;
-        }
-        .resize-chords .chord { font-size: 150% !important; }
-        .use-bold, .use-bold .chord {
-            font-weight: 900 !important;
-        }
     </style>
 </head>
-<body class='{{displaySettings.css}} {{css}}'>
+<body>
 <!-- @formatter:off -->
-<div id='content'>
+<div class='main-song-content inline {{displaySettings.css}} {{css}}'>
     {{#sections}}
-    <div class='{{css}}"'>
+    <div class='{{css}}'>
         <div class="header">{{localName}}</div>
         <div class="section-content">
             {{#content.lines}}
@@ -101,7 +24,7 @@
         </div>
     </div>
     {{/sections}}
-    {{^sections}}<div class="single-content content">{{originalText}}</div>{{/sections}}
+    {{^sections}}<div class="single-content content">{{filledSections}}</div>{{/sections}}
 </div>
 <!-- @formatter:on -->
 </body>

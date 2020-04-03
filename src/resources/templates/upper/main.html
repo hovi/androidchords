@@ -3,95 +3,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{{title}}</title>
-    <style>
-        img {
-            max-width: 100%;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        .chord {
-            text-decoration: none;
-            color: blue !important;
-        }
-        .empty-chord .chord {
-            width: 0;
-        }
-        .song-chord {
-            //height: 1.35em;
-        }
-        .song-chord {
-            /* upper-specific */
-            padding-right: 0.2em;
-        }
-        .content {
-            white-space: pre-wrap; tab-size: 1;
-        }
-        .header {
-            padding: 0.25rem 0.25rem;
-            padding-bottom: 0;
-            margin: 0rem 0.25rem 0.25rem;
-            border-bottom: 1px solid black;
-        }
-        .section-single-unknown .header {
-            display: none;
-        }
-        .section-content {
-            padding: 0.25rem 0.5rem;
-        }
-        .song-text-line, .section {
-            clear: both;
-        }
-        .song-text-line {
-            display: flex;
-            flex-wrap: wrap;
-            min-height: 1rem;
-        }
-        .song-chord-pair {
-
-        }
-        .song-line-no-chords .song-chord {
-            display: none;
-        }
-
-        /* theme-specific */
-        .dark { background-color: black; color: white; }
-        .dark .chord { color: #FFD050 !important; }
-        .dark .section {
-
-        }
-        .dark .header {
-            border-bottom: 1px solid #FFD050;
-        }
-
-        /* settings-specific */
-        .font-monospace, .font-monospace .chord {
-            font-family: 'monospace' !important;
-        }
-        .font-serif, .font-serif .chord {
-            font-family: 'serif' !important;
-        }
-        .font-normal, .font-normal .chord {
-            font-family: 'normal' !important;
-        }
-        .double-column {
-            column-count: 2; column-gap: 30px; -webkit-column-count: 2; -webkit-column-gap: 30px;
-        }
-        .resize-chords .chord { font-size: 150% !important; }
-        .resize-chords .song-chord {
-            //height: 2em;
-        }
-        .use-bold, .use-bold .chord {
-            font-weight: 900 !important;
-        }
+    <link href="style.css"/>
+    <style rel="stylesheet">
     </style>
 </head>
-<body class='{{displaySettings.css}} {{css}}'>
+<body>
 <!-- @formatter:off -->
-<div id='content'>
+<div class='main-song-content upper {{displaySettings.css}} {{css}}'>
     {{#sections}}
-    <div class='{{css}}"'>
+    <div class='{{css}}'>
         <div class="header">{{localName}}</div>
         <div class="section-content">
             {{#content.lines}}
@@ -107,7 +27,7 @@
         </div>
     </div>
     {{/sections}}
-    {{^sections}}<div class="single-content content">{{originalText}}</div>{{/sections}}
+    {{^sections}}<div class="single-content content">{{filledSections}}</div>{{/sections}}
 </div>
 <!-- @formatter:on -->
 </body>

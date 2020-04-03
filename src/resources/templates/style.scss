@@ -4,9 +4,13 @@ img {
     max-width: 100%;
 }
 
-body {
+html, body {
     margin: 0;
     padding: 0;
+}
+
+html, body, .main-song-content {
+    min-height: 100%;
 }
 
 /* functional */
@@ -49,9 +53,9 @@ comment {
     font-style: italic;
 }
 .header {
-    padding: 0.25rem 0.25rem;
+    padding: 0.75rem 0.25rem 0.5rem 0.25rem;
     padding-bottom: 0;
-    margin: 0.5rem 0.25rem 0.25rem;
+    margin: 0.0rem 0.25rem 0.0rem 0.25rem;
     border-bottom-width: 1px;
     border-bottom-style: solid;
 }
@@ -72,12 +76,6 @@ color: black; background-color: white;
     color: black; background-color: white;
     .chord { color: blue !important; }
     .header { border-bottom-color: black; }
-}
-
-&.dark {
-    background-color: black; color: white;
-    .chord { color: #FFD050 !important; }
-    .header { border-bottom: 1px solid #FFD050; }
 }
 
 /* template-specific */
@@ -123,8 +121,10 @@ color: black; background-color: white;
     .song-text-line, .section {
         clear: both;
     }
-    .song-chord-pair {
-        float: left;
+
+    .song-text-line {
+        display: flex;
+        flex-wrap: wrap;
     }
 }
 
@@ -133,6 +133,12 @@ color: black; background-color: white;
 }
 
 
+}
+
+.dark {
+    background-color: black; color: white;
+    .chord { color: #FFD050 !important; }
+    .header { border-bottom: 1px solid #FFD050; }
 }
 
 .song-metadata {
