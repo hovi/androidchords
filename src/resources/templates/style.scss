@@ -7,10 +7,12 @@ img {
 html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
-html, body, .main-song-content {
+.main-song-content {
     min-height: 100%;
+    box-sizing: border-box;
 }
 
 /* functional */
