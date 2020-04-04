@@ -67,23 +67,20 @@ comment {
 }
 
 /* template-specific */
-&.upper {
+&.upper, &.inline {
     .empty-chord .chord {
         width: 0;
-    }
-    .song-chord {
-        padding-right: 0.2em;
-    }
-    .song-text-line, .section {
-        clear: both;
     }
     .song-text-line {
         display: flex;
         flex-wrap: wrap;
         min-height: 1rem;
     }
-    .song-chord-pair {
+}
 
+&.upper {
+    .song-chord {
+        padding-right: 0.2em;
     }
     .song-line-no-chords .song-chord {
         display: none;
@@ -97,18 +94,16 @@ comment {
         vertical-align: super;
         font-size: smaller;
     }
+    .song-chord-pair.empty-chord {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
     .content {
         line-height: 1.5;
     }
     .song-line.empty-line {
         height: 1rem;
-    }
-    .song-text-line {
-        min-height: 1rem;
-    }
-    .song-text-line {
-        display: flex;
-        flex-wrap: wrap;
     }
 }
 
