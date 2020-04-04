@@ -30,10 +30,10 @@ fun chordReplacement(templateName: String? = null): String? {
 }
 
 fun parseTexts() {
-    println("HELLO WORLD CHORDS 1.3")
+    println("HELLO WORLD CHORDS 1.3.0")
     val templateName = templateName()
     parse(
-            originalText = document.querySelector(".source-song-text")!!.innerHTML,
+            originalText = document.querySelector(".source-song-text")?.innerHTML ?: error("cannot find .source-song-text"),
             templateName = templateName,
             title = document.querySelector(".source-song-title")!!.innerHTML,
             target = document.querySelector(".song-wrap")!!,
@@ -52,7 +52,7 @@ fun parse(
     val templates = makeTemplates()
     val songMetadata = songMetadata()
     val ctx = SongText.fromRawText(originalText = originalText, title = title, songDisplaySettings = songDisplaySettings, chordReplacement = chordReplacement, i18n = CsHardcoded, metadata = songMetadata)
-    val template = templates[templateName]!!
+    val template = templates[templateName] ?: error("cannot find template $templateName")
     target.innerHTML = renderMustache(template, ctx)
 }
 
