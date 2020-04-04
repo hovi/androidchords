@@ -1,5 +1,4 @@
 /* reset */
-
 img {
     max-width: 100%;
 }
@@ -12,15 +11,12 @@ html, body {
 
 .main-song-content {
     min-height: 100%;
-    box-sizing: border-box;
 }
 
 /* functional */
-
 .hide-comments comment {
     display: none;
 }
-
 .font-monospace, .font-monospace .chord {
     font-family: 'monospace' !important;
 }
@@ -39,9 +35,8 @@ html, body {
 }
 
 .main-song-content {
-
+    box-sizing: border-box;
 /* basic formatting */
-
 .chord {
     text-decoration: none;
 }
@@ -54,6 +49,7 @@ comment {
     display: inline-block;
     font-style: italic;
 }
+
 .header {
     padding: 0.75rem 0.25rem 0.5rem 0.25rem;
     padding-bottom: 0;
@@ -61,23 +57,13 @@ comment {
     border-bottom-width: 1px;
     border-bottom-style: solid;
 }
-.section-single-unknown .header {
+
+.section-type-empty .header, .section-single-unknown .header {
     display: none;
 }
+
 .section-content {
     padding: 0.25rem 0.5rem;
-}
-
-/* theme */
-
-color: black; background-color: white;
-.chord { color: blue !important; }
-.header { border-bottom-color: black; }
-
-&.light {
-    color: black; background-color: white;
-    .chord { color: blue !important; }
-    .header { border-bottom-color: black; }
 }
 
 /* template-specific */
@@ -120,10 +106,6 @@ color: black; background-color: white;
     .song-text-line {
         min-height: 1rem;
     }
-    .song-text-line, .section {
-        clear: both;
-    }
-
     .song-text-line {
         display: flex;
         flex-wrap: wrap;
@@ -134,13 +116,19 @@ color: black; background-color: white;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-
 }
 
+/* theme */
 .dark {
     background-color: black; color: white;
     .chord { color: #FFD050 !important; }
     .header { border-bottom: 1px solid #FFD050; }
+}
+
+.light {
+    color: black; background-color: white;
+    .chord { color: blue !important; }
+    .header { border-bottom-color: black; }
 }
 
 .song-metadata {
@@ -152,8 +140,4 @@ color: black; background-color: white;
     .bpm {
         padding: 0 0.5em;
     }
-}
-
-.section-type-empty .header {
-    display: none;
 }
