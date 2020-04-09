@@ -3,7 +3,7 @@ package eu.karelhovorka.zpevnik.music
 import kotlin.jvm.JvmStatic
 
 enum class ToneMod(val value: Int) {
-    DUR(0), MOL(1), UNKNOWN(-1);
+    DUR(1), MOL(0), UNKNOWN(-1);
 
 
     companion object {

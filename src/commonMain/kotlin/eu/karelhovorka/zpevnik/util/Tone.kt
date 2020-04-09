@@ -4,7 +4,7 @@ import eu.karelhovorka.zpevnik.music.Interval
 import kotlin.jvm.JvmStatic
 
 fun Int.toToneIndex(size: Int = 12): Int {
-    return (this % 12 + 12) % 12
+    return (this % size + size) % size
 }
 
 enum class Tone(vararg areaTones: CountrySpecificToneName) {
