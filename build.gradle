@@ -15,8 +15,19 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.multiplatform" version "$kotlin_version"
+    //id "org.jetbrains.kotlin.multiplatform" version "$kotlin_version"
 }
+
+//def kotlinPluginId = 'kotlin-multiplatform'
+def kotlinPluginId = 'org.jetbrains.kotlin.multiplatform'
+final hasPlugin = project.getPlugins().hasPlugin(kotlinPluginId);
+if (hasPlugin) {
+    final Plugin plugin = project.getPlugins().getPlugin(kotlinPluginId)
+    println 'Plugin already applied - version ' + plugin.properties['kotlinPluginVersion']
+} else {
+    apply plugin: "kotlin-multiplatform"
+}
+
 
 repositories {
     mavenCentral()
