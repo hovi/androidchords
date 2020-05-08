@@ -15,9 +15,18 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.kotlin.multiplatform" version "$kotlin_version"
+    //id "org.jetbrains.kotlin.multiplatform" version "$kotlin_version"
 }
 
+//def kotlinPluginId = 'kotlin-multiplatform'
+def kotlinPluginId = 'org.jetbrains.kotlin.multiplatform'
+final hasPlugin = project.getPlugins().hasPlugin(kotlinPluginId);
+if (hasPlugin) {
+    final Plugin plugin = project.getPlugins().getPlugin(kotlinPluginId)
+    println 'Plugin already applied - version ' + plugin.properties['kotlinPluginVersion']
+} else {
+    apply plugin: "kotlin-multiplatform"
+}
 
 
 repositories {
@@ -25,6 +34,11 @@ repositories {
 }
 
 kotlin {
+    iosX64("ios") {
+        binaries {
+            framework()
+        }
+    }
     jvm {
         compilations.main.kotlinOptions {
             jvmTarget = "1.8"
@@ -71,7 +85,10 @@ kotlin {
                 implementation kotlin('test-js')
             }
         }
-
+        iosMain {
+        }
+        iosTest {
+        }
 
     }
 
@@ -88,4 +105,21 @@ kotlin {
         }
     }
 
+}
+
+task copyFramework {
+    def buildType = project.findProperty('kotlin.build.type') ?: 'RELEASE'
+    def target = project.findProperty('kotlin.target') ?: 'ios'
+    dependsOn kotlin.targets."$target".binaries.getFramework(buildType).linkTask
+
+    doLast {
+        def srcFile = kotlin.targets."$target".binaries.getFramework(buildType).outputFile
+        def targetDir = "/tmp/iostest/" //getProperty('configuration.build.dir')
+        copy {
+            from srcFile.parent
+            into targetDir
+            include 'app.framework/**'
+            include 'app.framework.dSYM'
+        }
+    }
 }
