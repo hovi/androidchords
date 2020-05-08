@@ -216,7 +216,6 @@ ref1
 
         @Throws(IOException::class)
         private fun readFile(prefix: String, path: String): String {
-            println(path)
             var scanner: Scanner? = null
             val text: String
             try {
