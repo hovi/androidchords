@@ -6,44 +6,39 @@ import mock.toPattern
 import kotlin.math.min
 
 data class SectionLine(val chordToText: Array<ChordPair>) {
-    var hasChords: Boolean
+    val hasChords: Boolean by lazy {
+        chordToText.any { it.chord != null }
+    }
 
-    init {
-        hasChords = _hasChords()
+    val hasText: Boolean by lazy {
+        chordToText.any { it.text.isNotBlank() }
     }
 
     constructor(text: String) : this(arrayOf(ChordPair(null, text))) {
     }
 
-    private fun _hasChords(): Boolean {
-        for (pair in chordToText) {
-            if (pair.chord != null) {
-                return true
-            }
-        }
-        return false
-    }
-
     fun css(): String {
-        val builder = StringBuilder()
-        builder.append("song-line ")
+        val classes = mutableListOf("song-line")
         if (isEmpty()) {
-            builder.append(" empty-line ")
+            classes.add("empty-line")
+        }
+        if (hasText) {
+            classes.add("song-line-has-text")
+        } else {
+            classes.add("song-line-no-text")
         }
         if (hasChords) {
-            builder.append("song-line-has-chords")
+            classes.add("song-line-has-chords")
         } else {
-            builder.append("song-line-no-chords")
+            classes.add("song-line-no-chords")
         }
-        return builder.toString()
+        return classes.joinToString(" ")
     }
 
     val simple: Boolean
         get() {
             return chordToText.isEmpty() || chordToText.size == 1 && chordToText.first().chord == null
         }
-
-
 
     fun isEmpty(): Boolean {
         return chordToText.isEmpty() || chordToText.size == 1 && chordToText.first().isEmpty()
@@ -56,45 +51,13 @@ data class SectionLine(val chordToText: Array<ChordPair>) {
         other as SectionLine
 
         if (!chordToText.contentEquals(other.chordToText)) return false
-        if (hasChords != other.hasChords) return false
-
         return true
     }
 
     override fun hashCode(): Int {
-        var result = chordToText.contentHashCode()
-        result = 31 * result + hasChords.hashCode()
-        return result
+        return chordToText.contentHashCode()
     }
 
-}
-
-
-data class ChordPair(val chord: String?, val text: String) {
-
-    fun css(): String {
-        val builder = StringBuilder()
-        builder.append("song-chord-pair ")
-        if (chord == null) {
-            builder.append(" empty-chord ")
-        }
-        if (isEmpty()) {
-            builder.append(" empty-pair ")
-        }
-        return builder.toString()
-    }
-
-    fun htmlChord(): String {
-        return chord ?: "&nbsp;"
-    }
-
-    fun withoutBrackets(): String {
-        return htmlChord().replace("[", "").replace("]", "")
-    }
-
-    fun isEmpty(): Boolean {
-        return chord == null && text.isEmpty()
-    }
 }
 
 
@@ -186,7 +149,7 @@ fun parseSectionLineUpper(cLine: String, textLine: String): SectionLine {
     chordLine = ChordDetector.replacePlainChordsInline(chordLine)
 
     val patternStr = (Transposer.CHORD_REGEX)
-    val pattern =  patternStr.toPattern()
+    val pattern = patternStr.toPattern()
     val matcher = pattern.matcher(chordLine)
     val chordGroups = mutableListOf<ChordPair>()
     var chord: String? = null

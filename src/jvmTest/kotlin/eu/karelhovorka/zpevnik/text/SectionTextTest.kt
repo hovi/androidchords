@@ -2,7 +2,7 @@ package eu.karelhovorka.zpevnik.text
 
 import eu.karelhovorka.zpevnik.text.section.parseSectionText
 import eu.karelhovorka.zpevnik.text.section.sectionText
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Test
 
 class SectionTextTest {
@@ -263,6 +263,44 @@ class SectionTextTest {
                 }
                 , parseSectionText("", text2))
 
+    }
+
+    @Test
+    fun testHasNoText() {
+        val sectionText = sectionText {
+            sectionLine {
+                chordPair {
+                    chord = "[A]"
+                    text = " "
+                }
+                chordPair {
+                    chord = "[B]"
+                    text = " "
+                }
+                chordPair {
+                    chord = "[C]"
+                    text = ""
+                }
+            }
+            sectionLine {
+                chordPair {
+                    chord = "[A]"
+                    text = " "
+                }
+                chordPair {
+                    chord = "[B]"
+                    text = " "
+                }
+                chordPair {
+                    chord = "[C]"
+                    text = ""
+                }
+            }
+        }
+        assertEquals(2, sectionText.lines.size)
+        val firstLine = sectionText.lines.first()
+        assertFalse(firstLine.hasText)
+        assertTrue(firstLine.hasChords)
     }
 
 }
