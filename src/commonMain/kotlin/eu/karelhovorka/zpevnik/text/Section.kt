@@ -10,14 +10,15 @@ class Section @JvmOverloads constructor(val content: SectionText, val type: ISec
     val isCopy: Boolean
         get() = copyOf != null
 
-    val css: String
-        get() {
-            var sb = ""
-            sb += (" section")
-            sb += (" section-type-" + type.css())
-            sb += (" section-type-" + type.css() + index)
-            return sb
-        }
+    val css: String by lazy {
+        val classes = mutableListOf(
+                "section",
+                "section-$index",
+                "section-type-${type.css()}",
+                "section-type-${type.css()}$index"
+        )
+        classes.joinToString(" ")
+    }
 
     val shortName: String
         get() = type.getShortcut(index)
