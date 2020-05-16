@@ -1,6 +1,7 @@
 package eu.karelhovorka.zpevnik.util
 
 import eu.karelhovorka.zpevnik.music.generateCodeChordType
+import eu.karelhovorka.zpevnik.music.generateCodeScaleType
 import eu.karelhovorka.zpevnik.music.generateIntervalType
 import org.junit.Assert.*
 import org.junit.Test
@@ -8,12 +9,17 @@ import java.io.File
 
 class ChordDetectorTest {
 
+    //@Test
     fun generateIntervalChords() {
         File("src/commonMain/kotlin/eu/karelhovorka/zpevnik/music/BasicInterval.kt").writeText(
                 generateIntervalType()
         )
         File("src/commonMain/kotlin/eu/karelhovorka/zpevnik/music/ChordType.kt").writeText(
                 generateCodeChordType()
+        )
+
+        File("src/commonMain/kotlin/eu/karelhovorka/zpevnik/music/ScaleType2.kt").writeText(
+                generateCodeScaleType()
         )
     }
 

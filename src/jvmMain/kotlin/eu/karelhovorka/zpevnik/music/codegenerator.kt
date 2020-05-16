@@ -8,7 +8,7 @@ package eu.karelhovorka.zpevnik.music
 
 ${generateIntervalImports().joinToString("\n")}
 
-enum class ChordType(val longName: String, val shortcuts: Array<String>, val intervals: Array<Interval>) {
+enum class ChordType(val longName: String, val shortcuts: Array<String>, override val intervals: Array<Interval>): IntervalGroup {
 
 ${g().joinToString(",\n", postfix = ";")}
 

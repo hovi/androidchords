@@ -31,7 +31,7 @@ import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.P11
 import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.M13
 import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.m13
 
-enum class ChordType(val longName: String, val shortcuts: Array<String>, val intervals: Array<Interval>) {
+enum class ChordType(val longName: String, val shortcuts: Array<String>, override val intervals: Array<Interval>): IntervalGroup {
 
     MAJOR_TRIAD(
             longName = "Major triad",
@@ -294,11 +294,10 @@ enum class ChordType(val longName: String, val shortcuts: Array<String>, val int
             intArray[index] = interval.step
         }
     }
-
+    
     companion object {
         fun fromString(type: String): ChordType {
-            return values().firstOrNull { type == it.name || type == it.longName || type in it.shortcuts.map { it.replace("[()]".toRegex(), "") } }
-                    ?: UNKNOWN_CHORD
+            return values().firstOrNull { type == it.name || type == it.longName || type in it.shortcuts.map { it.replace("[()]".toRegex(), "") } } ?: UNKNOWN_CHORD
         }
     }
 
