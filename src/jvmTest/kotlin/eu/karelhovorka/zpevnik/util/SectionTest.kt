@@ -43,9 +43,21 @@ class SectionTest {
                 text = "E F#m G#m C#m A H",
                 scaleTypes = ScaleType.MAJOR_AND_MINOR
         )
-        val detected = keyDetector.detect().filter { it.type == ScaleType.IONIAN }
+        val detected = keyDetector.detect().filter { it.scale.type == ScaleType.IONIAN }
         assertEquals(1, detected.size)
-        assertEquals(Tone.E, detected.first().tone)
+        assertEquals(Tone.E, detected.first().scale.tone)
+    }
+
+    @Test
+    fun slunecniHrobE7() {
+        val keyDetector = KeyDetector(
+                text = "E F#m G#m C#m A H E7",
+                scaleTypes = ScaleType.MAJOR_AND_MINOR
+        )
+        val detected = keyDetector.detect().filter { it.scale.type == ScaleType.IONIAN }
+        println(detected)
+        assertEquals(1, detected.size)
+        assertEquals(Tone.E, detected.first().scale.tone)
     }
 
     @Test
@@ -55,9 +67,10 @@ class SectionTest {
                 scaleTypes = ScaleType.MAJOR_AND_MINOR
         )
         val detected = keyDetector.detect()
+        println(detected)
         assertEquals(2, detected.size)
-        val major = detected.first { it.type == ScaleType.IONIAN }
-        val minor = detected.first { it.type == ScaleType.AEOLIAN }
+        val major = detected.first { it.scale.type == ScaleType.IONIAN }.scale
+        val minor = detected.first { it.scale.type == ScaleType.AEOLIAN }.scale
         assertEquals(Tone.C, major.tone)
         assertEquals(Tone.A, minor.tone)
 

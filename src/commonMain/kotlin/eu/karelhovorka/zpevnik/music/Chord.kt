@@ -1,12 +1,17 @@
 package eu.karelhovorka.zpevnik.music
 
 import eu.karelhovorka.zpevnik.util.Tone
-import eu.karelhovorka.zpevnik.util.ToneTransposer
 import eu.karelhovorka.zpevnik.util.Transposer
 
 fun Array<Interval>.toTones(base: Tone): Array<Tone> {
     return map { base.transpose(it) }.toTypedArray()
 }
+
+fun Chord.percentShared(scale: Scale): Double {
+    val chordsUnshared = scale.unsharedTones(this)
+    return (tones.size - chordsUnshared).toDouble() / tones.size.toDouble()
+}
+
 
 data class Chord(
         val tone: Tone,
@@ -21,10 +26,9 @@ data class Chord(
         fun fromString(text: String): Chord {
             val regex = Transposer.FULL_CHORD.toRegex()
             val result = regex.find(text) ?: error("not valid chord $text")
-            print(result.groupValues.toList())
             val values = result.groupValues
             val tone = Tone.fromString(values[1]) ?: error("not a tone")
-            val type  = ChordType.fromString(values[2])
+            val type = ChordType.fromString(values[2])
             return Chord(
                     tone = tone,
                     type = type

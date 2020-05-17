@@ -15,4 +15,8 @@ data class Scale(
         return chord.tones.subtract(tones.asIterable()).isEmpty()
     }
 
+    fun unsharedTones(chord: Chord): Int {
+        return chord.tones.subtract(tones.asIterable()).size
+    }
+
 }
