@@ -24,11 +24,15 @@ data class Chord(
 
     companion object {
         fun fromString(text: String): Chord {
-            val regex = Transposer.FULL_CHORD.toRegex()
-            val result = regex.find(text) ?: error("not valid chord $text")
-            val values = result.groupValues
-            val tone = Tone.fromString(values[1]) ?: error("not a tone")
-            val type = ChordType.fromString(values[2])
+            return Transposer.FULL_CHORD_REGEX.find(text)?.let {
+                fromMatchResult(it)
+            }?: error("not a valid chord '$text'")
+        }
+
+        fun fromMatchResult(matchResult: MatchResult): Chord {
+            val values = matchResult.groupValues
+            val tone = Tone.fromString(values[1]) ?: error("not a tone '${values[1]}'")
+            val type = ChordType.fromStringOrNull(values[2]) ?: error("not a chordType '${values[2]}'")
             return Chord(
                     tone = tone,
                     type = type

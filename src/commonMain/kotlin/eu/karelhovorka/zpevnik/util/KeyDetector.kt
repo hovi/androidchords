@@ -4,15 +4,17 @@ import eu.karelhovorka.zpevnik.music.Chord
 import eu.karelhovorka.zpevnik.music.Scale
 import eu.karelhovorka.zpevnik.music.ScaleType
 import eu.karelhovorka.zpevnik.music.percentShared
+import eu.karelhovorka.zpevnik.text.SongText
+import eu.karelhovorka.zpevnik.util.Transposer.FULL_CHORD_REGEX
 
 
 data class Section(
         val chords: Array<Chord>
 )
 
-class KeyDetector(val sections: Array<Section>, scaleTypes: Array<ScaleType> = ScaleType.values()) {
+class KeyDetector(val sections: Array<Section>, scaleTypes: Array<ScaleType> = ScaleType.values(), val minRank: Double = 0.9) {
 
-    constructor(text: String, scaleTypes: Array<ScaleType> = ScaleType.values()) : this(textToSections(text), scaleTypes)
+    constructor(text: String, scaleTypes: Array<ScaleType> = ScaleType.values()) : this(simpleTextToSections(text), scaleTypes)
 
     val allChords: List<Chord> = sections.flatMap { it.chords.asIterable() }
     val uniqueChords = allChords.distinct()
@@ -39,13 +41,34 @@ class KeyDetector(val sections: Array<Section>, scaleTypes: Array<ScaleType> = S
                     scale = scale,
                     rank = rank
             )
-        }.filter { it.rank > 0.9 }.sortedBy {
-            -it.rank
-        }
+        }.filter { it.rank >= minRank }.sortedWith(KeyDetectorScaleResultComparator(firstChord, lastChord))
     }
 
     companion object {
+
+        fun songTextToSections(songText: SongText): Array<Section> {
+            return songText.sections.mapNotNull {
+                it.content.originalText?.let {
+                    Section(
+                            FULL_CHORD_REGEX.findAll(it).map {
+                                Chord.fromMatchResult(it)
+                            }.toList().toTypedArray()
+                    )
+                }
+            }.toTypedArray()
+        }
+
         fun textToSections(text: String): Array<Section> {
+            return arrayOf(
+                    Section(
+                            FULL_CHORD_REGEX.findAll(text).map {
+                                Chord.fromMatchResult(it)
+                            }.toList().toTypedArray()
+                    )
+            )
+        }
+
+        fun simpleTextToSections(text: String): Array<Section> {
             return arrayOf(Section(
                     chords = text.split(" ").map { Chord.fromString(it) }.toTypedArray()
             ))

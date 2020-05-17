@@ -20,6 +20,8 @@ object Transposer {
 
     val FULL_CHORD = "($SINGLE_TONE)($TONE_ADDITIONS)(?:(\\/)($SINGLE_TONE)?(($TONE_ADDITIONS)))?"
 
+    val FULL_CHORD_REGEX = FULL_CHORD.toRegex()
+
     // private static final String FULL_CHORD =
     // "([A-H]\\#?)(mi?|sus|maj)?[0-9]?(\\/([A-H]\\#?))?";
 

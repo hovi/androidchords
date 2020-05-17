@@ -55,8 +55,6 @@ class SectionTest {
                 scaleTypes = ScaleType.MAJOR_AND_MINOR
         )
         val detected = keyDetector.detect().filter { it.scale.type == ScaleType.IONIAN }
-        println(detected)
-        assertEquals(1, detected.size)
         assertEquals(Tone.E, detected.first().scale.tone)
     }
 
@@ -73,6 +71,25 @@ class SectionTest {
         val minor = detected.first { it.scale.type == ScaleType.AEOLIAN }.scale
         assertEquals(Tone.C, major.tone)
         assertEquals(Tone.A, minor.tone)
+    }
 
+    @Test
+    fun preferedBasedOnFirstLast() {
+        val keyDetector = KeyDetector(
+                text = "C Dm Em F Am G",
+                scaleTypes = ScaleType.MAJOR_AND_MINOR
+        )
+        val detected = keyDetector.detect()
+        assertEquals(Tone.C, detected.first().scale.tone)
+    }
+
+    @Test
+    fun preferedBasedOnFirstLast2() {
+        val keyDetector = KeyDetector(
+                text = "Am Dm Em F C G",
+                scaleTypes = ScaleType.MAJOR_AND_MINOR
+        )
+        val detected = keyDetector.detect()
+        assertEquals(Tone.A, detected.first().scale.tone)
     }
 }
