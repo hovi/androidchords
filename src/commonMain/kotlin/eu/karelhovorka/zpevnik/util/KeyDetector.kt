@@ -48,10 +48,10 @@ class KeyDetector(val sections: Array<Section>, scaleTypes: Array<ScaleType> = S
 
         fun songTextToSections(songText: SongText): Array<Section> {
             return songText.sections.mapNotNull {
-                it.content.originalText?.let {
+                it.content.originalText?.let { originalText ->
                     Section(
-                            FULL_CHORD_REGEX.findAll(it).map {
-                                Chord.fromMatchResult(it)
+                            FULL_CHORD_REGEX.findAll(originalText).mapNotNull {
+                                Chord.fromMatchResultOrNull(it)
                             }.toList().toTypedArray()
                     )
                 }
@@ -61,8 +61,8 @@ class KeyDetector(val sections: Array<Section>, scaleTypes: Array<ScaleType> = S
         fun textToSections(text: String): Array<Section> {
             return arrayOf(
                     Section(
-                            FULL_CHORD_REGEX.findAll(text).map {
-                                Chord.fromMatchResult(it)
+                            FULL_CHORD_REGEX.findAll(text).mapNotNull {
+                                Chord.fromMatchResultOrNull(it)
                             }.toList().toTypedArray()
                     )
             )

@@ -26,17 +26,22 @@ data class Chord(
         fun fromString(text: String): Chord {
             return Transposer.FULL_CHORD_REGEX.find(text)?.let {
                 fromMatchResult(it)
-            }?: error("not a valid chord '$text'")
+            } ?: error("not a valid chord '$text'")
         }
 
-        fun fromMatchResult(matchResult: MatchResult): Chord {
+        fun fromMatchResultOrNull(matchResult: MatchResult): Chord? {
             val values = matchResult.groupValues
             val tone = Tone.fromString(values[1]) ?: error("not a tone '${values[1]}'")
-            val type = ChordType.fromStringOrNull(values[2]) ?: error("not a chordType '${values[2]}'")
+            val type = ChordType.fromStringOrNull(values[2]) ?: return null
             return Chord(
                     tone = tone,
                     type = type
             )
+        }
+
+        fun fromMatchResult(matchResult: MatchResult): Chord {
+            return fromMatchResultOrNull(matchResult)
+                    ?: error("not a chordType '${matchResult.groupValues[2]}'")
         }
     }
 
