@@ -31,7 +31,7 @@ data class Chord(
 
         fun fromMatchResultOrNull(matchResult: MatchResult): Chord? {
             val values = matchResult.groupValues
-            val tone = Tone.fromString(values[1]) ?: error("not a tone '${values[1]}'")
+            val tone = Tone.fromString(values[1]) ?: return null //error("not a tone '${values[1]}'")
             val type = ChordType.fromStringOrNull(values[2]) ?: return null
             return Chord(
                     tone = tone,
