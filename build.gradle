@@ -34,7 +34,7 @@ repositories {
 }
 
 kotlin {
-    iosX64("ios") {
+    iosArm64("ios") {
         binaries {
             framework()
         }
