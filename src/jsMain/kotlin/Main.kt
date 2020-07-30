@@ -3,6 +3,7 @@ import eu.karelhovorka.zpevnik.text.SongDisplaySettings
 import eu.karelhovorka.zpevnik.text.SongMetadata
 import eu.karelhovorka.zpevnik.text.SongText
 import eu.karelhovorka.zpevnik.util.CsHardcoded
+import eu.karelhovorka.zpevnik.util.Tone
 import org.w3c.dom.*
 import kotlin.browser.document
 import kotlin.dom.hasClass
@@ -33,7 +34,8 @@ fun parseTexts() {
     println("HELLO WORLD CHORDS 1.3.0")
     val templateName = templateName()
     parse(
-            originalText = document.querySelector(".source-song-text")?.innerHTML ?: error("cannot find .source-song-text"),
+            originalText = document.querySelector(".source-song-text")?.innerHTML
+                    ?: error("cannot find .source-song-text"),
             templateName = templateName,
             title = document.querySelector(".source-song-title")!!.innerHTML,
             target = document.querySelector(".song-wrap")!!,
@@ -79,14 +81,29 @@ fun stringOrNull(selector: String, root: Element = document.body!!): String? {
 }
 
 fun songDisplaySettings(): SongDisplaySettings {
-    val step = (document.querySelector(".source-song-step")?.innerHTML)?.toIntOrNull() ?: 0
+    val step = stringOrNull(".source-song-step")?.toIntOrNull() ?: 0
     return SongDisplaySettings.DEFAULT.copy(
             interval = Interval.of(step),
             isDisplayChords = booleanOrFalse(".song-settings .display-chords", true),
             isDoubleColumn = booleanOrFalse(".song-settings .double_column", false),
             isDisplayText = booleanOrFalse(".song-settings .show_text", true),
             isHideIdenticalSequences = booleanOrFalse(".song-settings .hide_identical_sequences", false),
-            showComments = booleanOrFalse(".song-settings .show_comments", true)
+            showComments = booleanOrFalse(".song-settings .show_comments", true),
+            countryCategory = stringOrNull(".song-settings .country_category")?.let {
+                try {
+                    Tone.CountryCategory.valueOf(it)
+                } catch (exception: Throwable) {
+                    Tone.CountryCategory.EASTERN
+                }
+            } ?: Tone.CountryCategory.EASTERN,
+            modificationAbbreviation = stringOrNull(".song-settings .modification_abbreviation")?.let {
+                try {
+                    Tone.ModificationAbbreviation.valueOf(it)
+                } catch (exception: Throwable) {
+                    Tone.ModificationAbbreviation.SHARP
+                }
+            }?: Tone.ModificationAbbreviation.SHARP
+
     )
 }
 
