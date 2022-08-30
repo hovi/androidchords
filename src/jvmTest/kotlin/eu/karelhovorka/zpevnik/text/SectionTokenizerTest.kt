@@ -116,43 +116,55 @@ ref1
 
         val verse1 = sectionList[0]
         assertEquals(SectionType.VERSE, verse1.type)
-        assertEquals("Jak ta zář, co ve tmách usíná,\n" +
-                "tak nějak skomírá svíčka na stole\n" +
-                "a tvář tvá mi napoví, co nemohla's mi říct, však stačí v očích číst, ty všechno prozradí.",
-                verse1.content.text())
+        assertEquals(
+            "Jak ta zář, co ve tmách usíná,\n" +
+                    "tak nějak skomírá svíčka na stole\n" +
+                    "a tvář tvá mi napoví, co nemohla's mi říct, však stačí v očích číst, ty všechno prozradí.",
+            verse1.content.text()
+        )
 
         val chorus1 = sectionList[1]
         assertEquals(SectionType.CHORUS, chorus1.type)
         assertEquals(0, chorus1.copyIndex.toLong())
-        assertEquals("Na krajíčku pláč, ty slzy v očích máš,\n" +
-                "stačilo jen říct pár slov prozatím.\n" +
-                "Ta slova dobře znáš, když jdeš spát a usínáš, si opakuješ v snách - zůstaň se mnou dál.\n" +
-                "Já ti napovím, jak je vyslovit, co s tím,\n" +
-                "abys nebloudila dál sama, jako stín.\n" +
-                "Tak poslouchej, chci říct jen pár vět, nic vic. Říkejme si každý sám - zůstaň se mnou dál.",
-                chorus1.content.text())
+        assertEquals(
+            "Na krajíčku pláč, ty slzy v očích máš,\n" +
+                    "stačilo jen říct pár slov prozatím.\n" +
+                    "Ta slova dobře znáš, když jdeš spát a usínáš, si opakuješ v snách - zůstaň se mnou dál.\n" +
+                    "Já ti napovím, jak je vyslovit, co s tím,\n" +
+                    "abys nebloudila dál sama, jako stín.\n" +
+                    "Tak poslouchej, chci říct jen pár vět, nic vic. Říkejme si každý sám - zůstaň se mnou dál.",
+            chorus1.content.text()
+        )
 
         val verse2 = sectionList[2]
         assertEquals(SectionType.VERSE, verse2.type)
-        assertEquals("Němým možná líp se rozumí, ti neumějí lhát, věty poskládat. Slova plynou a ztrácejí se zas, já bych přesto chtěl, jednou, uslyšet tvůj hlas.",
-                verse2.content.text())
+        assertEquals(
+            "Němým možná líp se rozumí, ti neumějí lhát, věty poskládat. Slova plynou a ztrácejí se zas, já bych přesto chtěl, jednou, uslyšet tvůj hlas.",
+            verse2.content.text()
+        )
 
         val chorus2 = sectionList[3]
         assertEquals(SectionType.CHORUS, chorus2.type)
         assertEquals(1, chorus2.copyIndex.toLong())
-        assertEquals(chorus1.content,
-                chorus2.content)
+        assertEquals(
+            chorus1.content,
+            chorus2.content
+        )
 
         val intermezzo = sectionList[4]
         assertEquals(SectionType.INTERMEZZO, intermezzo.type)
-        assertEquals("",
-                intermezzo.content.text())
+        assertEquals(
+            "",
+            intermezzo.content.text()
+        )
 
         val chorus3 = sectionList[5]
         assertEquals(SectionType.CHORUS, chorus2.type)
         assertEquals(2, chorus3.copyIndex.toLong())
-        assertEquals(chorus1.content,
-                chorus3.content)
+        assertEquals(
+            chorus1.content,
+            chorus3.content
+        )
 
     }
 
@@ -168,8 +180,10 @@ ref1
 
     @Test
     fun testGetSections() {
-        assertFirstSectionContentEquals("Tady je intro",
-                "Intro:\n" + "Tady je intro")
+        assertFirstSectionContentEquals(
+            "Tady je intro",
+            "Intro:\n" + "Tady je intro"
+        )
         assertFirstSectionTypeEquals(SectionType.INTRO, "Intro:\n" + "Tady je intro")
     }
 
@@ -213,18 +227,8 @@ ref1
             }
         }
 
-
-        @Throws(IOException::class)
         private fun readFile(prefix: String, path: String): String {
-            var scanner: Scanner? = null
-            val text: String
-            try {
-                scanner = Scanner(File(prefix + path))
-                text = scanner.useDelimiter("\\A").next()
-            } finally {
-                scanner?.close()
-            }
-            return text
+            return File(prefix + path).readText()
         }
     }
 
