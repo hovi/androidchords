@@ -97,7 +97,11 @@ enum class Tone(vararg areaTones: CountrySpecificToneName) {
         }
 
         @JvmStatic
-        fun fromIndexOrNull(index: Int): Tone? {
+        fun fromIndexOrNull(index: Int?): Tone? {
+            if (index == null) {
+                return null
+            }
+            println(index)
             val normalizedIndex = (index % values().size + values().size) % values().size
             for (t in values()) {
                 if (t.index == normalizedIndex) {
