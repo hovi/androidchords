@@ -9,18 +9,18 @@ import kotlin.jvm.JvmOverloads
 
 
 data class SongDisplaySettings @JvmOverloads constructor(
-        val isDisplayText: Boolean = true,
-        val isDisplayChords: Boolean = true,
-        val isHideIdenticalSequences: Boolean = false,
-        val isUseBold: Boolean = false,
-        val isDoubleColumn: Boolean = false,
-        val isResizeChords: Boolean = false,
-        val showComments: Boolean = false,
-        val interval: Interval = Interval.of(0),
-        val countryCategory: Tone.CountryCategory = Tone.CountryCategory.EASTERN,
-        val modificationAbbreviation: Tone.ModificationAbbreviation = Tone.ModificationAbbreviation.SHARP,
-        val theme: String = LIGHT_THEME,
-        val fontFamily: String = DEFAULT_FONT
+    val isDisplayText: Boolean = true,
+    val isDisplayChords: Boolean = true,
+    val isHideIdenticalSequences: Boolean = false,
+    val isUseBold: Boolean = false,
+    val isDoubleColumn: Boolean = false,
+    val isResizeChords: Boolean = false,
+    val showComments: Boolean = false,
+    val interval: Interval = Interval.of(0),
+    val countryCategory: Tone.CountryCategory = Tone.CountryCategory.EASTERN,
+    val modificationAbbreviation: Tone.ModificationAbbreviation = Tone.ModificationAbbreviation.SHARP,
+    val theme: String = LIGHT_THEME,
+    val fontFamily: String = DEFAULT_FONT
 ) {
 
     val css: String
@@ -70,6 +70,8 @@ data class SongDisplaySettings @JvmOverloads constructor(
 
         @JvmField
         val DARK_THEME = "dark"
+
+        val SYSTEM_THEME = "system"
 
         @JvmField
         val PRINT_THEME = "print"
