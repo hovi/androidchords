@@ -5,8 +5,8 @@ import eu.karelhovorka.zpevnik.text.SongText
 import eu.karelhovorka.zpevnik.util.CsHardcoded
 import eu.karelhovorka.zpevnik.util.Tone
 import org.w3c.dom.*
-import kotlin.browser.document
-import kotlin.dom.hasClass
+import kotlinx.browser.document
+import kotlinx.dom.hasClass
 
 
 fun makeTemplates(): Map<String, String> {
