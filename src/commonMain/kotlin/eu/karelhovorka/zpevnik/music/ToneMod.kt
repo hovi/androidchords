@@ -18,7 +18,7 @@ enum class ToneMod(val value: Int) {
         }
 
         fun fromString(text: String): ToneMod {
-            return when (text.toLowerCase()) {
+            return when (text.lowercase()) {
                 "dur", "maj", "major", "0" -> {
                     DUR
                 }

@@ -45,7 +45,7 @@ enum class SectionType constructor(private val shortcut: String, private val lon
     val names: Array<out String>
 
     override fun css(): String {
-        return toString().toLowerCase()
+        return toString().lowercase()
     }
 
     init {

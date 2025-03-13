@@ -22,7 +22,7 @@ fun g2(): List<String> {
         val name = s.first()
         val intervals = s[1].split(",").joinToString(", ")
         //MAJOR(arrayOf("major"), arrayOf(BasicInterval.P1, BasicInterval.M2, BasicInterval.M3, BasicInterval.P4, BasicInterval.P5, BasicInterval.M6, BasicInterval.M7))
-        """${name.toUpperCase()}(arrayOf("${name}"), arrayOf(${intervals}))"""
+        """${name.lowercase()}(arrayOf("${name}"), arrayOf(${intervals}))"""
     }
 }
 

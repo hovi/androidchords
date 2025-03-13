@@ -89,7 +89,7 @@ fun g(): List<String> {
                 val name = cols[0]
                 val suffixes = cols[1].split(",").map { it.trim() }
                 val intervals = cols[2].split(",").map { it.trim() }
-                val enumName = name.replace("[ -]".toRegex(), "_").toUpperCase()
+                val enumName = name.replace("[ -]".toRegex(), "_").uppercase()
 
                 """    $enumName(
             longName = "$name",
@@ -109,7 +109,7 @@ fun generateIntervals(): List<String> {
         val short = cols[2]
         val number = short.replace(SHRT_REGEX, "$2").toInt()
         val quality = short.replace(SHRT_REGEX, "$1")[0]
-        val enum = name.replace(" ", "_").toUpperCase()
+        val enum = name.replace(" ", "_").uppercase()
         ("""
 $enum (
     step = $semiTone, 
@@ -130,7 +130,7 @@ fun generateIntervalAliases(): List<String> {
         val latin = cols[3]
         val short = cols[2]
         val type = short.replace(SHRT_REGEX, "$1")[0]
-        val enum = name.replace(" ", "_").toUpperCase()
+        val enum = name.replace(" ", "_").uppercase()
         ("""
                 val $short: Interval
                     @JvmName("get${short}${type.toInt()}")
@@ -156,7 +156,7 @@ fun generateIntervalImports(): List<String> {
         val latin = cols[3]
         val shrt = cols[2]
         val type = shrt.replace(SHRT_REGEX, "$1")[0]
-        val enum = name.replace(" ", "_").toUpperCase()
+        val enum = name.replace(" ", "_").uppercase()
         ("""
             import eu.karelhovorka.zpevnik.music.BasicInterval.Companion.$shrt
 			""".trimIndent())
