@@ -3,10 +3,10 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            url "https://dl.bintray.com/kotlin/kotlin-eap"
+            url = uri("https://dl.bintray.com/kotlin/kotlin-eap")
         }
         maven {
-            url "https://plugins.gradle.org/m2/"
+            url = uri("https://plugins.gradle.org/m2/")
         }
     }
     dependencies {
@@ -44,8 +44,8 @@ kotlin {
         }
         jvmMain {
             dependencies {
-                implementation group: 'com.samskivert', name: 'jmustache', version: '1.13'
-                implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
+                implementation 'com.samskivert:jmustache:1.13'
+                implementation 'com.google.code.gson:gson:2.9.0'
             }
         }
         jvmTest {
@@ -60,10 +60,6 @@ kotlin {
         jsTest {
             dependencies {
             }
-        }
-        iosMain {
-        }
-        iosTest {
         }
 
     }
