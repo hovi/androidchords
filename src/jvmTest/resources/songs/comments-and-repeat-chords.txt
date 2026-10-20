@@ -1,0 +1,13 @@
+1.
+# play [C] softly
+[C]Hello [G]world
+[C] [G] 2x
+[C] [G] 4x
+/: [Am] [F] :/
+[Am]   [F]   3x
+Text under chords
+R:
+[D]  [A]
+# [D] comment with chords
+[D]  [A]  (2x)
+Last line

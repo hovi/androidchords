@@ -32,6 +32,34 @@
       "reason": "'1. text' and 'R: text' start sections, a chord line directly above moves into them, not across a blank line or a comment"
     },
     {
+      "song": "comments-and-repeat-chords",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed"
+      ],
+      "reason": "repeat counts are shown as the number (CSS adds ×) and repeat bars are drawn by CSS, also on chord-only lines whose chords are hidden"
+    },
+    {
+      "song": "comments-and-repeat-chords",
+      "layouts": [
+        "legacy",
+        "inline",
+        "upper",
+        "print"
+      ],
+      "variants": [
+        "hide-text"
+      ],
+      "reason": "a hidden comment with chords ('# play [C] softly') is hidden whole; before, 'hide text' removed its text first and its chords stayed visible"
+    },
+    {
       "song": "duplicate-content-sections",
       "layouts": [
         "inline",

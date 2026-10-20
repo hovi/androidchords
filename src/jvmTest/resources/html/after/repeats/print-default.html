@@ -40,13 +40,13 @@
             font-weight: 900 !important;
         }
         /* the same hiding as in style.scss for the legacy layout */
-        .hide-chords .legacy-chord, .hide-chords .chord-row:not(.section-header),
-        .hide-chords .song-line-has-chords.song-line-no-text:not(.section-header),
+        .hide-chords .legacy-chord, .hide-chords .chord-row:not(.section-header):not(.has-repeat),
+        .hide-chords .song-line-has-chords.song-line-no-text:not(.section-header):not(.has-repeat),
         .hide-text .legacy-text, .hide-text .text-row, .hide-text .legacy-row:not(.song-line-has-chords),
         .hide-comments .comment-line,
         .hide-identical-sequences .repeated-chords .legacy-chord,
-        .hide-identical-sequences .repeated-chords.chord-row:not(.section-header),
-        .hide-identical-sequences .repeated-chords.song-line-no-text:not(.section-header) {
+        .hide-identical-sequences .repeated-chords.chord-row:not(.section-header):not(.has-repeat),
+        .hide-identical-sequences .repeated-chords.song-line-no-text:not(.section-header):not(.has-repeat) {
             display: none;
         }
     </style>
@@ -56,12 +56,12 @@
 <!-- @formatter:off -->
 <div class="content"><span class='legacy-row section-header'><span class='legacy-text'>R:</span>
 </span><span class='legacy-row song-line song-line-has-text song-line-has-chords chord-row'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://C'><sup>C</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>       </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://G'><sup>G</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>       </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://Am'><sup>Am</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>      </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://F'><sup>F</sup></a> <!-- @formatter:on --></span>
-</span><span class='legacy-row song-line song-line-has-text song-line-has-chords text-row'><span class='legacy-text'>/: Na na na, hej na na na :/ 2x</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords has-repeat text-row'><span class='legacy-text'>/: Na na na, hej na na na :/ 2x</span>
 </span><span class='legacy-row section-header'><span class='legacy-text'>1.</span>
 </span><span class='legacy-row song-line song-line-has-text song-line-has-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://C'><sup>C</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>Půjdem spolu </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://G'><sup>G</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>k řece,</span>
-</span><span class='legacy-row song-line song-line-has-text song-line-has-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://Am'><sup>Am</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>tam kde voda </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://F'><sup>F</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>teče. (2x)</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords has-repeat'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://Am'><sup>Am</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>tam kde voda </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://F'><sup>F</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>teče. (2x)</span>
 </span><span class='legacy-row section-header'><span class='legacy-text'>2.</span>
-</span><span class='legacy-row song-line song-line-has-text song-line-has-chords repeated-chords'><span class='legacy-text'>|: </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://C'><sup>C</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>Raz a dva a </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://G'><sup>G</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>tři :| x3</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords repeated-chords has-repeat'><span class='legacy-text'>|: </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://C'><sup>C</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>Raz a dva a </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://G'><sup>G</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>tři :| x3</span>
 </span><span class='legacy-row song-line song-line-has-text song-line-has-chords repeated-chords chord-row'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://C'><sup>C</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>    </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://G'><sup>G</sup></a> <!-- @formatter:on --></span>
 </span><span class='legacy-row song-line song-line-has-text song-line-has-chords repeated-chords text-row'><span class='legacy-text'>Konec, hotovo.</span></span></div>
 <!-- @formatter:on -->

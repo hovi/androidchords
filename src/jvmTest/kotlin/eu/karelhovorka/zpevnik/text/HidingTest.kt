@@ -32,6 +32,11 @@ class HidingTest {
         // the old filtering removed text before "[C G Am]" was split into chords and lost those chords,
         // the comparison uses split chords to check the rest
         var text = Transposer.merge(ChordDetector.replacePlainChords(source))
+        // the old filtering removed text before comments, so "# play [C] softly" left "[C]" visible without
+        // text although comments were hidden; hidden comments are hidden whole now
+        if (!s.showComments) {
+            text = Comments.hideComments(text)
+        }
         if (!s.isDisplayText) {
             text = Transposer.removeNonChords(text)
         }
@@ -52,9 +57,9 @@ class HidingTest {
         val root = s.css.split(" ").toSet()
         return songText.legacyRows.filter { row ->
             val css = row.css.split(" ").toSet()
-            val header = "section-header" in css
-            val chordOnly = "song-line-has-chords" in css && "song-line-no-text" in css && !header
-            val chordRow = "chord-row" in css && !header
+            val kept = "section-header" in css || "has-repeat" in css
+            val chordOnly = "song-line-has-chords" in css && "song-line-no-text" in css && !kept
+            val chordRow = "chord-row" in css && !kept
             !("hide-chords" in root && (chordRow || chordOnly)) &&
                 !("hide-text" in root && ("text-row" in css || "song-line-has-chords" !in css)) &&
                 !("hide-comments" in root && "comment-line" in css) &&
@@ -95,6 +100,29 @@ class HidingTest {
         val lines = parseSectionText(null, Comments.markComments("# a comment\ntext # not a comment")).lines
         assertEquals(listOf(true, false), lines.map { it.isComment })
         assertTrue("comment-line" in lines[0].css())
+    }
+
+    @Test
+    fun commentWithChordsIsAComment() {
+        val lines = parseSectionText(null, Comments.markComments("# play [C] softly\n[C]not a comment")).lines
+        assertEquals(listOf(true, false), lines.map { it.isComment })
+        assertTrue("comment-line" in lines[0].css())
+        val rows = SongText.fromRawText("# play [C] softly", "", SongDisplaySettings(showComments = true), I18N()).legacyRows
+        assertTrue("comment-line" in rows.single().css)
+    }
+
+    @Test
+    fun chordOnlyLineWithRepeatKeepsIt() {
+        val lines = parseSectionText(null, "[C] [G] 2x\n/: [Am] [F] :/\n[C] [G]").lines
+        assertEquals(listOf(true, true, false), lines.map { "has-repeat" in it.css() })
+    }
+
+    @Test
+    fun legacyRowHasRepeatOnlyWhereTheCountIs() {
+        val countOnChords = SongText.fromRawText("[C]   [G]   2x\nHello world", "", SongDisplaySettings(), I18N()).legacyRows
+        assertEquals(listOf(true, false), countOnChords.map { "has-repeat" in it.css })
+        val countOnLyrics = SongText.fromRawText("[C]   [G]\nHello world 2x", "", SongDisplaySettings(), I18N()).legacyRows
+        assertEquals(listOf(false, true), countOnLyrics.map { "has-repeat" in it.css })
     }
 
     @Test

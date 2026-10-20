@@ -40,13 +40,13 @@
             font-weight: 900 !important;
         }
         /* the same hiding as in style.scss for the legacy layout */
-        .hide-chords .legacy-chord, .hide-chords .chord-row:not(.section-header),
-        .hide-chords .song-line-has-chords.song-line-no-text:not(.section-header),
+        .hide-chords .legacy-chord, .hide-chords .chord-row:not(.section-header):not(.has-repeat),
+        .hide-chords .song-line-has-chords.song-line-no-text:not(.section-header):not(.has-repeat),
         .hide-text .legacy-text, .hide-text .text-row, .hide-text .legacy-row:not(.song-line-has-chords),
         .hide-comments .comment-line,
         .hide-identical-sequences .repeated-chords .legacy-chord,
-        .hide-identical-sequences .repeated-chords.chord-row:not(.section-header),
-        .hide-identical-sequences .repeated-chords.song-line-no-text:not(.section-header) {
+        .hide-identical-sequences .repeated-chords.chord-row:not(.section-header):not(.has-repeat),
+        .hide-identical-sequences .repeated-chords.song-line-no-text:not(.section-header):not(.has-repeat) {
             display: none;
         }
     </style>

@@ -19,7 +19,8 @@ data class LineSource(val line: Int, val indent: String, val chordLine: String?,
  * bars in the text itself are in [ChordPair.segments].
  * [repeatedChords]: the same chord sequence (at least [Transposer.MINIMUM_SEQUENCE_COUNT] chords) was on an
  * earlier line of the song, the chords can be hidden.
- * [source] and [repeatedChords] depend on the rest of the song and are not part of equality.
+ * [commentLine]: the source line was a whole line comment, also when it has chords in it.
+ * [source], [repeatedChords] and [commentLine] describe the source and the rest of the song and are not part of equality.
  */
 data class SectionLine(
     val chordToText: Array<ChordPair>,
@@ -27,7 +28,8 @@ data class SectionLine(
     val source: LineSource? = null,
     val repeatStart: Boolean = false,
     val repeatEnd: Boolean = false,
-    val repeatedChords: Boolean = false
+    val repeatedChords: Boolean = false,
+    val commentLine: Boolean = false
 ) {
     val hasChords: Boolean by lazy {
         chordToText.any { it.chord != null }
@@ -45,8 +47,13 @@ data class SectionLine(
 
     /** A whole line comment ("# ..."), marked by [eu.karelhovorka.zpevnik.util.Comments.markComments]. */
     val isComment: Boolean
-        get() = chordToText.size == 1 && chordToText[0].chord == null &&
-            chordToText[0].text.trim().let { it.startsWith("<comment>") && it.endsWith("</comment>") }
+        get() = commentLine || chordToText.size == 1 && chordToText[0].chord == null && isComment(chordToText[0].text)
+
+    /** A repeat count or bars belong to the line: hiding its chords must not hide them. */
+    val hasRepeat: Boolean
+        get() = repeatCount != null || repeatStart || repeatEnd || chordToText.any { pair ->
+            pair.segments.any { it == TextSegment.REPEAT_START || it == TextSegment.REPEAT_END }
+        }
 
     fun css(): String {
         val classes = mutableListOf("song-line")
@@ -68,6 +75,9 @@ data class SectionLine(
         }
         if (repeatedChords) {
             classes.add("repeated-chords")
+        }
+        if (hasRepeat) {
+            classes.add("has-repeat")
         }
         return classes.joinToString(" ")
     }
@@ -184,7 +194,8 @@ fun parseSectionText(
         }
         lineIndex++
     }
-    val flagged = result.map { line ->
+    val commentLines = lines.indices.filter { isComment(splitRepeatCount(lines[it]).first) }.toSet()
+    val flagged = result.map { line -> if (line.source?.line in commentLines) line.copy(commentLine = true) else line }.map { line ->
         val chords = line.chords
         when {
             chords.size < Transposer.MINIMUM_SEQUENCE_COUNT -> line
@@ -196,7 +207,7 @@ fun parseSectionText(
 }
 
 // a comment is a note, not lyrics for the chords above it (marked or still raw, see Comments)
-private fun isComment(line: String) = line.trimStart().let { it.startsWith("#") || it.startsWith("<comment>") }
+internal fun isComment(line: String) = line.trim().let { it.startsWith("#") || it.startsWith("<comment>") && it.endsWith("</comment>") }
 
 fun parseSectionLineUpper(lines: String): SectionLine {
     val splitLines = lines.trimEnd().split("\n".toRegex())

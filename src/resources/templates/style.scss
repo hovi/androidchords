@@ -186,10 +186,11 @@ comment {
 // Hiding shows what the old text filtering left: lines with chords only disappear with the chords,
 // blank lines stay; without text only lines with chords stay; section headers written on their own line
 // keep their row (legacy) when their chords are hidden, also a header written on the chord line ("R: C G");
-// without text a bare repeat ("R:") is not shown, it repeats only text. Last: these rules win over the layouts.
+// without text a bare repeat ("R:") is not shown, it repeats only text; a line with a repeat count or bars
+// keeps them when its chords are hidden. Last: these rules win over the layouts.
 &.hide-chords {
-    .chord, .song-chord, .legacy-chord, .chord-row:not(.section-header),
-    .song-line-has-chords.song-line-no-text:not(.section-header) {
+    .chord, .song-chord, .legacy-chord, .chord-row:not(.section-header):not(.has-repeat),
+    .song-line-has-chords.song-line-no-text:not(.section-header):not(.has-repeat) {
         display: none;
     }
 }
@@ -208,7 +209,7 @@ comment {
     .chord, .song-chord, .legacy-chord {
         display: none;
     }
-    &.chord-row:not(.section-header), &.song-line-no-text:not(.section-header) {
+    &.chord-row:not(.section-header):not(.has-repeat), &.song-line-no-text:not(.section-header):not(.has-repeat) {
         display: none;
     }
 }
