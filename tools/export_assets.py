@@ -16,7 +16,7 @@ LAYOUTS = ("legacy", "inline", "upper", "print")
 CACHE_TAGS = {
     "zpevnik/templates/admin/base.html": ("css/chords.css", "js/chords.js"),
     "zpevnik/webapp/templates/app_base.html": ("css/chords.css",),
-    "zpevnik/webapp/templates/song_custom.html": ("js/chords.js",),
+    "zpevnik/webapp/templates/inc/song-scripts.html": ("js/chords.js",),
 }
 
 

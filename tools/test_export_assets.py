@@ -153,7 +153,7 @@ class ExportAssetsTest(unittest.TestCase):
             self.source / "src/resources/templates/upper/main.html",
             "<!-- @formatter:off -->new<!-- @formatter:on -->",
         )
-        self.put(self.server / "zpevnik/webapp/templates/song_custom.html", "no script")
+        self.put(self.server / "zpevnik/webapp/templates/inc/song-scripts.html", "no script")
         before = self.consumer_bytes()
         with self.assertRaisesRegex(ValueError, "Missing Django static tag"):
             self.run_export()
