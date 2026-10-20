@@ -1,0 +1,18 @@
+INTRO index=0 copy=0
+  [C] ' ' | [G] ''
+VERSE index=0 copy=0
+  - 'Verse after a blank line'
+  [Am] ' ' | [F] ''
+  - '# komentář'
+VERSE index=1 copy=0
+  - 'Verse after a comment'
+CHORUS index=0 copy=0
+  [Am] '   C' | [F] 'horus right under its chords'
+  - 'lyric line'
+VERSE index=2 copy=0
+  [C] '  ' | [G] ' Chords directly above move here'
+OUTRO index=0 copy=0
+  [C] ''
+CHORUS index=0 copy=1
+  [Am] '   C' | [F] 'horus right under its chords'
+  - 'lyric line'

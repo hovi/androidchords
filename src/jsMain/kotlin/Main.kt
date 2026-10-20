@@ -57,13 +57,16 @@ fun templateContext(songText: SongText, songDisplaySettings: SongDisplaySettings
                         obj(
                                 "css" to line.css(),
                                 "repeatCount" to line.repeatCount,
+                                "repeatStart" to line.repeatStart,
+                                "repeatEnd" to line.repeatEnd,
                                 "chordToText" to line.chordToText.map { pair ->
                                     obj(
                                             "css" to pair.css(),
                                             "chord" to pair.chord,
                                             "htmlChord" to pair.htmlChord(),
                                             "withoutBrackets" to pair.withoutBrackets(),
-                                            "text" to pair.text
+                                            "text" to pair.text,
+                                            "segments" to pair.segments.map { obj("css" to it.css, "text" to it.text) }.toTypedArray()
                                     )
                                 }.toTypedArray()
                         )

@@ -70,6 +70,57 @@ class SongInvariantsTest {
     }
 
     @Test
+    fun everyChordStaysInItsSection() {
+        for ((name, text) in songs) {
+            val actual = SectionTokenizer().getSections(prepare(text)).map { section ->
+                if (section.isRepeatOnly) emptyList() else section.content.lines.flatMap { line -> line.chordToText.mapNotNull { it.chord } }
+            }
+            assertEquals(name, expectedSectionChords(prepare(text)), actual)
+        }
+    }
+
+    private class Line(val chords: List<String>, val isChordLine: Boolean)
+
+    /**
+     * Written independently of the tokenizer: a chord belongs to the section of the nearest header above it,
+     * except a chord line directly above a header written in front of text ("1. text"), which belongs to that section.
+     */
+    private fun expectedSectionChords(text: String): List<List<String>> {
+        val sections = mutableListOf<MutableList<Line>>()
+        var headerless = false
+        for (line in text.trimEnd().lines().dropLastWhile { it.isEmpty() }) {
+            val ownLineHeader = line.trim().matches(SectionTokenizer.SECTION_TYPE_BASIC_REGEX)
+            val behindHeader = if (ownLineHeader) null else SectionTokenizer.splitHeaderWithText(line)?.third
+            if (ownLineHeader || behindHeader != null) {
+                val previous = sections.lastOrNull()
+                val chordLineAbove = previous?.lastOrNull()?.takeIf { behindHeader != null && it.isChordLine }
+                if (chordLineAbove != null) {
+                    previous.removeAt(previous.size - 1)
+                }
+                if (headerless && previous != null && previous.isEmpty()) {
+                    sections.removeAt(sections.size - 1)
+                }
+                headerless = false
+                sections.add(listOfNotNull(chordLineAbove).toMutableList())
+                // chords written on the header line itself stay with that header
+                behindHeader?.let { sections.last().add(Line(line(ChordDetector.replacePlainChordsInline(it)).chords, false)) }
+            } else {
+                if (sections.isEmpty()) {
+                    sections.add(mutableListOf())
+                    headerless = true
+                }
+                sections.last().add(line(line))
+            }
+        }
+        return sections.map { section -> section.flatMap { it.chords } }
+    }
+
+    private fun line(text: String) = Line(
+        chordRegex.findAll(text).map { it.value }.toList(),
+        text.isNotBlank() && Transposer.lineContainsChordsOnly(text)
+    )
+
+    @Test
     fun transpositionRoundTripIsStable() {
         for ((name, text) in songs) {
             for (category in CountryCategory.values()) {

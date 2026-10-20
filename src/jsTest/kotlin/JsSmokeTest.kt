@@ -68,4 +68,13 @@ class JsSmokeTest {
         assertEquals(listOf("Es"), ChordDetector.invalidChords("[Es] [C]").toList())
         assertEquals("[C] [G]", ChordDetector.replacePlainChords("C G"))
     }
+
+    @Test
+    fun malformedChordFailsFast() {
+        // the web editor parses the song on every key press
+        val start = kotlin.js.Date.now()
+        SongText.fromRawText("[C" + "1".repeat(40) + "z] [C" + "sus4".repeat(12) + "z]", "", SongDisplaySettings(), CsHardcoded)
+        val millis = kotlin.js.Date.now() - start
+        assertTrue(millis < 500, "took $millis ms")
+    }
 }

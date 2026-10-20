@@ -47,6 +47,12 @@ class LineClassificationTest {
     }
 
     @Test
+    fun chordLineAboveCommentStandsAlone() {
+        assertEquals(listOf("[C]:  | [G]:", "-:# komentář"), lines("[C] [G]\n# komentář"))
+        assertEquals(listOf("[C]:  | [G]:", "-:<comment> komentář</comment>"), lines("[C] [G]\n<comment> komentář</comment>"))
+    }
+
+    @Test
     fun textLines() {
         assertEquals(listOf("-:one", "-:two"), lines("one\ntwo"))
     }

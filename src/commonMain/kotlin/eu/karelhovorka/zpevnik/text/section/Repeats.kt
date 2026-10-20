@@ -22,6 +22,10 @@ fun splitRepeatCount(line: String): Triple<String, Int?, String> {
     return Triple(line.substring(0, match.range.first), count, match.value)
 }
 
+fun hasRepeatStart(text: String): Boolean = TextSegment.REPEAT_START in textSegments(text)
+
+fun hasRepeatEnd(text: String): Boolean = TextSegment.REPEAT_END in textSegments(text)
+
 fun blankRepeatMarks(line: String): String = line.replace(REPEAT_MARK_REGEX, "  ")
 
 fun textSegments(text: String): List<TextSegment> {

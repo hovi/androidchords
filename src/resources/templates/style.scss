@@ -41,7 +41,16 @@ html, body {
     text-decoration: none;
 }
 
-/* the template holds only the number, the way it is shown is defined here */
+/* the templates hold only the number and empty repeat bars, the way they are shown is defined here */
+.repeat-start::before {
+    content: "‖:";
+    padding-right: 0.25em;
+}
+.repeat-end::after {
+    content: ":‖";
+    padding-left: 0.25em;
+}
+
 .repeat-count {
     padding-left: 0.5em;
 }
@@ -94,7 +103,7 @@ comment {
         display: none;
     }
     // next to the lyrics, not to the chords above them
-    .repeat-count {
+    .repeat-count, .repeat-start, .repeat-end {
         align-self: flex-end;
     }
 }

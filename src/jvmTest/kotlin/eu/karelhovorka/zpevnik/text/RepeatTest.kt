@@ -106,4 +106,27 @@ class RepeatTest {
         assertEquals(listOf("[C]", "[G]"), line.chordToText.mapNotNull { it.chord })
         assertEquals("-:/:  | [C]:Hej ho | [G]:u hej :/", show(line))
     }
+
+    @Test
+    fun repeatBarsOnChordLineBelongToTheLine() {
+        val line = lines("/: [C] [G] :/\nHello world").single()
+        assertEquals(true, line.repeatStart)
+        assertEquals(true, line.repeatEnd)
+        assertEquals(listOf("[C]", "[G]"), line.chordToText.mapNotNull { it.chord })
+    }
+
+    @Test
+    fun repeatBarsOnBothLinesAreOneRepeat() {
+        val line = lines("/: [C] [G] :/\n/: Hello world :/").single()
+        assertEquals(false, line.repeatStart)
+        assertEquals(false, line.repeatEnd)
+        assertEquals(listOf(TextSegment.REPEAT_START), line.chordToText.flatMap { it.segments }.filter { it.css == "repeat-start" })
+    }
+
+    @Test
+    fun onlyStartBarOnChordLine() {
+        val line = lines("|: [C]    [G]\nHello world :|").single()
+        assertEquals(true, line.repeatStart)
+        assertEquals(false, line.repeatEnd)
+    }
 }

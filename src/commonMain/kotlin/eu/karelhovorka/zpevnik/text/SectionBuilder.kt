@@ -38,9 +38,10 @@ data class SectionBuilder(
     }
 
     fun removeTrailingChordLine(): String? {
-        val lines = sb.toString().trimEnd('\n').split("\n")
+        // only the line right above the header: every body line ends with a line break
+        val lines = sb.toString().removeSuffix("\n").split("\n")
         val last = lines.last()
-        if (lines.size <= headerLines || !Transposer.lineContainsChordsOnly(ChordDetector.replacePlainChordsInline(last))) {
+        if (sb.isEmpty() || lines.size <= headerLines || !Transposer.lineContainsChordsOnly(ChordDetector.replacePlainChordsInline(last))) {
             return null
         }
         sb.clear()

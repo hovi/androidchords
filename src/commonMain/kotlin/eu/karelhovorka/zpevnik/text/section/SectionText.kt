@@ -14,8 +14,18 @@ import kotlin.math.min
  */
 data class LineSource(val line: Int, val indent: String, val chordLine: String?, val repeatSuffix: String)
 
-/** [source] describes the source text only and is not part of equality. */
-data class SectionLine(val chordToText: Array<ChordPair>, val repeatCount: Int? = null, val source: LineSource? = null) {
+/**
+ * [repeatStart]/[repeatEnd]: repeat bars written on the chord line above the text ("/: [C] [G] :/"),
+ * bars in the text itself are in [ChordPair.segments].
+ * [source] describes the source text only and is not part of equality.
+ */
+data class SectionLine(
+    val chordToText: Array<ChordPair>,
+    val repeatCount: Int? = null,
+    val source: LineSource? = null,
+    val repeatStart: Boolean = false,
+    val repeatEnd: Boolean = false
+) {
     val hasChords: Boolean by lazy {
         chordToText.any { it.chord != null }
     }
@@ -61,11 +71,11 @@ data class SectionLine(val chordToText: Array<ChordPair>, val repeatCount: Int? 
         other as SectionLine
 
         if (!chordToText.contentEquals(other.chordToText)) return false
-        return repeatCount == other.repeatCount
+        return repeatCount == other.repeatCount && repeatStart == other.repeatStart && repeatEnd == other.repeatEnd
     }
 
     override fun hashCode(): Int {
-        return 31 * chordToText.contentHashCode() + (repeatCount ?: 0)
+        return 31 * (31 * chordToText.contentHashCode() + (repeatCount ?: 0)) + repeatStart.hashCode() * 2 + repeatEnd.hashCode()
     }
 
 }
@@ -125,14 +135,22 @@ fun parseSectionText(firstLine: String?, textBody: String, removedIndents: List<
         val (line, repeatCount, repeatSuffix) = splitRepeatCount(lines[lineIndex])
         val source = LineSource(lineIndex, removedIndent(lineIndex), null, repeatSuffix)
         val nextLine = lines.getOrNull(lineIndex + 1)?.let { splitRepeatCount(it) }
-        if (chordsOnly(line) && nextLine != null && nextLine.first.isNotBlank() && Transposer.lineContainsTextOnly(nextLine.first)) {
+        if (chordsOnly(line) && nextLine != null && nextLine.first.isNotBlank() && !isComment(nextLine.first) && Transposer.lineContainsTextOnly(nextLine.first)) {
             // same indentation as parseSectionLineUpper removes from both lines
             val pairIndent = min(
                 expandTabs(blankRepeatMarks(line)).takeWhile { it == ' ' }.length,
                 expandTabs(nextLine.first).takeWhile { it == ' ' }.length
             )
             val upperSource = LineSource(lineIndex, removedIndent(lineIndex + 1) + " ".repeat(pairIndent), source.indent + expandTabs(lines[lineIndex]), nextLine.third)
-            result.add(parseSectionLineUpper(blankRepeatMarks(line), nextLine.first).copy(repeatCount = repeatCount ?: nextLine.second, source = upperSource))
+            // bars on the chord line belong to the line, unless the lyrics have the same bars
+            result.add(
+                parseSectionLineUpper(blankRepeatMarks(line), nextLine.first).copy(
+                    repeatCount = repeatCount ?: nextLine.second,
+                    source = upperSource,
+                    repeatStart = hasRepeatStart(line) && !hasRepeatStart(nextLine.first),
+                    repeatEnd = hasRepeatEnd(line) && !hasRepeatEnd(nextLine.first)
+                )
+            )
             lineIndex++
         } else if (chordsOnly(line) || Transposer.lineContainsChordsAndText(line)) {
             result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount, source = source))
@@ -143,6 +161,9 @@ fun parseSectionText(firstLine: String?, textBody: String, removedIndents: List<
     }
     return SectionText(result.toTypedArray(), fullText)
 }
+
+// a comment is a note, not lyrics for the chords above it (marked or still raw, see Comments)
+private fun isComment(line: String) = line.trimStart().let { it.startsWith("#") || it.startsWith("<comment>") }
 
 fun parseSectionLineUpper(lines: String): SectionLine {
     val splitLines = lines.trimEnd().split("\n".toRegex())

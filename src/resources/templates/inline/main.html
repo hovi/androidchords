@@ -15,11 +15,11 @@
         <div class="header">{{localName}}</div>
         <div class="section-content">
             {{#content.lines}}
-            <div class='song-text-line {{css}}'>
+            <div class='song-text-line {{css}}'>{{#repeatStart}}<span class="repeat-start"></span>{{/repeatStart}}
                 {{#chordToText}}
-                <div class="song-chord-pair {{css}} content">{{htmlChord}}{{text}}</div>
+                <div class="song-chord-pair {{css}} content">{{htmlChord}}{{#segments}}<span class="{{css}}">{{text}}</span>{{/segments}}</div>
                 {{/chordToText}}
-            {{#repeatCount}}<span class="repeat-count">{{.}}</span>{{/repeatCount}}</div>
+            {{#repeatEnd}}<span class="repeat-end"></span>{{/repeatEnd}}{{#repeatCount}}<span class="repeat-count">{{.}}</span>{{/repeatCount}}</div>
             {{/content.lines}}
         </div>
     </div>

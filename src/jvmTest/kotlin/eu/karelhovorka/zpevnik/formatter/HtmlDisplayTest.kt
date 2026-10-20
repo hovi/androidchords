@@ -76,6 +76,11 @@ class HtmlDisplayTest {
                 "Předehra:, Sloka 1:, Refrén:, Recitál: are section headers; before, the intro chords were paired with the text 'Sloka 1:'"
             ),
             changed(
+                "chords-before-headers", sectioned, withText,
+                "'1. text' and 'R: text' start sections, a chord line directly above moves into them, " +
+                    "not across a blank line or a comment"
+            ),
+            changed(
                 "english-headers", sectioned, withText,
                 "Verse 1:, Verse 2: are section headers; before, 'Verse 2:' was swallowed by the chorus and repeated with it"
             ),
@@ -102,7 +107,8 @@ class HtmlDisplayTest {
             changed("multi-chord-brackets", allLayouts, listOf("hide-chords"), "whitespace only: removing chords leaves no double spaces"),
             changed(
                 "repeats", sectioned, withText,
-                "trailing 2x/(2x)/x3 is shown as the number only (2), CSS adds the ×; legacy keeps it as written"
+                "trailing 2x/(2x)/x3 is shown as the number only (2), CSS adds the ×; repeat bars /: :/ and |: :| " +
+                    "(also from the chord line) are empty elements, CSS draws ‖: :‖; legacy keeps both as written"
             ),
             changed(
                 "same-line-headers", sectioned, withText,

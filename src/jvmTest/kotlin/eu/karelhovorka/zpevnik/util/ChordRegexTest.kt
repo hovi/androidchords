@@ -35,7 +35,7 @@ class ChordRegexTest {
 
     @Test
     fun acceptsStackedExtensions() {
-        for (chord in listOf("Hmadd11", "Hmadd9", "Dm7add11", "Am7sus4", "C9sus4", "C13sus", "C7sus", "Cmaj9", "Cmaj7#11", "Csus2add9", "E7sus4/G#", "C6/9", "Fmaj7/A")) {
+        for (chord in listOf("Hmadd11", "Hmadd9", "Dm7add11", "Am7sus4", "C9sus4", "C13sus", "C7sus", "Csus9", "C7sus2", "C69", "Cmaj13", "Cmaj9", "Cmaj7#11", "Csus2add9", "E7sus4/G#", "C6/9", "Fmaj7/A")) {
             assertTrue(chord, isChord(chord))
         }
     }
@@ -59,6 +59,19 @@ class ChordRegexTest {
         assertEquals("[C#madd11]", transposeUp2("[Hmadd11]"))
         assertEquals("[Dm(maj7)]", transposeUp2("[Cm(maj7)]"))
         assertEquals("[Em7add11]", transposeUp2("[Dm7add11]"))
+    }
+
+    @Test
+    fun malformedChordsFailFast() {
+        // the song is parsed on every key press in the web editor
+        val inputs = listOf("1".repeat(40), "maj7".repeat(12), "sus4".repeat(12), "add9".repeat(12), "7b9".repeat(12), "(7)".repeat(12), "m7".repeat(15))
+        for (body in inputs) {
+            val text = "[C${body}z] [C/E${body}z]"
+            val start = System.nanoTime()
+            eu.karelhovorka.zpevnik.text.SongText.fromRawText("$text\n$text text", "", eu.karelhovorka.zpevnik.text.SongDisplaySettings(), I18N())
+            val millis = (System.nanoTime() - start) / 1_000_000
+            assertTrue("$body took $millis ms", millis < 200)
+        }
     }
 
     @Test

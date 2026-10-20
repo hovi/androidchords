@@ -243,4 +243,18 @@ class SectionHeaderTest {
         assertEquals(listOf("[Am]", "[F]"), result[0].content.lines.flatMap { line -> line.chordToText.mapNotNull { it.chord } })
         assertEquals(listOf("-:La la"), lines(result[1]))
     }
+
+    @Test
+    fun chordLineSeparatedByBlankLineStaysInItsSection() {
+        val result = sections("Intro:\n[C] [G]\n\n1. Verse lyrics")
+        assertEquals(listOf(SectionType.INTRO, SectionType.VERSE), result.map { it.type })
+        assertEquals(listOf("[C]", "[G]"), result[0].content.lines.flatMap { line -> line.chordToText.mapNotNull { it.chord } })
+        assertEquals(listOf("-:Verse lyrics"), lines(result[1]))
+    }
+
+    @Test
+    fun blankLineBeforeSameLineHeaderIsKeptInLegacy() {
+        val rows = SongText.fromRawText("Intro:\n[C] [G]\n\n1. Verse lyrics", "", SongDisplaySettings(), eu.karelhovorka.zpevnik.util.I18N()).legacyRows
+        assertEquals(listOf("Intro:", "[C] [G]", "", "1. Verse lyrics"), rows.map { it.text })
+    }
 }

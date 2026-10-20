@@ -1,0 +1,16 @@
+Intro:
+[C] [G]
+
+1. Verse after a blank line
+[Am] [F]
+# komentář
+2. Verse after a comment
+[Am]  [F]
+R: Chorus right under its chords
+lyric line
+[C] [G]
+3. Chords directly above move here
+Outro:
+[C]
+
+R:

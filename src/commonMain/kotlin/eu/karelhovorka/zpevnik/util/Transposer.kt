@@ -14,8 +14,11 @@ object Transposer {
 
     private const val CHORD_QUALITY = "(?:mimaj|maj|min|mi|m|sus|add|aug|dim|b|\\+|-|°|ø|Δ)?"
 
-    // stacked extensions like "m7add11", "7sus4", "7b5#9", "m(maj7)"; "4sus" stays invalid (should be "sus4")
-    private const val CHORD_EXTENSION = "(?:(?:7|9|11|13)sus[24]?|[1-9][0-9]?(?!sus)|sus[24]?|add[1-9][0-9]?|maj[1-9]?[0-9]?|aug|dim|[b#](?:5|9|11|13)|\\+)"
+    // stacked extensions like "m7add11", "7sus4", "7b5#9", "m(maj7)"; "4sus" stays invalid (should be "sus4").
+    // Each piece can match only one way (numbers take all their digits, "sus4" is not "sus" + "4"),
+    // otherwise a malformed chord backtracks exponentially, and songs are parsed on every key press.
+    private const val CHORD_EXTENSION =
+        "(?:(?:7|9|11|13)?sus(?:[1-9][0-9]?)?(?![0-9])|[1-9][0-9]?(?![0-9]|sus)|add[1-9][0-9]?(?![0-9])|maj|aug|dim|[b#](?:5|9|11|13)(?![0-9])|\\+)"
 
     val TONE_ADDITIONS = "$CHORD_QUALITY(?:$CHORD_EXTENSION|\\($CHORD_EXTENSION+\\))*"
 
