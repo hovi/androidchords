@@ -116,5 +116,24 @@ class ChordRegexTest {
         assertEquals("A je to", ChordDetector.replacePlainChords("A je to"))
     }
 
+    @Test
+    fun plainChordsBehindHeaderLabel() {
+        assertEquals("Intro: [C] [G] [Am] [F]", ChordDetector.replacePlainChords("Intro: C G Am F"))
+        assertEquals("R: [C]       [G]", ChordDetector.replacePlainChords("R: C       G"))
+        assertEquals("R: La la la", ChordDetector.replacePlainChords("R: La la la"))
+        assertEquals("Pozor: C G", ChordDetector.replacePlainChords("Pozor: C G"))
+    }
+
+    @Test
+    fun plainChordsBehindHeaderLabelAreTransposed() {
+        val songText = eu.karelhovorka.zpevnik.text.SongText.fromRawText(
+            "Intro: C G Am F\n1.\ntext",
+            "",
+            eu.karelhovorka.zpevnik.text.SongDisplaySettings(interval = Interval.of(2)),
+            I18N()
+        )
+        assertEquals(listOf("[D]", "[A]", "[Hm]", "[G]"), songText.sections.first().content.lines.flatMap { line -> line.chordToText.mapNotNull { it.chord } })
+    }
+
     private fun transposeUp2(text: String) = ToneTransposer.transposeAll(text, Interval.of(2), EASTERN, SHARP)
 }

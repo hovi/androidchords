@@ -93,6 +93,10 @@ comment {
     .song-line-no-chords .song-chord {
         display: none;
     }
+    // next to the lyrics, not to the chords above them
+    .repeat-count {
+        align-self: flex-end;
+    }
 }
 
 &.inline {

@@ -4,9 +4,9 @@ import eu.karelhovorka.zpevnik.text.SongMetadata
 import eu.karelhovorka.zpevnik.text.SongText
 import eu.karelhovorka.zpevnik.util.CsHardcoded
 import eu.karelhovorka.zpevnik.util.Tone
+import eu.karelhovorka.zpevnik.util.Transposer
 import org.w3c.dom.*
 import kotlinx.browser.document
-import kotlinx.dom.hasClass
 
 
 fun makeTemplates(): Map<String, String> {
@@ -21,17 +21,66 @@ fun templateName(): String {
     return document.querySelector(".song-settings .template")!!.innerHTML
 }
 
-fun chordReplacement(templateName: String? = null): String? {
-    val tpl = templateName ?: templateName()
-    return if (tpl == "legacy") {
-        " <a class='chord'>$1</a> "
-    } else {
-        null
+// chords are links in the app (chord://), the web has nothing to open;
+// templates are read back from the page, where the browser may have changed ' to "
+private val APP_CHORD_LINK = Regex(" href=[\"']chord://[^\"']*[\"']")
+
+private val chordTemplates = mapOf(
+        "legacy" to " <a class='chord'>$1</a> ",
+        "inline" to "<a class='chord'>$1</a>",
+        "upper" to "$1"
+)
+
+private fun obj(vararg properties: Pair<String, Any?>): dynamic {
+    val result: dynamic = js("{}")
+    for ((name, value) in properties) {
+        result[name] = value
     }
+    return result
 }
 
+/**
+ * The values the templates use, as plain JS objects: mustache.js reads properties by name,
+ * and Kotlin/JS renames the properties of Kotlin classes.
+ */
+fun templateContext(songText: SongText, songDisplaySettings: SongDisplaySettings): dynamic = obj(
+        "title" to songText.title,
+        "originalText" to songText.originalText,
+        "filledSections" to songText.filledSections,
+        "css" to songText.css,
+        "displaySettings" to obj("css" to songDisplaySettings.css),
+        "sections" to songText.sections.map { section ->
+            obj(
+                    "css" to section.css,
+                    "localName" to section.localName,
+                    "content" to obj("lines" to section.content.lines.map { line ->
+                        obj(
+                                "css" to line.css(),
+                                "repeatCount" to line.repeatCount,
+                                "chordToText" to line.chordToText.map { pair ->
+                                    obj(
+                                            "css" to pair.css(),
+                                            "chord" to pair.chord,
+                                            "htmlChord" to pair.htmlChord(),
+                                            "withoutBrackets" to pair.withoutBrackets(),
+                                            "text" to pair.text
+                                    )
+                                }.toTypedArray()
+                        )
+                    }.toTypedArray())
+            )
+        }.toTypedArray(),
+        "legacyRows" to songText.legacyRows.map { row ->
+            obj(
+                    "css" to row.css,
+                    "text" to row.text,
+                    "end" to row.end,
+                    "parts" to row.parts.map { obj("css" to it.css, "text" to it.text) }.toTypedArray()
+            )
+        }.toTypedArray()
+)
+
 fun parseTexts() {
-    println("HELLO WORLD CHORDS 1.3.0")
     val templateName = templateName()
     parse(
             originalText = document.querySelector(".source-song-text")?.innerHTML
@@ -50,12 +99,13 @@ fun parse(
         songDisplaySettings: SongDisplaySettings = SongDisplaySettings.DEFAULT,
         title: String = ""
 ) {
-    val chordReplacement = chordReplacement(templateName)
     val templates = makeTemplates()
     val songMetadata = songMetadata()
-    val ctx = SongText.fromRawText(originalText = originalText, title = title, songDisplaySettings = songDisplaySettings, chordReplacement = chordReplacement, i18n = CsHardcoded, metadata = songMetadata)
+    val songText = SongText.fromRawText(originalText = originalText, title = title, songDisplaySettings = songDisplaySettings, i18n = CsHardcoded, metadata = songMetadata)
     val template = templates[templateName] ?: error("cannot find template $templateName")
-    target.innerHTML = renderMustache(template, ctx)
+    val chordTemplate = chordTemplates[templateName] ?: error("cannot find chord template $templateName")
+    val html: String = renderMustache(template, templateContext(songText, songDisplaySettings))
+    target.innerHTML = html.replace(APP_CHORD_LINK, "").replace(Transposer.CHORD_REGEX.toRegex(), chordTemplate)
 }
 
 fun disableEscaping() {
@@ -68,8 +118,9 @@ fun renderMustache(template: String, ctx: Any): dynamic {
     return js("Mustache.render(t, c)")
 }
 
-fun doParsing(): Boolean {
-    return document.body?.hasClass("parse-song") == true
+/** Only pages with a song to show have the song templates (the script is loaded on every admin page). */
+fun hasSong(): Boolean {
+    return document.querySelector(".song-templates") != null && document.querySelector(".source-song-text") != null
 }
 
 fun booleanOrFalse(selector: String, default: Boolean, root: Element = document.body!!): Boolean {
@@ -154,6 +205,9 @@ fun watch() {
 }
 
 fun main(args: Array<String>) {
+    if (!hasSong()) {
+        return
+    }
     disableEscaping()
     parseTexts()
     watch()

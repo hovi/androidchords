@@ -9,7 +9,8 @@ object Transposer {
 
     val MINIMUM_SEQUENCE_COUNT = 2
 
-    val SINGLE_TONE = "[A-H]\\#?b?"
+    // no "\\#": Kotlin/JS compiles regexes with the unicode flag, where it is an invalid escape
+    val SINGLE_TONE = "[A-H]#?b?"
 
     private const val CHORD_QUALITY = "(?:mimaj|maj|min|mi|m|sus|add|aug|dim|b|\\+|-|°|ø|Δ)?"
 

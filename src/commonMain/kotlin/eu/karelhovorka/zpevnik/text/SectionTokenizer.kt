@@ -25,9 +25,7 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
         val sectionTypeCount: MutableMap<ISectionType, Int> = mutableMapOf()
         var sectionBuilder: SectionBuilder? = null
         for (line in lines) {
-            val headerWithText = HEADER_WITH_TEXT_REGEX.matchEntire(line)?.takeIf {
-                SectionType.fromName(it.groupValues[1]) is SectionType
-            }
+            val headerWithText = splitHeaderWithText(line)
             if (line.trim().matches(SECTION_TYPE_BASIC_REGEX)) {
                 if (sectionBuilder != null && !sectionBuilder.empty()) {
                     sections.add(sectionBuilder.parseSection(sectionTypeCount, i18n))
@@ -38,19 +36,20 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
                 if (sectionBuilder != null && !sectionBuilder.empty()) {
                     sections.add(sectionBuilder.parseSection(sectionTypeCount, i18n))
                 }
-                val textStart = line.length - headerWithText.groupValues[4].length
-                // plain chords were not bracketed earlier, the whole line was not a chord line
-                val text = ChordDetector.replacePlainChordsInline(headerWithText.groupValues[4])
+                val (label, prefix, plainText) = headerWithText
+                val textStart = prefix.length
+                // plain chords are bracketed already when the text went through ChordDetector.replacePlainChords
+                val text = ChordDetector.replacePlainChordsInline(plainText)
                 // keep columns aligned with the chord line above or below
                 val aligned = chordLineAbove != null || Transposer.lineContainsChordsOnly(text)
                 val firstLine = if (aligned) " ".repeat(textStart) + text else text
                 sectionBuilder = SectionBuilder(
                     StringBuilder(),
-                    headerWithText.groupValues[1],
+                    label,
                     textStart,
                     !aligned,
                     headerLines = if (chordLineAbove == null) 1 else 2,
-                    headerPrefix = line.substring(0, textStart)
+                    headerPrefix = prefix
                 )
                 chordLineAbove?.let { sectionBuilder.sb.append(it + "\n") }
                 sectionBuilder.sb.append(firstLine + "\n")
@@ -93,6 +92,19 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
         val SECTION_TYPE_BASIC_REGEX = "^$TYPE_REGEX$".toRegex()
 
         private val HEADER_WITH_TEXT_REGEX = "^[\t ]*($TYPE_LABEL)[\t ]+(\\S.*)$".toRegex()
+
+        /**
+         * A known section header written in front of text ("R: text", "1. text"):
+         * the header label, everything in front of the text, and the text.
+         */
+        fun splitHeaderWithText(line: String): Triple<String, String, String>? {
+            val match = HEADER_WITH_TEXT_REGEX.matchEntire(line) ?: return null
+            if (SectionType.fromName(match.groupValues[1]) !is SectionType) {
+                return null
+            }
+            val text = match.groupValues[4]
+            return Triple(match.groupValues[1], line.substring(0, line.length - text.length), text)
+        }
 
         val VALID_TEXT_PATTERN = "^\\s*$TYPE_REGEX(?:\n|\r).*".toPattern()
 

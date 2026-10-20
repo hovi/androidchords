@@ -15,7 +15,10 @@ data class SectionSource(
     val trailingLines: List<String> = emptyList()
 )
 
-/** One line of the song as written (legacy layout), split into chord and text parts. */
+/**
+ * One line of the song as written (legacy layout), split into chord and text parts.
+ * Not "chord": the chord link inside gets that class, styles like font-size would apply twice.
+ */
 class LegacyRow(val css: String, val text: String, val end: String = "\n") {
 
     val parts: List<TextSegment> by lazy {
@@ -23,13 +26,13 @@ class LegacyRow(val css: String, val text: String, val end: String = "\n") {
         var index = 0
         for (match in CHORD.findAll(text)) {
             if (match.range.first > index) {
-                parts.add(TextSegment.text(text.substring(index, match.range.first)))
+                parts.add(TextSegment("legacy-text", text.substring(index, match.range.first)))
             }
-            parts.add(TextSegment("chord", match.value))
+            parts.add(TextSegment("legacy-chord", match.value))
             index = match.range.last + 1
         }
         if (index < text.length) {
-            parts.add(TextSegment.text(text.substring(index)))
+            parts.add(TextSegment("legacy-text", text.substring(index)))
         }
         parts
     }

@@ -31,7 +31,7 @@ class LegacyRowsTest {
     @Test
     fun rowsSplitIntoChordAndTextParts() {
         val row = SongText.fromRawText("[C]Hej [G]hou", "", SongDisplaySettings(), I18N()).legacyRows.single()
-        assertEquals(listOf("chord:[C]", "text:Hej ", "chord:[G]", "text:hou"), row.parts.map { "${it.css}:${it.text}" })
+        assertEquals(listOf("legacy-chord:[C]", "legacy-text:Hej ", "legacy-chord:[G]", "legacy-text:hou"), row.parts.map { "${it.css}:${it.text}" })
     }
 
     @Test

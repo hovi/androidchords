@@ -84,12 +84,12 @@ class HtmlDisplayTest {
                 "KNOWN RISK: lyric lines 'Řekni:', '2. dubna…', 'B: …' now start sections"
             ),
             changed(
-                "header-with-chords", sectioned, withText,
-                "'Intro: C G Am F', 'Mezihra: [Am] [F]', 'R: C G' are headers with chords; before, one block with chords as text"
+                "header-with-chords", sectioned, all,
+                "'Intro: C G Am F', 'Mezihra: [Am] [F]', 'R: C G' are headers with chords that transpose and hide; before, one block with chords as text"
             ),
             changed(
-                "header-with-chords", listOf("legacy"), withText,
-                "plain chords behind a header label ('Intro: C G Am F') are chord links now; 'hide chords' leaves no double spaces"
+                "header-with-chords", listOf("legacy"), all,
+                "plain chords behind a header label ('Intro: C G Am F') are chords now: links, transposed, hidden with 'hide chords', kept with 'hide text'"
             ),
             changed(
                 "invalid-and-lowercase-chords", allLayouts, all,
