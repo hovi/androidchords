@@ -5,8 +5,8 @@ CHORUS index=0 copy=0
   [F] 'Hej, hej, ' | [G] 'deštníku, p' | [C] 'ojď se ' | [Am] 'mnou ven,'
   [F] 'dneska bude' | [G] ' dlouhý den.' | [C] ''
 VERSE index=1 copy=0
-  [C] 'Tramvaj jede,' | [G] ' lidi spějí, k' | [Am] 'aždý někam zná,'
-  [F] 'jenom já tu sto' | [C] 'jím v dešti, c' | [G] 'esta neznámá.'
+  [C] 'Tramvaj jede,' | [G] ' lidi spějí, k' | [Am] 'aždý někam zná,'  [repeated chords]
+  [F] 'jenom já tu sto' | [C] 'jím v dešti, c' | [G] 'esta neznámá.'  [repeated chords]
 CHORUS index=0 copy=1
   [F] 'Hej, hej, ' | [G] 'deštníku, p' | [C] 'ojď se ' | [Am] 'mnou ven,'
   [F] 'dneska bude' | [G] ' dlouhý den.' | [C] ''

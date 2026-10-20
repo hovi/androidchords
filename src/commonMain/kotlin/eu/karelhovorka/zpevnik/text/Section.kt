@@ -29,6 +29,12 @@ class Section @JvmOverloads constructor(
                 "section-type-${type.css()}",
                 "section-type-${type.css()}$index"
         )
+        if (isCopy) {
+            classes.add("section-copy")
+        }
+        if (isRepeatOnly) {
+            classes.add("section-repeat-only")
+        }
         classes.joinToString(" ")
     }
 

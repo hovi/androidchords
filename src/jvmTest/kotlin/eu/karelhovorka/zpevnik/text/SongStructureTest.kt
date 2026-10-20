@@ -41,6 +41,10 @@ class SongStructureTest {
                 sb.append("  ")
                 sb.append(line.chordToText.joinToString(" | ") { "${it.chord ?: "-"} '${it.text}'" })
                 line.repeatCount?.let { sb.append("  ×$it") }
+                if (line.repeatStart) sb.append("  ‖:")
+                if (line.repeatEnd) sb.append("  :‖")
+                if (line.isComment) sb.append("  [comment]")
+                if (line.repeatedChords) sb.append("  [repeated chords]")
                 sb.append("\n")
             }
         }

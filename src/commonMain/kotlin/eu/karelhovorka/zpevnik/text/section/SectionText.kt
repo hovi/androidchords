@@ -17,14 +17,17 @@ data class LineSource(val line: Int, val indent: String, val chordLine: String?,
 /**
  * [repeatStart]/[repeatEnd]: repeat bars written on the chord line above the text ("/: [C] [G] :/"),
  * bars in the text itself are in [ChordPair.segments].
- * [source] describes the source text only and is not part of equality.
+ * [repeatedChords]: the same chord sequence (at least [Transposer.MINIMUM_SEQUENCE_COUNT] chords) was on an
+ * earlier line of the song, the chords can be hidden.
+ * [source] and [repeatedChords] depend on the rest of the song and are not part of equality.
  */
 data class SectionLine(
     val chordToText: Array<ChordPair>,
     val repeatCount: Int? = null,
     val source: LineSource? = null,
     val repeatStart: Boolean = false,
-    val repeatEnd: Boolean = false
+    val repeatEnd: Boolean = false,
+    val repeatedChords: Boolean = false
 ) {
     val hasChords: Boolean by lazy {
         chordToText.any { it.chord != null }
@@ -36,6 +39,14 @@ data class SectionLine(
 
     constructor(text: String) : this(arrayOf(ChordPair(null, text))) {
     }
+
+    val chords: List<String>
+        get() = chordToText.mapNotNull { it.chord }
+
+    /** A whole line comment ("# ..."), marked by [eu.karelhovorka.zpevnik.util.Comments.markComments]. */
+    val isComment: Boolean
+        get() = chordToText.size == 1 && chordToText[0].chord == null &&
+            chordToText[0].text.trim().let { it.startsWith("<comment>") && it.endsWith("</comment>") }
 
     fun css(): String {
         val classes = mutableListOf("song-line")
@@ -51,6 +62,12 @@ data class SectionLine(
             classes.add("song-line-has-chords")
         } else {
             classes.add("song-line-no-chords")
+        }
+        if (isComment) {
+            classes.add("comment-line")
+        }
+        if (repeatedChords) {
+            classes.add("repeated-chords")
         }
         return classes.joinToString(" ")
     }
@@ -116,8 +133,16 @@ data class SectionText(val lines: Array<SectionLine>, val originalText: String? 
 }
 
 
-/** [removedIndents] are the leading spaces already removed from each line of [textBody]. */
-fun parseSectionText(firstLine: String?, textBody: String, removedIndents: List<Int> = emptyList()): SectionText {
+/**
+ * [removedIndents] are the leading spaces already removed from each line of [textBody].
+ * [seenChordSequences] are the chord sequences of the song so far, lines repeating one get [SectionLine.repeatedChords].
+ */
+fun parseSectionText(
+    firstLine: String?,
+    textBody: String,
+    removedIndents: List<Int> = emptyList(),
+    seenChordSequences: MutableSet<List<String>> = mutableSetOf()
+): SectionText {
     val fullText = if (firstLine == null) {
         textBody
     } else {
@@ -159,7 +184,15 @@ fun parseSectionText(firstLine: String?, textBody: String, removedIndents: List<
         }
         lineIndex++
     }
-    return SectionText(result.toTypedArray(), fullText)
+    val flagged = result.map { line ->
+        val chords = line.chords
+        when {
+            chords.size < Transposer.MINIMUM_SEQUENCE_COUNT -> line
+            seenChordSequences.add(chords) -> line
+            else -> line.copy(repeatedChords = true)
+        }
+    }
+    return SectionText(flagged.toTypedArray(), fullText)
 }
 
 // a comment is a note, not lyrics for the chords above it (marked or still raw, see Comments)

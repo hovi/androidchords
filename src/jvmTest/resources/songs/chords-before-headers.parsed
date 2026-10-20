@@ -7,12 +7,12 @@ VERSE index=0 copy=0
 VERSE index=1 copy=0
   - 'Verse after a comment'
 CHORUS index=0 copy=0
-  [Am] '   C' | [F] 'horus right under its chords'
+  [Am] '   C' | [F] 'horus right under its chords'  [repeated chords]
   - 'lyric line'
 VERSE index=2 copy=0
-  [C] '  ' | [G] ' Chords directly above move here'
+  [C] '  ' | [G] ' Chords directly above move here'  [repeated chords]
 OUTRO index=0 copy=0
   [C] ''
 CHORUS index=0 copy=1
-  [Am] '   C' | [F] 'horus right under its chords'
+  [Am] '   C' | [F] 'horus right under its chords'  [repeated chords]
   - 'lyric line'

@@ -6,27 +6,15 @@ import kotlin.jvm.JvmStatic
 
 object SongSettingsFormatter {
 
+    /**
+     * Only rewrites chords (plain chords get brackets, transposition, tone names) and marks comments.
+     * Hiding chords, text, comments or repeated chord sequences is done by CSS, see [SongDisplaySettings.css].
+     */
     @JvmStatic
     fun modifyTextBasedOnSettings(source: String, settings: SongDisplaySettings = SongDisplaySettings.DEFAULT): String {
-        var text = source
-        text = ChordDetector.replacePlainChords(text)
-        if (!settings.isDisplayText) {
-            text = Transposer.removeNonChords(text)
-        }
-        if (settings.isHideIdenticalSequences) {
-            text = Transposer.removeDuplicateChordSequences(text)
-        }
-        if (settings.isDisplayChords) {
-            text = ToneTransposer.transposeAll(text, settings.interval, settings.countryCategory, settings.modificationAbbreviation)
-        } else {
-            text = Transposer.removeChords(text)
-        }
-        if (settings.showComments) {
-            text = Comments.markComments(text)
-        } else {
-            text = Comments.hideComments(text)
-        }
-
+        var text = ChordDetector.replacePlainChords(source)
+        text = ToneTransposer.transposeAll(text, settings.interval, settings.countryCategory, settings.modificationAbbreviation)
+        text = Comments.markComments(text)
         return text.trimEnd()
     }
 }

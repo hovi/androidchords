@@ -1,0 +1,144 @@
+/* reset */
+img {
+  max-width: 100%;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.main-song-content {
+  min-height: 100%;
+}
+
+/* functional */
+.hide-comments comment {
+  display: none;
+}
+
+.font-monospace, .font-monospace .chord {
+  font-family: "monospace" !important;
+}
+
+.font-serif, .font-serif .chord {
+  font-family: "serif" !important;
+}
+
+.font-normal, .font-normal .chord {
+  font-family: "normal" !important;
+}
+
+.double-column {
+  column-count: 2;
+  column-gap: 30px;
+  -webkit-column-count: 2;
+  -webkit-column-gap: 30px;
+}
+
+.resize-chords .chord {
+  font-size: 150% !important;
+}
+
+.use-bold, .use-bold .chord {
+  font-weight: 900 !important;
+}
+
+.main-song-content {
+  box-sizing: border-box;
+  /* basic formatting */
+  /* template-specific */
+}
+.main-song-content .chord {
+  text-decoration: none;
+}
+.main-song-content .content {
+  white-space: pre-wrap;
+  tab-size: 1;
+}
+.main-song-content comment {
+  display: inline-block;
+  font-style: italic;
+}
+.main-song-content .header {
+  padding: 0.75rem 0.25rem 0.5rem 0.25rem;
+  padding-bottom: 0;
+  margin: 0rem 0.25rem 0rem 0.25rem;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+.main-song-content .section-type-empty .header, .main-song-content .section-single-unknown .header {
+  display: none;
+}
+.main-song-content .section-content {
+  padding: 0.25rem 0.5rem;
+}
+.main-song-content.upper .empty-chord .chord, .main-song-content.inline .empty-chord .chord {
+  width: 0;
+}
+.main-song-content.upper .song-text-line, .main-song-content.inline .song-text-line {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 1rem;
+}
+.main-song-content.upper .song-chord {
+  padding-right: 0.2em;
+}
+.main-song-content.upper .song-line-no-chords .song-chord {
+  display: none;
+}
+.main-song-content.inline .chord {
+  display: inline-block;
+  padding: 0 0.2rem;
+  vertical-align: super;
+  font-size: smaller;
+}
+.main-song-content.inline .song-chord-pair.empty-chord {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.main-song-content.inline .content {
+  line-height: 1.5;
+}
+.main-song-content.inline .song-line.empty-line {
+  height: 1rem;
+}
+.main-song-content.legacy {
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+/* theme */
+.dark {
+  background-color: black;
+  color: white;
+}
+.dark .chord {
+  color: #FFD050 !important;
+}
+.dark .header {
+  border-bottom: 1px solid #FFD050;
+}
+
+.light {
+  color: black;
+  background-color: white;
+}
+.light .chord {
+  color: blue !important;
+}
+.light .header {
+  border-bottom-color: black;
+}
+
+.song-metadata {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 1px solid black;
+}
+.song-metadata .bpm {
+  padding: 0 0.5em;
+}

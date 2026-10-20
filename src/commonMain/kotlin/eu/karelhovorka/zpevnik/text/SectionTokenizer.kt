@@ -23,18 +23,19 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
         val lines = text.trimEnd().lines().dropLastWhile { it.isEmpty() }
         val sections = mutableListOf<Section>()
         val sectionTypeCount: MutableMap<ISectionType, Int> = mutableMapOf()
+        val seenChordSequences = mutableSetOf<List<String>>()
         var sectionBuilder: SectionBuilder? = null
         for (line in lines) {
             val headerWithText = splitHeaderWithText(line)
             if (line.trim().matches(SECTION_TYPE_BASIC_REGEX)) {
                 if (sectionBuilder != null && !sectionBuilder.empty()) {
-                    sections.add(sectionBuilder.parseSection(sectionTypeCount, i18n))
+                    sections.add(sectionBuilder.parseSection(sectionTypeCount, i18n, seenChordSequences))
                 }
                 sectionBuilder = SectionBuilder(StringBuilder(), line)
             } else if (headerWithText != null) {
                 val chordLineAbove = sectionBuilder?.removeTrailingChordLine()
                 if (sectionBuilder != null && !sectionBuilder.empty()) {
-                    sections.add(sectionBuilder.parseSection(sectionTypeCount, i18n))
+                    sections.add(sectionBuilder.parseSection(sectionTypeCount, i18n, seenChordSequences))
                 }
                 val (label, prefix, plainText) = headerWithText
                 val textStart = prefix.length
@@ -61,7 +62,7 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
             }
         }
         if (sectionBuilder != null) {
-            sections.add(sectionBuilder.parseSection(sectionTypeCount, i18n))
+            sections.add(sectionBuilder.parseSection(sectionTypeCount, i18n, seenChordSequences))
         }
         return mergeSections(sections)
     }

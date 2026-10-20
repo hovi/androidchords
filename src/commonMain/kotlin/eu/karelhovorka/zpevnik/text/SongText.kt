@@ -21,7 +21,6 @@ class SongText(val originalText: String, val title: String, private val displayS
             if (sections.size == 1 && sections.first().type == SectionType.EMPTY) {
                 sb.append(" section-single-unknown section-single-empty")
             }
-            sb.append(" " + displaySettings.css)
             return sb.toString()
         }
 

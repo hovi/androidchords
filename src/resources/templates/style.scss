@@ -13,29 +13,27 @@ html, body {
     min-height: 100%;
 }
 
-/* functional */
-.hide-comments comment {
-    display: none;
-}
-.font-monospace, .font-monospace .chord {
+.main-song-content {
+    box-sizing: border-box;
+
+/* settings: classes on .main-song-content from SongDisplaySettings.css */
+&.font-monospace, &.font-monospace .chord {
     font-family: 'monospace' !important;
 }
-.font-serif, .font-serif .chord {
+&.font-serif, &.font-serif .chord {
     font-family: 'serif' !important;
 }
-.font-normal, .font-normal .chord {
+&.font-normal, &.font-normal .chord {
     font-family: 'normal' !important;
 }
-.double-column {
+&.double-column {
     column-count: 2; column-gap: 30px; -webkit-column-count: 2; -webkit-column-gap: 30px;
 }
-.resize-chords .chord { font-size: 150% !important; }
-.use-bold, .use-bold .chord {
+&.big-chords .chord { font-size: 150% !important; }
+&.bold, &.bold .chord {
     font-weight: 900 !important;
 }
 
-.main-song-content {
-    box-sizing: border-box;
 /* basic formatting */
 .chord {
     text-decoration: none;
@@ -84,7 +82,7 @@ comment {
 }
 
 /* template-specific */
-&.upper, &.inline {
+&.layout-upper, &.layout-inline {
     .empty-chord .chord {
         width: 0;
     }
@@ -95,7 +93,7 @@ comment {
     }
 }
 
-&.upper {
+&.layout-upper {
     .song-chord {
         padding-right: 0.2em;
     }
@@ -108,7 +106,7 @@ comment {
     }
 }
 
-&.inline {
+&.layout-inline {
     .chord {
         display: inline-block;
         padding: 0 0.2rem;
@@ -128,23 +126,54 @@ comment {
     }
 }
 
-&.legacy {
+&.layout-legacy {
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-}
-
 /* theme */
-.dark {
+&.theme-dark {
     background-color: black; color: white;
     .chord { color: #FFD050 !important; }
     .header { border-bottom: 1px solid #FFD050; }
 }
 
-.light {
+&.theme-light {
     color: black; background-color: white;
     .chord { color: blue !important; }
     .header { border-bottom-color: black; }
+}
+
+/* settings that hide content */
+// Hiding shows what the old text filtering left: lines with chords only disappear with the chords,
+// blank lines stay; without text only lines with chords stay; section headers written on their own line
+// keep their row (legacy) when their chords are hidden, also a header written on the chord line ("R: C G");
+// without text a bare repeat ("R:") is not shown, it repeats only text. Last: these rules win over the layouts.
+&.hide-chords {
+    .chord, .song-chord, .legacy-chord, .chord-row:not(.section-header),
+    .song-line-has-chords.song-line-no-text:not(.section-header) {
+        display: none;
+    }
+}
+&.hide-text {
+    .section-repeat-only, .header, .text, .legacy-text, .text-row, .repeat-start, .repeat-end, .repeat-count,
+    .song-line-no-chords, .legacy-row:not(.song-line-has-chords) {
+        display: none;
+    }
+}
+&.hide-comments {
+    .comment-line, comment {
+        display: none;
+    }
+}
+&.hide-identical-sequences .repeated-chords {
+    .chord, .song-chord, .legacy-chord {
+        display: none;
+    }
+    &.chord-row:not(.section-header), &.song-line-no-text:not(.section-header) {
+        display: none;
+    }
+}
+
 }
 
 .song-metadata {

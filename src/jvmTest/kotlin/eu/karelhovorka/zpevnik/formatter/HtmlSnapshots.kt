@@ -12,7 +12,7 @@ import java.io.File
  */
 object HtmlSnapshots {
 
-    val layouts = listOf("legacy", "inline", "upper")
+    val layouts = listOf("legacy", "inline", "upper", "print")
 
     val variants = mapOf(
         "default" to SongDisplaySettings(),

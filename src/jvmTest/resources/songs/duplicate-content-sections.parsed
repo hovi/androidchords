@@ -3,6 +3,6 @@ CHORUS index=0 copy=0
 VERSE index=0 copy=0
   [Am] 'Sloka.'
 CHORUS index=0 copy=1
-  [C] 'Stejný ' | [G] 'refrén.'
+  [C] 'Stejný ' | [G] 'refrén.'  [repeated chords]
 CHORUS index=2 copy=0
-  [C] 'Jiný ' | [G] 'refrén.'
+  [C] 'Jiný ' | [G] 'refrén.'  [repeated chords]

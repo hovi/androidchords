@@ -63,3 +63,19 @@ Focused tests (no builds or downloads):
 ```sh
 python3 -m unittest discover -s tools -p test_export_assets.py
 ```
+
+# Checking what readers see
+
+Display settings (hide chords, text, comments, repeated chord sequences) are applied by the stylesheet, so
+whether the old and the new HTML show the same can only be told in a browser. `visible-text/check.mjs`
+renders every snapshot in `src/jvmTest/resources/html/before` (old code, its `style.css`) and `after`
+(current code, `style.scss` compiled) in Chrome and compares the visible text. Every difference must be
+listed with a reason in `src/jvmTest/resources/html/reviewed-changes.json`.
+
+```sh
+npm ci --prefix tools/visible-text
+node tools/visible-text/check.mjs
+```
+
+Requirements: Node/npm and Google Chrome (or `CHROME_PATH` pointing to Chrome or Chromium).
+Regenerate `after` first after an intended change: `UPDATE_GOLDEN=1 ./gradlew :chords:jvmTest`.

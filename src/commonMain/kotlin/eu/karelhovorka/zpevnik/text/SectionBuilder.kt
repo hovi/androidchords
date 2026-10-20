@@ -94,11 +94,11 @@ data class SectionBuilder(
         } ?: 0
     }
 
-    fun parseSection(sectionTypeCount: MutableMap<ISectionType, Int>, i18n: I18N): Section {
+    fun parseSection(sectionTypeCount: MutableMap<ISectionType, Int>, i18n: I18N, seenChordSequences: MutableSet<List<String>>): Section {
         val st = SectionType.fromName(currentHeaderLine)
         val index = indexFromFirstLine(currentHeaderLine, sectionTypeCount)
         sectionTypeCount[st] = (sectionTypeCount[st] ?: 0) + 1
         val (body, removedIndents) = removeHangingIndent(sb.toString())
-        return Section(parseSectionText(currentHeaderLine, body, removedIndents), st, 0, index, i18N = i18n, source = source(sb.toString()))
+        return Section(parseSectionText(currentHeaderLine, body, removedIndents, seenChordSequences), st, 0, index, i18N = i18n, source = source(sb.toString()))
     }
 }

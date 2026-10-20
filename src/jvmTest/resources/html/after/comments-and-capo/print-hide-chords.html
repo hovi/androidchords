@@ -1,0 +1,70 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>comments-and-capo</title>
+    <style>
+        .hide-comments comment {
+            display: none;
+        }
+        comment {
+            display: block;
+            font-style: italic;
+        }
+        img {
+            max-width: 100%;
+        }
+        h1 { font-size: 1.25em; }
+        .chord {
+            text-decoration: none;
+            color: black !important;
+        }
+        .content {
+            white-space: pre-wrap; tab-size: 1;
+        }
+        /* settings-specific */
+        .font-monospace, .font-monospace .chord {
+            font-family: 'monospace' !important;
+        }
+        .font-serif, .font-serif .chord {
+            font-family: 'serif' !important;
+        }
+        .font-normal, .font-normal .chord {
+            font-family: 'normal' !important;
+        }
+        .double-column {
+            column-count: 2; column-gap: 30px; -webkit-column-count: 2; -webkit-column-gap: 30px;
+        }
+        .big-chords .chord { font-size: 150% !important; }
+        .bold, .bold .chord {
+            font-weight: 900 !important;
+        }
+        /* the same hiding as in style.scss for the legacy layout */
+        .hide-chords .legacy-chord, .hide-chords .chord-row:not(.section-header),
+        .hide-chords .song-line-has-chords.song-line-no-text:not(.section-header),
+        .hide-text .legacy-text, .hide-text .text-row, .hide-text .legacy-row:not(.song-line-has-chords),
+        .hide-comments .comment-line,
+        .hide-identical-sequences .repeated-chords .legacy-chord,
+        .hide-identical-sequences .repeated-chords.chord-row:not(.section-header),
+        .hide-identical-sequences .repeated-chords.song-line-no-text:not(.section-header) {
+            display: none;
+        }
+    </style>
+</head>
+<body class='theme-light font-normal hide-chords hide-comments'>
+<h1>comments-and-capo</h1>
+<!-- @formatter:off -->
+<div class="content"><span class='legacy-row song-line song-line-has-text song-line-no-chords comment-line'><span class='legacy-text'><comment> Capo 2</comment></span>
+</span><span class='legacy-row song-line song-line-has-text song-line-no-chords comment-line'><span class='legacy-text'><comment> Tempo: pomalu</comment></span>
+</span><span class='legacy-row section-header'><span class='legacy-text'>1.</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://G'><sup>G</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>Svíčka hoří </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://D'><sup>D</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>na stole,</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://Em'><sup>Em</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>stíny tančí </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://C'><sup>C</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>po zdi.</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-no-chords comment-line'><span class='legacy-text'><comment> tady zpomalit</comment></span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords repeated-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://G'><sup>G</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>Už je pozdě, </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://D'><sup>D</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>jdeme spát,</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://C'><sup>C</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>zítra zase </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://D'><sup>D</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>vstanem.</span>
+</span><span class='legacy-row section-header'><span class='legacy-text'>R:</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://C'><sup>C</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>Dobrou </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://G'><sup>G</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>noc, </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://D'><sup>D</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>dobrou </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://G'><sup>G</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>noc.</span></span></div>
+<!-- @formatter:on -->
+</body>
+</html>
+
