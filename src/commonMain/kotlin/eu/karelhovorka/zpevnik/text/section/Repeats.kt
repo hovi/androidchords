@@ -15,10 +15,11 @@ private val REPEAT_COUNT_REGEX = "(?:^|\\s+)\\(?(?:([0-9]+)\\s*[x×]|[x×]\\s*([
 // "/: ... :/" or "|: ... :|", but not the ":/" in "http://"
 private val REPEAT_MARK_REGEX = "/:|:/(?!/)|\\|:|:\\|".toRegex()
 
-fun splitRepeatCount(line: String): Pair<String, Int?> {
-    val match = REPEAT_COUNT_REGEX.find(line) ?: return Pair(line, null)
+/** The line without its repeat count, the count, and the count as written (e.g. " (2x)"). */
+fun splitRepeatCount(line: String): Triple<String, Int?, String> {
+    val match = REPEAT_COUNT_REGEX.find(line) ?: return Triple(line, null, "")
     val count = match.groupValues[1].ifEmpty { match.groupValues[2] }.toInt()
-    return Pair(line.substring(0, match.range.first), count)
+    return Triple(line.substring(0, match.range.first), count, match.value)
 }
 
 fun blankRepeatMarks(line: String): String = line.replace(REPEAT_MARK_REGEX, "  ")

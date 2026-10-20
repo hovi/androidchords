@@ -6,7 +6,16 @@ import eu.karelhovorka.zpevnik.util.expandTabs
 import mock.toPattern
 import kotlin.math.min
 
-data class SectionLine(val chordToText: Array<ChordPair>, val repeatCount: Int? = null) {
+/**
+ * How a [SectionLine] was written, so that it can be shown exactly as written (legacy layout).
+ * [line] is the index of its first source line in the section body, [indent] the leading spaces removed
+ * from the (text) line before parsing, [chordLine] the whole chord line as written when chords were
+ * above the text, [repeatSuffix] the repeat count of the (text) line as written (e.g. " (2x)").
+ */
+data class LineSource(val line: Int, val indent: String, val chordLine: String?, val repeatSuffix: String)
+
+/** [source] describes the source text only and is not part of equality. */
+data class SectionLine(val chordToText: Array<ChordPair>, val repeatCount: Int? = null, val source: LineSource? = null) {
     val hasChords: Boolean by lazy {
         chordToText.any { it.chord != null }
     }
@@ -97,7 +106,8 @@ data class SectionText(val lines: Array<SectionLine>, val originalText: String? 
 }
 
 
-fun parseSectionText(firstLine: String?, textBody: String): SectionText {
+/** [removedIndents] are the leading spaces already removed from each line of [textBody]. */
+fun parseSectionText(firstLine: String?, textBody: String, removedIndents: List<Int> = emptyList()): SectionText {
     val fullText = if (firstLine == null) {
         textBody
     } else {
@@ -109,29 +119,25 @@ fun parseSectionText(firstLine: String?, textBody: String): SectionText {
     }
     val lines = textBody.trimEnd().split("\n".toRegex())
     val chordsOnly = { line: String -> Transposer.lineContainsChordsOnly(blankRepeatMarks(line)) }
+    val removedIndent = { index: Int -> " ".repeat(removedIndents.getOrElse(index) { 0 }) }
     var lineIndex = 0
     while (lineIndex < (lines.size)) {
-        val (line, repeatCount) = splitRepeatCount(lines[lineIndex])
-        if (Transposer.lineContainsChordsAndText(line) && !chordsOnly(line)) {
-            result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount))
-        } else if (lineIndex != lines.size - 1) {
-            val (nextLine, nextRepeatCount) = splitRepeatCount(lines[lineIndex + 1])
-            if (chordsOnly(line) && Transposer.lineContainsTextOnly(nextLine)) {
-                if (nextLine.isBlank()) {
-                    result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount))
-                } else {
-                    lineIndex++
-                    result.add(parseSectionLineUpper(blankRepeatMarks(line), nextLine).copy(repeatCount = repeatCount ?: nextRepeatCount))
-                }
-            } else if (chordsOnly(line) && chordsOnly(nextLine)) {
-                result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount))
-            } else {
-                result.add(SectionLine(arrayOf(ChordPair(null, line)), repeatCount))
-            }
-        } else if (chordsOnly(line)) {
-            result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount))
+        val (line, repeatCount, repeatSuffix) = splitRepeatCount(lines[lineIndex])
+        val source = LineSource(lineIndex, removedIndent(lineIndex), null, repeatSuffix)
+        val nextLine = lines.getOrNull(lineIndex + 1)?.let { splitRepeatCount(it) }
+        if (chordsOnly(line) && nextLine != null && nextLine.first.isNotBlank() && Transposer.lineContainsTextOnly(nextLine.first)) {
+            // same indentation as parseSectionLineUpper removes from both lines
+            val pairIndent = min(
+                expandTabs(blankRepeatMarks(line)).takeWhile { it == ' ' }.length,
+                expandTabs(nextLine.first).takeWhile { it == ' ' }.length
+            )
+            val upperSource = LineSource(lineIndex, removedIndent(lineIndex + 1) + " ".repeat(pairIndent), source.indent + expandTabs(lines[lineIndex]), nextLine.third)
+            result.add(parseSectionLineUpper(blankRepeatMarks(line), nextLine.first).copy(repeatCount = repeatCount ?: nextLine.second, source = upperSource))
+            lineIndex++
+        } else if (chordsOnly(line) || Transposer.lineContainsChordsAndText(line)) {
+            result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount, source = source))
         } else {
-            result.add(SectionLine(arrayOf(ChordPair(null, line)), repeatCount))
+            result.add(SectionLine(arrayOf(ChordPair(null, line)), repeatCount, source))
         }
         lineIndex++
     }

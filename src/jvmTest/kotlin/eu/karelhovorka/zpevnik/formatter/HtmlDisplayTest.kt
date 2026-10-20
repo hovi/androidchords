@@ -10,7 +10,8 @@ import java.io.File
  *   To add songs: check out 351afad in a worktree, copy HtmlSnapshots.kt (only) and the songs there,
  *   and run its HtmlSnapshotWriter with HTML_SNAPSHOT_DIR pointing to html/before.
  * html/after: rendered by the current code; run with UPDATE_GOLDEN=1 after an intended change.
- * Every difference between the two must be listed in [reviewedChanges] with a reason.
+ * Every difference in visible text between the two must be listed in [reviewedChanges] with a reason;
+ * markup may change freely (e.g. legacy is rendered from chord pairs now).
  */
 class HtmlDisplayTest {
 
@@ -44,13 +45,22 @@ class HtmlDisplayTest {
 
     @Test
     fun everyDisplayChangeIsReviewed() {
-        val before = read("before")
-        val after = read("after")
+        val before = read("before").mapValues { visibleText(it.value) }
+        val after = read("after").mapValues { visibleText(it.value) }
         val changed = before.keys.filter { before[it] != after[it] }.toSortedSet()
         assertEquals(reviewedChanges.keys.toSortedSet(), changed)
     }
 
     companion object {
+        /** Text the reader sees: no head, no tags, entities decoded, no trailing spaces or carriage returns. */
+        fun visibleText(html: String): String = html
+            .replace(Regex("(?s)<head>.*?</head>"), "")
+            // like HTML: "<3" in lyrics is text, a tag starts with a letter
+            .replace(Regex("(?s)<!--.*?-->|</?[A-Za-z][^>]*>"), "")
+            .replace("&nbsp;", "\u00a0").replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&amp;", "&")
+            .replace("\r", "")
+            .lines().joinToString("\n") { it.trimEnd() }
+
         private val withText = listOf("default", "comments", "hide-chords", "hide-identical", "transposed")
         private val all = withText + "hide-text"
 
@@ -77,7 +87,10 @@ class HtmlDisplayTest {
                 "header-with-chords", sectioned, withText,
                 "'Intro: C G Am F', 'Mezihra: [Am] [F]', 'R: C G' are headers with chords; before, one block with chords as text"
             ),
-            changed("header-with-chords", listOf("legacy"), listOf("hide-chords"), "whitespace only: removing chords leaves no double spaces"),
+            changed(
+                "header-with-chords", listOf("legacy"), withText,
+                "plain chords behind a header label ('Intro: C G Am F') are chord links now; 'hide chords' leaves no double spaces"
+            ),
             changed(
                 "invalid-and-lowercase-chords", allLayouts, all,
                 "KNOWN RISK: lowercase [a], [e7] are not chords any more, shown as literal text"

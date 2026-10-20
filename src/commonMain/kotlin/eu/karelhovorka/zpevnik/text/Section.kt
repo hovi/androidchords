@@ -7,9 +7,17 @@ import kotlin.jvm.JvmOverloads
 
 /**
  * [isRepeatOnly]: a copy written as a bare header ("R:") in the source, its [content] comes from the earlier section.
- * It describes the source text only and is not part of equality.
+ * [isRepeatOnly] and [source] describe the source text only and are not part of equality.
  */
-class Section @JvmOverloads constructor(val content: SectionText, val type: ISectionType, val copyIndex: Int = 0, val index: Int = 0, val i18N: I18N, val isRepeatOnly: Boolean = false) {
+class Section @JvmOverloads constructor(
+    val content: SectionText,
+    val type: ISectionType,
+    val copyIndex: Int = 0,
+    val index: Int = 0,
+    val i18N: I18N,
+    val isRepeatOnly: Boolean = false,
+    val source: SectionSource = SectionSource()
+) {
 
     val isCopy: Boolean
         get() = copyIndex > 0
@@ -80,8 +88,18 @@ class Section @JvmOverloads constructor(val content: SectionText, val type: ISec
 
     companion object {
 
-        fun makeCopyOf(previousSection: Section, isRepeatOnly: Boolean): Section {
-            return Section(previousSection.content, previousSection.type, previousSection.copyIndex + 1, previousSection.index, i18N = previousSection.i18N, isRepeatOnly = isRepeatOnly)
+        /** [section] repeats [previousSection]; a bare header takes its content, written out content is kept. */
+        fun makeCopyOf(previousSection: Section, section: Section): Section {
+            val isRepeatOnly = section.content.isEmpty()
+            return Section(
+                if (isRepeatOnly) previousSection.content else section.content,
+                previousSection.type,
+                previousSection.copyIndex + 1,
+                previousSection.index,
+                i18N = previousSection.i18N,
+                isRepeatOnly = isRepeatOnly,
+                source = section.source
+            )
         }
     }
 }

@@ -26,6 +26,9 @@ class JMustacheTemplateSongFormatterTest {
         val result = formatter.formatHtml(
             SongText(readFileFromTestResources("/tokenizer/slunecnihrob.txt"), "Sluneční hrob", SongDisplaySettings.DEFAULT, I18N())
         )
+        if (System.getenv("UPDATE_GOLDEN") == "1") {
+            java.io.File(HtmlSnapshots.root(), "src/jvmTest/resources/results/slunecni-hrob-legacy.html").writeText(result)
+        }
         assertEquals(readFileFromTestResources("/results/slunecni-hrob-legacy.html"), result)
     }
 }

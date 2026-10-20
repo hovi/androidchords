@@ -16,13 +16,15 @@ fun SectionBuilder?.empty(): Boolean {
  * following lines indented up to that width are only aligned under the text.
  * [unindentedFirstLine] marks a first line that was taken from behind the header as is.
  * [headerLines] lines at the start belong to the header line itself and are never moved to another section.
+ * [headerPrefix] is the header as written in front of the text ("R: "), for a header written on the same line as text.
  */
 data class SectionBuilder(
     val sb: StringBuilder,
     val currentHeaderLine: String?,
     val hangingIndent: Int = 0,
     val unindentedFirstLine: Boolean = false,
-    val headerLines: Int = 0
+    val headerLines: Int = 0,
+    val headerPrefix: String? = null
 ) {
 
     fun trimFuckingNulls(text: String): String {
@@ -46,18 +48,29 @@ data class SectionBuilder(
         return last
     }
 
-    private fun removeHangingIndent(body: String): String {
-        if (hangingIndent == 0) {
-            return body
-        }
+    /** The body without hanging indentation, and the number of spaces removed from each line. */
+    private fun removeHangingIndent(body: String): Pair<String, List<Int>> {
         val lines = body.split("\n")
         val firstIndented = if (unindentedFirstLine) 1 else 0
-        val indented = lines.indices.filter { it >= firstIndented && lines[it].isNotBlank() }
+        val indented = lines.indices.filter { hangingIndent > 0 && it >= firstIndented && lines[it].isNotBlank() }
         if (indented.isEmpty()) {
-            return body
+            return Pair(body, emptyList())
         }
         val indent = min(hangingIndent, indented.minOf { lines[it].takeWhile { c -> c == ' ' }.length })
-        return lines.mapIndexed { i, line -> if (i in indented) line.substring(indent) else line }.joinToString("\n")
+        return Pair(
+            lines.mapIndexed { i, line -> if (i in indented) line.substring(indent) else line }.joinToString("\n"),
+            lines.indices.map { if (it in indented) indent else 0 }
+        )
+    }
+
+    private fun source(body: String): SectionSource {
+        // every line in the body ends with a line break
+        val trailingLines = if (body.isEmpty()) emptyList() else body.removeSuffix("\n").split("\n").takeLastWhile { it.isBlank() }
+        return if (headerPrefix != null) {
+            SectionSource(headerPrefix, headerLines - 1, !unindentedFirstLine, trailingLines)
+        } else {
+            SectionSource(currentHeaderLine?.takeIf { it.isNotEmpty() }, -1, false, trailingLines)
+        }
     }
 
     private fun indexFromFirstLine(line: String?, sectionTypeCount: MutableMap<ISectionType, Int>): Int {
@@ -84,6 +97,7 @@ data class SectionBuilder(
         val st = SectionType.fromName(currentHeaderLine)
         val index = indexFromFirstLine(currentHeaderLine, sectionTypeCount)
         sectionTypeCount[st] = (sectionTypeCount[st] ?: 0) + 1
-        return Section(parseSectionText(currentHeaderLine, removeHangingIndent(sb.toString())), st, 0, index, i18N = i18n)
+        val (body, removedIndents) = removeHangingIndent(sb.toString())
+        return Section(parseSectionText(currentHeaderLine, body, removedIndents), st, 0, index, i18N = i18n, source = source(sb.toString()))
     }
 }

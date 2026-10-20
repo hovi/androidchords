@@ -44,7 +44,14 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
                 // keep columns aligned with the chord line above or below
                 val aligned = chordLineAbove != null || Transposer.lineContainsChordsOnly(text)
                 val firstLine = if (aligned) " ".repeat(textStart) + text else text
-                sectionBuilder = SectionBuilder(StringBuilder(), headerWithText.groupValues[1], textStart, !aligned, headerLines = if (chordLineAbove == null) 1 else 2)
+                sectionBuilder = SectionBuilder(
+                    StringBuilder(),
+                    headerWithText.groupValues[1],
+                    textStart,
+                    !aligned,
+                    headerLines = if (chordLineAbove == null) 1 else 2,
+                    headerPrefix = line.substring(0, textStart)
+                )
                 chordLineAbove?.let { sectionBuilder.sb.append(it + "\n") }
                 sectionBuilder.sb.append(firstLine + "\n")
             } else {
@@ -67,7 +74,7 @@ class SectionTokenizer(private val i18n: I18N = I18N()) {
             for (j in mergedSections.indices.reversed()) {
                 val previousSection = mergedSections[j]
                 if (section.sameContentAndType(previousSection)) {
-                    sectionToAdd = Section.makeCopyOf(previousSection, isRepeatOnly = section.content.isEmpty())
+                    sectionToAdd = Section.makeCopyOf(previousSection, section)
                     break
                 }
             }

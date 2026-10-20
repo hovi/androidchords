@@ -33,6 +33,12 @@ class SongText(val originalText: String, val title: String, private val displayS
         this.sections = sectionTokenizer.getSectionsOrSingleSection(originalText).toTypedArray()
     }
 
+    /** The song as written, rebuilt from the parsed sections (legacy layout). */
+    val legacyRows: List<LegacyRow> by lazy {
+        val rows = sections.flatMap { it.legacyRows() }
+        if (rows.isEmpty()) rows else rows.dropLast(1) + rows.last().withEnd("")
+    }
+
     val filledSections: String by lazy {
         val text = sections.mapNotNull { it.content.originalText }.joinToString("")
         if (text.isBlank()) {
