@@ -5,10 +5,14 @@ import eu.karelhovorka.zpevnik.text.section.SectionText
 import eu.karelhovorka.zpevnik.util.I18N
 import kotlin.jvm.JvmOverloads
 
-class Section @JvmOverloads constructor(val content: SectionText, val type: ISectionType, val copyOf: Section? = null, val copyIndex: Int = 0, val index: Int = 0, val i18N: I18N) {
+/**
+ * [isRepeatOnly]: a copy written as a bare header ("R:") in the source, its [content] comes from the earlier section.
+ * It describes the source text only and is not part of equality.
+ */
+class Section @JvmOverloads constructor(val content: SectionText, val type: ISectionType, val copyIndex: Int = 0, val index: Int = 0, val i18N: I18N, val isRepeatOnly: Boolean = false) {
 
     val isCopy: Boolean
-        get() = copyOf != null
+        get() = copyIndex > 0
 
     val css: String by lazy {
         val classes = mutableListOf(
@@ -45,10 +49,8 @@ class Section @JvmOverloads constructor(val content: SectionText, val type: ISec
         if (content == another.content) {
             return true
         }
-        if (index == another.index) {
-            return true
-        }
-        return false
+        // a bare header (e.g. "R:") repeats the earlier section with the same index
+        return content.isEmpty() && index == another.index
     }
 
     override fun equals(other: Any?): Boolean {
@@ -58,7 +60,6 @@ class Section @JvmOverloads constructor(val content: SectionText, val type: ISec
 
         if (content != other.content) return false
         if (type != other.type) return false
-        if (copyOf != other.copyOf) return false
         if (copyIndex != other.copyIndex) return false
         if (index != other.index) return false
 
@@ -68,20 +69,19 @@ class Section @JvmOverloads constructor(val content: SectionText, val type: ISec
     override fun hashCode(): Int {
         var result = content.hashCode()
         result = 31 * result + type.hashCode()
-        result = 31 * result + (copyOf?.hashCode() ?: 0)
         result = 31 * result + copyIndex
         result = 31 * result + index
         return result
     }
 
     override fun toString(): String {
-        return "Section(content=$content, type=$type, copyOf=$copyOf, copyIndex=$copyIndex, index=$index)"
+        return "Section(content=$content, type=$type, copyIndex=$copyIndex, index=$index)"
     }
 
     companion object {
 
-        fun makeCopyOf(previousSection: Section): Section {
-            return Section(previousSection.content, previousSection.type, null, previousSection.copyIndex + 1, previousSection.index, i18N = previousSection.i18N)
+        fun makeCopyOf(previousSection: Section, isRepeatOnly: Boolean): Section {
+            return Section(previousSection.content, previousSection.type, previousSection.copyIndex + 1, previousSection.index, i18N = previousSection.i18N, isRepeatOnly = isRepeatOnly)
         }
     }
 }

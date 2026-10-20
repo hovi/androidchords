@@ -2,10 +2,11 @@ package eu.karelhovorka.zpevnik.text.section
 
 import eu.karelhovorka.zpevnik.util.ChordDetector
 import eu.karelhovorka.zpevnik.util.Transposer
+import eu.karelhovorka.zpevnik.util.expandTabs
 import mock.toPattern
 import kotlin.math.min
 
-data class SectionLine(val chordToText: Array<ChordPair>) {
+data class SectionLine(val chordToText: Array<ChordPair>, val repeatCount: Int? = null) {
     val hasChords: Boolean by lazy {
         chordToText.any { it.chord != null }
     }
@@ -51,11 +52,11 @@ data class SectionLine(val chordToText: Array<ChordPair>) {
         other as SectionLine
 
         if (!chordToText.contentEquals(other.chordToText)) return false
-        return true
+        return repeatCount == other.repeatCount
     }
 
     override fun hashCode(): Int {
-        return chordToText.contentHashCode()
+        return 31 * chordToText.contentHashCode() + (repeatCount ?: 0)
     }
 
 }
@@ -107,29 +108,30 @@ fun parseSectionText(firstLine: String?, textBody: String): SectionText {
         return SectionText(emptyArray(), fullText)
     }
     val lines = textBody.trimEnd().split("\n".toRegex())
+    val chordsOnly = { line: String -> Transposer.lineContainsChordsOnly(blankRepeatMarks(line)) }
     var lineIndex = 0
     while (lineIndex < (lines.size)) {
-        val line = lines[lineIndex]
-        if (Transposer.lineContainsChordsAndText(line)) {
-            result.add(parseSectionLineInline(line))
+        val (line, repeatCount) = splitRepeatCount(lines[lineIndex])
+        if (Transposer.lineContainsChordsAndText(line) && !chordsOnly(line)) {
+            result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount))
         } else if (lineIndex != lines.size - 1) {
-            val nextLine = lines[lineIndex + 1]
-            if (Transposer.lineContainsChordsOnly(line) && Transposer.lineContainsTextOnly(nextLine)) {
+            val (nextLine, nextRepeatCount) = splitRepeatCount(lines[lineIndex + 1])
+            if (chordsOnly(line) && Transposer.lineContainsTextOnly(nextLine)) {
                 if (nextLine.isBlank()) {
-                    result.add(parseSectionLineInline(line))
+                    result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount))
                 } else {
                     lineIndex++
-                    result.add(parseSectionLineUpper(line, nextLine))
+                    result.add(parseSectionLineUpper(blankRepeatMarks(line), nextLine).copy(repeatCount = repeatCount ?: nextRepeatCount))
                 }
-            } else if (Transposer.lineContainsChordsOnly(line) && Transposer.lineContainsChordsOnly(nextLine)) {
-                result.add(parseSectionLineInline(line))
+            } else if (chordsOnly(line) && chordsOnly(nextLine)) {
+                result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount))
             } else {
-                result.add(SectionLine(line))
+                result.add(SectionLine(arrayOf(ChordPair(null, line)), repeatCount))
             }
-        } else if (Transposer.lineContainsChordsOnly(line)) {
-            result.add(parseSectionLineInline(line))
+        } else if (chordsOnly(line)) {
+            result.add(parseSectionLineInline(line).copy(repeatCount = repeatCount))
         } else {
-            result.add(SectionLine(line))
+            result.add(SectionLine(arrayOf(ChordPair(null, line)), repeatCount))
         }
         lineIndex++
     }
@@ -144,7 +146,12 @@ fun parseSectionLineUpper(lines: String): SectionLine {
     return parseSectionLineUpper(splitLines.first(), splitLines.last())
 }
 
-fun parseSectionLineUpper(cLine: String, textLine: String): SectionLine {
+fun parseSectionLineUpper(rawChordLine: String, rawTextLine: String): SectionLine {
+    val indentedChordLine = expandTabs(rawChordLine)
+    val indentedTextLine = expandTabs(rawTextLine)
+    val indent = min(indentedChordLine.takeWhile { it == ' ' }.length, indentedTextLine.takeWhile { it == ' ' }.length)
+    val cLine = indentedChordLine.substring(indent)
+    val textLine = indentedTextLine.substring(indent)
     var chordLine = Transposer.mergeLine(cLine)
     chordLine = ChordDetector.replacePlainChordsInline(chordLine)
 

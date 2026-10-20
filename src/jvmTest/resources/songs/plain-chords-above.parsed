@@ -1,0 +1,12 @@
+VERSE index=0 copy=0
+  [C] 'Ráno vstanu,' | [G] ' kafe vařím, ' | [Am] 'okno dokořán,'
+  [F] 'venku prší, já ' | [C] 'se mračím, ni' | [G] 'kam nechci sám.'
+CHORUS index=0 copy=0
+  [F] 'Hej, hej, ' | [G] 'deštníku, p' | [C] 'ojď se ' | [Am] 'mnou ven,'
+  [F] 'dneska bude' | [G] ' dlouhý den.' | [C] ''
+VERSE index=1 copy=0
+  [C] 'Tramvaj jede,' | [G] ' lidi spějí, k' | [Am] 'aždý někam zná,'
+  [F] 'jenom já tu sto' | [C] 'jím v dešti, c' | [G] 'esta neznámá.'
+CHORUS index=0 copy=1
+  [F] 'Hej, hej, ' | [G] 'deštníku, p' | [C] 'ojď se ' | [Am] 'mnou ven,'
+  [F] 'dneska bude' | [G] ' dlouhý den.' | [C] ''

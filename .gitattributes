@@ -1,0 +1,2 @@
+# test inputs and snapshots must keep their exact bytes (crlf.txt tests Windows line endings)
+src/jvmTest/resources/** -text

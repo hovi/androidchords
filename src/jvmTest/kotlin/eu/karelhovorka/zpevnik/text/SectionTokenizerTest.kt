@@ -210,9 +210,9 @@ ref1
         @Throws(IOException::class)
         fun readFileFromResources(path: String): String {
             try {
-                return readFile("src/main/resources", path)
+                return readFile("src/resources", path)
             } catch (e: IOException) {
-                return readFile("chords/src/main/resources", path)
+                return readFile("chords/src/resources", path)
             }
 
         }

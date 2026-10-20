@@ -104,7 +104,8 @@ object ChordDetector {
 
     fun replacePlainChordsInline(content: String): String {
         if (hasPlainChordsInline(content)) {
-            return content.replace(("(" + Transposer.FULL_CHORD + ")").toRegex(), "[$1]")
+            // tab stops must be resolved before brackets shift the columns
+            return expandTabs(content).replace(("(" + Transposer.FULL_CHORD + ")").toRegex(), "[$1]")
         }
         return content
     }

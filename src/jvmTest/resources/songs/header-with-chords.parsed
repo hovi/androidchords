@@ -1,0 +1,9 @@
+INTRO index=0 copy=0
+  [C] ' ' | [G] ' ' | [Am] ' ' | [F] ''
+VERSE index=0 copy=0
+  [C] 'Sloka po intru,'
+  [G] 'dál to jede.'
+INTERMEZZO index=0 copy=0
+  [Am] ' ' | [F] ''
+CHORUS index=0 copy=0
+  [C] 'Refrén s' | [G] ' akordy'

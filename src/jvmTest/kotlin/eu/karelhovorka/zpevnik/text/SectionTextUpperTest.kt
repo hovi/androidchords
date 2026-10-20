@@ -166,10 +166,6 @@ class SectionTextUpperTest {
     fun testStartingSpaces() {
         assertEquals(sectionLine {
             chordPair {
-                chord = null
-                text = " "
-            }
-            chordPair {
                 chord = "[Dm]"
                 text = "Gim"
             }
@@ -179,5 +175,27 @@ class SectionTextUpperTest {
 
     }
 
+    @Test
+    fun tabsAreExpandedToTabStops() {
+        assertEquals(sectionLine {
+            chordPair {
+                chord = "[C]"
+                text = "abcdef"
+            }
+            chordPair {
+                chord = "[G]"
+                text = "ghijklmn"
+            }
+        }, parseSectionLineUpper("[C]\t[G]", "abcdefghijklmn"))
+    }
 
+    @Test
+    fun tabsInBothLines() {
+        assertEquals(sectionLine {
+            chordPair {
+                chord = "[C]"
+                text = "Text"
+            }
+        }, parseSectionLineUpper("\t[C]", "\tText"))
+    }
 }

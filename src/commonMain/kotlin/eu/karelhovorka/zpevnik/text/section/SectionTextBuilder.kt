@@ -43,7 +43,7 @@ data class SectionLineBuilder(val chordToText: MutableList<ChordPair> = mutableL
 
 }
 
-data class SectionBuilder(var content: SectionText? = null, var type: ISectionType = SectionType.EMPTY, var copyOf: Section? = null, var copyIndex: Int = 0, var index: Int = 0, val i18n: I18N = I18N()) {
+data class SectionBuilder(var content: SectionText? = null, var type: ISectionType = SectionType.EMPTY, var copyIndex: Int = 0, var index: Int = 0, val i18n: I18N = I18N()) {
 
 
     fun sectionText(init: SectionTextBuilder.() -> Unit): SectionText {
@@ -55,7 +55,7 @@ data class SectionBuilder(var content: SectionText? = null, var type: ISectionTy
     }
 
     fun build(): Section {
-        return Section(content = content!!, type = type, copyOf = copyOf, copyIndex = copyIndex, index = index, i18N = i18n)
+        return Section(content = content!!, type = type, copyIndex = copyIndex, index = index, i18N = i18n)
     }
 }
 

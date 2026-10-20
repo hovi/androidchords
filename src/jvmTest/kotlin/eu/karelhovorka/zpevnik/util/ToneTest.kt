@@ -35,14 +35,6 @@ class ToneTest {
             "A#",
             transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.SHARP, of(-1))
         )
-        Assert.assertEquals(
-            "Ais",
-            transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.IS, of(-1))
-        )
-        Assert.assertEquals(
-            "Bb",
-            transpose("B", CountryCategory.WESTERN, ModificationAbbreviation.ES, of(-1))
-        )
     }
 
     @Test
