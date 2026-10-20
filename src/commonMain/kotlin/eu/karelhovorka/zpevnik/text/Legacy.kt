@@ -62,20 +62,18 @@ private fun rowCss(lineCss: String, rowText: String): String {
 fun Section.legacyRows(): List<LegacyRow> {
     // rows with the index of the body line they come from
     val rows = mutableListOf<Pair<Int, LegacyRow>>()
-    if (!isRepeatOnly) {
-        content.lines.forEachIndexed { i, line ->
-            val lineSource = line.source
-            val css = line.css()
-            if (lineSource?.chordLine != null) {
-                val text = line.chordToText.joinToString("") { it.text }
-                val textRow = lineSource.indent + text + lineSource.repeatSuffix
-                rows.add(lineSource.line to LegacyRow("${rowCss(css, lineSource.chordLine)} chord-row", lineSource.chordLine))
-                rows.add(lineSource.line + 1 to LegacyRow("${rowCss(css, textRow)} text-row", textRow))
-            } else {
-                val text = line.chordToText.joinToString("") { (it.chord ?: "") + it.text }
-                val rowText = (lineSource?.indent ?: "") + text + (lineSource?.repeatSuffix ?: "")
-                rows.add((lineSource?.line ?: i) to LegacyRow(rowCss(css, rowText), rowText))
-            }
+    ownContent.lines.forEachIndexed { i, line ->
+        val lineSource = line.source
+        val css = line.css()
+        if (lineSource?.chordLine != null) {
+            val text = line.chordToText.joinToString("") { it.text }
+            val textRow = lineSource.indent + text + lineSource.repeatSuffix
+            rows.add(lineSource.line to LegacyRow("${rowCss(css, lineSource.chordLine)} chord-row", lineSource.chordLine))
+            rows.add(lineSource.line + 1 to LegacyRow("${rowCss(css, textRow)} text-row", textRow))
+        } else {
+            val text = line.chordToText.joinToString("") { (it.chord ?: "") + it.text }
+            val rowText = (lineSource?.indent ?: "") + text + (lineSource?.repeatSuffix ?: "")
+            rows.add((lineSource?.line ?: i) to LegacyRow(rowCss(css, rowText), rowText))
         }
     }
     val header = source.header

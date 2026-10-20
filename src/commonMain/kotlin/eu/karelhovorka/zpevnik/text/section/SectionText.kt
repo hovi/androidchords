@@ -114,6 +114,11 @@ data class SectionText(val lines: Array<SectionLine>, val originalText: String? 
         return lines.isEmpty() || lines.size == 1 && lines.first().isEmpty()
     }
 
+    /** Chords or lyrics, not only blank lines and comments: a section of only notes repeats an earlier one. */
+    fun hasMusic(): Boolean = lines.any { line ->
+        !line.isComment && line.chordToText.any { it.chord != null || it.text.isNotBlank() }
+    }
+
     fun text(): String {
         val sb = StringBuilder()
         for (line in lines) {
@@ -147,6 +152,9 @@ data class SectionText(val lines: Array<SectionLine>, val originalText: String? 
  * [removedIndents] are the leading spaces already removed from each line of [textBody].
  * [seenChordSequences] are the chord sequences of the song so far, lines repeating one get [SectionLine.repeatedChords].
  */
+/** Whether a section body (one line per source line) has chords or lyrics, see [SectionText.hasMusic]. */
+fun hasMusic(body: String): Boolean = body.lines().any { it.isNotBlank() && !isComment(it) }
+
 fun parseSectionText(
     firstLine: String?,
     textBody: String,

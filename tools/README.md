@@ -77,5 +77,10 @@ npm ci --prefix tools/visible-text
 node tools/visible-text/check.mjs
 ```
 
+The text comparison ignores whitespace and cannot see CSS generated content, so the same run also checks
+the current snapshots directly: repeat bars and counts drawn by CSS (`‖:`, `:‖`, `×`) for songs with known
+repeats, and every chord placed at its text (above its start in the upper layout, right before it and raised
+in the inline layout). Legacy alignment comes from spaces and is covered by `LegacyRowsTest`.
+
 Requirements: Node/npm and Google Chrome (or `CHROME_PATH` pointing to Chrome or Chromium).
 Regenerate `after` first after an intended change: `UPDATE_GOLDEN=1 ./gradlew :chords:jvmTest`.

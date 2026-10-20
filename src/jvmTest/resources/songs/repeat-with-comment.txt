@@ -1,0 +1,11 @@
+R:
+[C]Hello [G]world
+1.
+Verse
+R:
+# softly this time
+2.
+Second verse
+R:
+
+# [G] last time slower

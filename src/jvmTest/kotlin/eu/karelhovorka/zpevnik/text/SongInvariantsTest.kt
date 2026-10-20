@@ -29,7 +29,8 @@ class SongInvariantsTest {
 
     private val chordRegex = Transposer.CHORD_REGEX.toRegex()
 
-    private fun writtenSections(text: String) = SectionTokenizer().getSections(prepare(text)).filterNot { it.isRepeatOnly }
+    /** What was written in each section, without the content a repeat takes from an earlier one. */
+    private fun writtenLines(text: String) = SectionTokenizer().getSections(prepare(text)).map { it.ownContent.lines.toList() }
 
     @Test
     fun songsAreLoaded() {
@@ -51,9 +52,7 @@ class SongInvariantsTest {
     fun noChordIsLostOrReordered() {
         for ((name, text) in songs) {
             val expected = prepare(text).lines().flatMap { line -> chordRegex.findAll(expectedLine(line)).map { it.value } }
-            val actual = writtenSections(text).flatMap { section ->
-                section.content.lines.flatMap { line -> line.chordToText.mapNotNull { it.chord } }
-            }
+            val actual = writtenLines(text).flatten().flatMap { line -> line.chordToText.mapNotNull { it.chord } }
             assertEquals(name, expected, actual)
         }
     }
@@ -62,9 +61,7 @@ class SongInvariantsTest {
     fun noLyricWordIsLostOrAdded() {
         for ((name, text) in songs) {
             val expected = prepare(text).lines().flatMap { expectedWords(it) }
-            val actual = writtenSections(text).flatMap { section ->
-                section.content.lines.flatMap { line -> words(line.chordToText.joinToString("") { it.text }) }
-            }
+            val actual = writtenLines(text).flatten().flatMap { line -> words(line.chordToText.joinToString("") { it.text }) }
             assertEquals(name, expected, actual)
         }
     }
@@ -72,9 +69,7 @@ class SongInvariantsTest {
     @Test
     fun everyChordStaysInItsSection() {
         for ((name, text) in songs) {
-            val actual = SectionTokenizer().getSections(prepare(text)).map { section ->
-                if (section.isRepeatOnly) emptyList() else section.content.lines.flatMap { line -> line.chordToText.mapNotNull { it.chord } }
-            }
+            val actual = writtenLines(text).map { lines -> lines.flatMap { line -> line.chordToText.mapNotNull { it.chord } } }
             assertEquals(name, expectedSectionChords(prepare(text)), actual)
         }
     }

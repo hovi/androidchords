@@ -179,6 +179,30 @@
       "reason": "'hide text' used to remove text before '[C G Am]' was split into chords, so those chords were lost; now they are shown"
     },
     {
+      "song": "repeat-with-comment",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "comments"
+      ],
+      "reason": "a repeat with only a note ('R:' + '# softly') repeats the section after the note; before, with comments shown, it was a new empty 'Chorus (2)' with just the note"
+    },
+    {
+      "song": "repeat-with-comment",
+      "layouts": [
+        "legacy",
+        "inline",
+        "upper",
+        "print"
+      ],
+      "variants": [
+        "hide-text"
+      ],
+      "reason": "a hidden comment with chords ('# [G] last time slower') is hidden whole; before, 'hide text' removed its text first and its chords stayed visible"
+    },
+    {
       "song": "repeats",
       "layouts": [
         "inline",

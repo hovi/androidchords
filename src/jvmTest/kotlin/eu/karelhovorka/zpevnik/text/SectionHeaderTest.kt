@@ -257,4 +257,49 @@ class SectionHeaderTest {
         val rows = SongText.fromRawText("Intro:\n[C] [G]\n\n1. Verse lyrics", "", SongDisplaySettings(), eu.karelhovorka.zpevnik.util.I18N()).legacyRows
         assertEquals(listOf("Intro:", "[C] [G]", "", "1. Verse lyrics"), rows.map { it.text })
     }
+
+    @Test
+    fun repeatWithOnlyNotesRepeatsTheSection() {
+        val result = sections(
+            """
+            R:
+            [C]Hello [G]world
+            1.
+            Verse
+            R:
+            <comment> softly this time</comment>
+            """.trimIndent()
+        )
+        assertEquals(listOf(SectionType.CHORUS, SectionType.VERSE, SectionType.CHORUS), result.map { it.type })
+        val repeat = result[2]
+        assertTrue(repeat.isCopy)
+        assertTrue(repeat.isRepeatOnly)
+        assertEquals(0, repeat.index)
+        // the note first, then the repeated chorus
+        assertEquals(listOf("-:<comment> softly this time</comment>", "[C]:Hello  | [G]:world"), lines(repeat))
+        assertEquals(1, repeat.ownContent.lines.size)
+    }
+
+    @Test
+    fun repeatWithBlankLineAndNoteKeepsBothAsWritten() {
+        val songText = SongText.fromRawText("R:\n[C]Hello [G]world\nR:\n\n# [G] slower", "", SongDisplaySettings(showComments = true), eu.karelhovorka.zpevnik.util.I18N())
+        val repeat = songText.sections[1]
+        assertTrue(repeat.isRepeatOnly)
+        assertEquals(listOf("-:<comment>  | [G]: slower</comment>", "[C]:Hello  | [G]:world"), repeat.content.lines.map { line -> line.chordToText.joinToString(" | ") { "${it.chord ?: "-"}:${it.text}" } })
+        assertEquals(listOf("R:", "[C]Hello [G]world", "R:", "", "<comment> [G] slower</comment>"), songText.legacyRows.map { it.text })
+    }
+
+    @Test
+    fun noteWithMusicIsANewSection() {
+        val result = sections("R:\n[C]Hello\n1.\nx\nR:\n<comment> note</comment>\nnew chorus text")
+        assertFalse(result[2].isRepeatOnly)
+        assertFalse(result[2].isCopy)
+    }
+
+    @Test
+    fun repeatOfARepeatDoesNotTakeItsNotes() {
+        val result = sections("R:\n[C]Hello\nR:\n<comment> softly</comment>\nR:\n<comment> loud</comment>\nR:")
+        assertEquals(listOf("-:<comment> loud</comment>", "[C]:Hello"), lines(result[2]))
+        assertEquals(listOf("[C]:Hello"), lines(result[3]))
+    }
 }

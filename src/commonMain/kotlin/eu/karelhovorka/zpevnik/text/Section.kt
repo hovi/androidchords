@@ -1,13 +1,16 @@
 package eu.karelhovorka.zpevnik.text
 
 
+import eu.karelhovorka.zpevnik.text.section.SectionLine
 import eu.karelhovorka.zpevnik.text.section.SectionText
 import eu.karelhovorka.zpevnik.util.I18N
 import kotlin.jvm.JvmOverloads
 
 /**
  * [isRepeatOnly]: a copy written as a bare header ("R:") in the source, its [content] comes from the earlier section.
- * [isRepeatOnly] and [source] describe the source text only and are not part of equality.
+ * A repeat with notes ("R:" + "# softly") has the notes in front of the repeated [content]; [ownContent] is
+ * what was written in this section (the legacy layout shows the song as written).
+ * [isRepeatOnly], [ownContent] and [source] describe the source text only and are not part of equality.
  */
 class Section @JvmOverloads constructor(
     val content: SectionText,
@@ -16,8 +19,13 @@ class Section @JvmOverloads constructor(
     val index: Int = 0,
     val i18N: I18N,
     val isRepeatOnly: Boolean = false,
-    val source: SectionSource = SectionSource()
+    val source: SectionSource = SectionSource(),
+    val ownContent: SectionText = content
 ) {
+
+    /** Comments written in a repeat without music ("R:" + "# softly"), shown before the repeated content. */
+    val notes: List<SectionLine>
+        get() = if (isRepeatOnly) ownContent.lines.filter { it.isComment } else emptyList()
 
     val isCopy: Boolean
         get() = copyIndex > 0
@@ -63,8 +71,8 @@ class Section @JvmOverloads constructor(
         if (content == another.content) {
             return true
         }
-        // a bare header (e.g. "R:") repeats the earlier section with the same index
-        return content.isEmpty() && index == another.index
+        // a bare header (e.g. "R:"), also with only notes, repeats the earlier section with the same index
+        return !content.hasMusic() && index == another.index
     }
 
     override fun equals(other: Any?): Boolean {
@@ -94,17 +102,24 @@ class Section @JvmOverloads constructor(
 
     companion object {
 
-        /** [section] repeats [previousSection]; a bare header takes its content, written out content is kept. */
+        /**
+         * [section] repeats [previousSection]; a header without music takes its content after its own notes,
+         * written out content is kept.
+         */
         fun makeCopyOf(previousSection: Section, section: Section): Section {
-            val isRepeatOnly = section.content.isEmpty()
+            val isRepeatOnly = !section.content.hasMusic()
+            val notes = section.content.lines.filter { it.isComment }.toTypedArray()
+            // a repeat of a repeat takes the music, not the notes of the one it repeats
+            val music = previousSection.content.lines.drop(if (previousSection.isRepeatOnly) previousSection.notes.size else 0)
             return Section(
-                if (isRepeatOnly) previousSection.content else section.content,
+                if (isRepeatOnly) SectionText(notes + music, previousSection.content.originalText) else section.content,
                 previousSection.type,
                 previousSection.copyIndex + 1,
                 previousSection.index,
                 i18N = previousSection.i18N,
                 isRepeatOnly = isRepeatOnly,
-                source = section.source
+                source = section.source,
+                ownContent = section.content
             )
         }
     }

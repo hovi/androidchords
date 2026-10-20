@@ -1,6 +1,7 @@
 package eu.karelhovorka.zpevnik.text
 
 import eu.karelhovorka.zpevnik.text.SectionTokenizer.Companion.SECTION_TYPE_BASIC_REGEX
+import eu.karelhovorka.zpevnik.text.section.hasMusic
 import eu.karelhovorka.zpevnik.text.section.parseSectionText
 import eu.karelhovorka.zpevnik.util.ChordDetector
 import eu.karelhovorka.zpevnik.util.I18N
@@ -83,11 +84,12 @@ data class SectionBuilder(
                 try {
                     index = explicitIndex.toInt() - 1
                 } catch (e: NumberFormatException) {
-                    if (sb.toString().isBlank()) {
+                    if (!hasMusic(sb.toString())) {
                         index = 0
                     }
                 }
-            } else if (sb.toString().isBlank()) {
+            } else if (!hasMusic(sb.toString())) {
+                // a bare header, also with only notes ("R:" + "# softly"), repeats the first one
                 index = 0
             }
             index
