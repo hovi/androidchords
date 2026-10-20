@@ -34,18 +34,36 @@ html, body {
     font-weight: 900 !important;
 }
 
+/*
+ * Look of the song, adjustable per user with CSS variables (custom properties) on .main-song-content.
+ * Colours are set per theme (on .theme-light / .theme-dark), the rest for all themes. A variable without a
+ * default here is unset by default, so the property is inherited as before (e.g. headers stay bold with the
+ * "bold" setting). Settings of the app (font, size, bold, bigger chords, columns, hiding) are classes, not
+ * variables.
+ *
+ * colours:    --song-background, --song-text, --song-chord, --song-header, --song-header-line,
+ *             --song-comment, --song-repeat
+ * headers:    --song-header-size, --song-header-weight, --song-header-transform, --song-header-display
+ * spacing:    --song-page-padding, --song-section-gap, --song-chord-gap
+ * per layout: --song-line-height-legacy, --song-line-height-inline, --song-line-height-upper
+ * other:      --song-comment-style, --song-repeat-start, --song-repeat-end, --song-repeat-count
+ */
+
 /* basic formatting */
 .chord {
     text-decoration: none;
 }
 
 /* the templates hold only the number and empty repeat bars, the way they are shown is defined here */
+.repeat-start, .repeat-end, .repeat-count {
+    color: var(--song-repeat);
+}
 .repeat-start::before {
-    content: "‖:";
+    content: var(--song-repeat-start, "‖:");
     padding-right: 0.25em;
 }
 .repeat-end::after {
-    content: ":‖";
+    content: var(--song-repeat-end, ":‖");
     padding-left: 0.25em;
 }
 
@@ -53,7 +71,7 @@ html, body {
     padding-left: 0.5em;
 }
 .repeat-count::after {
-    content: "×";
+    content: var(--song-repeat-count, "×");
 }
 
 .content {
@@ -62,15 +80,21 @@ html, body {
 
 comment {
     display: inline-block;
-    font-style: italic;
+    font-style: var(--song-comment-style, italic);
+    color: var(--song-comment);
 }
 
 .header {
-    padding: 0.75rem 0.25rem 0.5rem 0.25rem;
-    padding-bottom: 0;
+    display: var(--song-header-display, block);
+    padding: var(--song-section-gap, 0.75rem) 0.25rem 0 0.25rem;
     margin: 0.0rem 0.25rem 0.0rem 0.25rem;
     border-bottom-width: 1px;
     border-bottom-style: solid;
+    border-bottom-color: var(--song-header-line);
+    color: var(--song-header);
+    font-size: var(--song-header-size);
+    font-weight: var(--song-header-weight);
+    text-transform: var(--song-header-transform);
 }
 
 .section-type-empty .header, .section-single-unknown .header {
@@ -83,6 +107,7 @@ comment {
 
 /* template-specific */
 &.layout-upper, &.layout-inline {
+    padding: var(--song-page-padding, 0);
     .empty-chord .chord {
         width: 0;
     }
@@ -94,8 +119,11 @@ comment {
 }
 
 &.layout-upper {
+    .song-text-line {
+        line-height: var(--song-line-height-upper);
+    }
     .song-chord {
-        padding-right: 0.2em;
+        padding-right: var(--song-chord-gap, 0.2em);
     }
     .song-line-no-chords .song-chord {
         display: none;
@@ -109,7 +137,7 @@ comment {
 &.layout-inline {
     .chord {
         display: inline-block;
-        padding: 0 0.2rem;
+        padding: 0 var(--song-chord-gap, 0.2rem);
         vertical-align: super;
         font-size: smaller;
     }
@@ -119,7 +147,7 @@ comment {
         align-items: flex-end;
     }
     .content {
-        line-height: 1.5;
+        line-height: var(--song-line-height-inline, 1.5);
     }
     .song-line.empty-line {
         height: 1rem;
@@ -127,20 +155,31 @@ comment {
 }
 
 &.layout-legacy {
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    padding: var(--song-page-padding, 0.5rem);
+    .content {
+        line-height: var(--song-line-height-legacy);
+    }
 }
 
 /* theme */
-&.theme-dark {
-    background-color: black; color: white;
-    .chord { color: #FFD050 !important; }
-    .header { border-bottom: 1px solid #FFD050; }
+&.theme-light {
+    --song-background: white;
+    --song-text: black;
+    --song-chord: blue;
+    --song-header-line: black;
 }
 
-&.theme-light {
-    color: black; background-color: white;
-    .chord { color: blue !important; }
-    .header { border-bottom-color: black; }
+&.theme-dark {
+    --song-background: black;
+    --song-text: white;
+    --song-chord: #FFD050;
+    --song-header-line: #FFD050;
+}
+
+&.theme-light, &.theme-dark {
+    background-color: var(--song-background);
+    color: var(--song-text);
+    .chord { color: var(--song-chord) !important; }
 }
 
 /* settings that hide content */
