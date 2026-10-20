@@ -6,6 +6,7 @@ import eu.karelhovorka.zpevnik.text.section.TextSegment
 import eu.karelhovorka.zpevnik.text.section.parseSectionText
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class RepeatTest {
@@ -128,5 +129,27 @@ class RepeatTest {
         val line = lines("|: [C]    [G]\nHello world :|").single()
         assertEquals(true, line.repeatStart)
         assertEquals(false, line.repeatEnd)
+    }
+
+    @Test
+    fun unsupportedRepeatCountStaysText() {
+        for (text in listOf("Hello 999999999999x", "Hello 2147483648x", "Hello 100x", "Hello 0x", "Hello x0")) {
+            val line = lines(text).single()
+            assertNull(text, line.repeatCount)
+            assertEquals(text, "-:$text", show(line))
+        }
+        assertEquals(99, lines("Hello 99x").single().repeatCount)
+    }
+
+    @Test
+    fun oversizedRepeatCountRendersInEveryLayout() {
+        for (layout in listOf("legacy", "inline", "upper")) {
+            val formatter = eu.karelhovorka.zpevnik.formatter.JMustacheTemplateSongFormatter.fromTemplates(
+                eu.karelhovorka.zpevnik.text.SectionTokenizerTest.readFileFromResources("/templates/$layout/main.html"),
+                eu.karelhovorka.zpevnik.text.SectionTokenizerTest.readFileFromResources("/templates/$layout/chords.html")
+            )
+            val html = formatter.formatHtml(SongText.fromRawText("1.\n[C]Hello 999999999999x", "", SongDisplaySettings(), eu.karelhovorka.zpevnik.util.I18N()))
+            assertTrue(layout, "999999999999x" in html)
+        }
     }
 }

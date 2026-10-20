@@ -70,6 +70,13 @@ class JsSmokeTest {
     }
 
     @Test
+    fun oversizedRepeatCountStaysText() {
+        val line = SongText.fromRawText("Hello 999999999999x", "", SongDisplaySettings(), CsHardcoded).sections.single().content.lines.single()
+        assertEquals(null, line.repeatCount)
+        assertEquals("Hello 999999999999x", line.chordToText.single().text)
+    }
+
+    @Test
     fun malformedChordFailsFast() {
         // the web editor parses the song on every key press
         val start = kotlin.js.Date.now()

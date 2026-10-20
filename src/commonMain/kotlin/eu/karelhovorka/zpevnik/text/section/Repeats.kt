@@ -15,10 +15,18 @@ private val REPEAT_COUNT_REGEX = "(?:^|\\s+)\\(?(?:([0-9]+)\\s*[x×]|[x×]\\s*([
 // "/: ... :/" or "|: ... :|", but not the ":/" in "http://"
 private val REPEAT_MARK_REGEX = "/:|:/(?!/)|\\|:|:\\|".toRegex()
 
-/** The line without its repeat count, the count, and the count as written (e.g. " (2x)"). */
+private val REPEAT_COUNTS = 1..99
+
+/**
+ * The line without its repeat count, the count, and the count as written (e.g. " (2x)").
+ * A count outside [REPEAT_COUNTS] ("0x", "999999999999x") is not a repeat, it stays in the text.
+ */
 fun splitRepeatCount(line: String): Triple<String, Int?, String> {
     val match = REPEAT_COUNT_REGEX.find(line) ?: return Triple(line, null, "")
-    val count = match.groupValues[1].ifEmpty { match.groupValues[2] }.toInt()
+    val count = match.groupValues[1].ifEmpty { match.groupValues[2] }.toIntOrNull()
+    if (count == null || count !in REPEAT_COUNTS) {
+        return Triple(line, null, "")
+    }
     return Triple(line.substring(0, match.range.first), count, match.value)
 }
 
