@@ -41,6 +41,14 @@ html, body {
     text-decoration: none;
 }
 
+/* the template holds only the number, the way it is shown is defined here */
+.repeat-count {
+    padding-left: 0.5em;
+}
+.repeat-count::after {
+    content: "×";
+}
+
 .content {
     white-space: pre-wrap; tab-size: 1;
 }

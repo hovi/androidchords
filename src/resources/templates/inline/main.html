@@ -19,7 +19,7 @@
                 {{#chordToText}}
                 <div class="song-chord-pair {{css}} content">{{htmlChord}}{{text}}</div>
                 {{/chordToText}}
-            </div>
+            {{#repeatCount}}<span class="repeat-count">{{.}}</span>{{/repeatCount}}</div>
             {{/content.lines}}
         </div>
     </div>

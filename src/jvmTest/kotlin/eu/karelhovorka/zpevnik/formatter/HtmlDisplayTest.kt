@@ -102,7 +102,7 @@ class HtmlDisplayTest {
             changed("multi-chord-brackets", allLayouts, listOf("hide-chords"), "whitespace only: removing chords leaves no double spaces"),
             changed(
                 "repeats", sectioned, withText,
-                "TEMPORARY: trailing 2x/(2x)/x3 moved to SectionLine.repeatCount, not rendered until the new template (legacy unaffected)"
+                "trailing 2x/(2x)/x3 is shown as the number only (2), CSS adds the ×; legacy keeps it as written"
             ),
             changed(
                 "same-line-headers", sectioned, withText,

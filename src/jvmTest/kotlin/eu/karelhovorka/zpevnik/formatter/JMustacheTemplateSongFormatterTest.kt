@@ -31,4 +31,17 @@ class JMustacheTemplateSongFormatterTest {
         }
         assertEquals(readFileFromTestResources("/results/slunecni-hrob-legacy.html"), result)
     }
+
+    @Test
+    fun inlineAndUpperShowRepeatCount() {
+        for (layout in listOf("inline", "upper")) {
+            val formatter = JMustacheTemplateSongFormatter.fromTemplates(
+                readFileFromResources("/templates/$layout/main.html"),
+                readFileFromResources("/templates/$layout/chords.html")
+            )
+            val html = formatter.formatHtml(SongText.fromRawText("1.\n[C]Hej [G]hou (2x)\n[Am]bez opakování", "", SongDisplaySettings(), I18N()))
+            assertEquals(layout, 1, Regex("<span class=\"repeat-count\">2</span>").findAll(html).count())
+            assertEquals(layout, 1, Regex("repeat-count").findAll(html).count())
+        }
+    }
 }
