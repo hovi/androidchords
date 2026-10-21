@@ -146,6 +146,7 @@ fun songDisplaySettings(): SongDisplaySettings {
     val step = stringOrNull(".source-song-step")?.toIntOrNull() ?: 0
     return SongDisplaySettings.DEFAULT.copy(
             interval = Interval.of(step),
+            theme = stringOrNull(".song-settings .theme") ?: SongDisplaySettings.LIGHT_THEME,
             sectionNames = sectionNames(),
             isDisplayChords = booleanOrFalse(".song-settings .display-chords", true),
             isDoubleColumn = booleanOrFalse(".song-settings .double_column", false),
@@ -182,8 +183,7 @@ fun songMetadata(): SongMetadata? {
 
 
 fun watch() {
-    val templateName = templateName()
-
+    // the layout and the settings are read on every change, the style editor changes them for its preview
     fun onValue(value: String, step: Int) {
         //val step = (document.querySelector(".source-song-step")?.innerHTML)?.toIntOrNull() ?: 0
         val songDisplaySettings = songDisplaySettings().copy(
@@ -191,7 +191,7 @@ fun watch() {
         )
         parse(
                 originalText = value,
-                templateName = templateName,
+                templateName = templateName(),
                 title = document.querySelector(".source-song-title")!!.innerHTML,
                 target = document.querySelector(".song-wrap")!!,
                 songDisplaySettings = songDisplaySettings
