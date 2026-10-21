@@ -9,6 +9,7 @@ import sys
 import tempfile
 from pathlib import Path
 
+import style_defaults
 from verify_assets import MANIFEST, cache_tag_pattern, sha256
 
 SASS_VERSION = "1.77.8"
@@ -37,6 +38,7 @@ def input_hash(source: Path) -> str:
     for relative in (
         "build.gradle",
         "tools/export_assets.py",
+        "tools/style_defaults.py",
         "tools/verify_assets.py",
     ):
         files[relative] = sha256((source / relative).read_bytes())
@@ -124,6 +126,7 @@ def output_files(
     server = {
         "zpevnik/assets/css/chords.css": css,
         "zpevnik/assets/js/chords.js": js,
+        "zpevnik/webapp/style-defaults.json": (source / style_defaults.SOURCE).read_bytes(),
         "tools/check_chords_assets.py": verifier,
     }
     for layout in LAYOUTS:
@@ -197,6 +200,9 @@ def export(source: Path, android_root: Path, server_root: Path, *, check: bool) 
         raise ValueError(f"Not an Android destination: {android_root}")
     if not (server_root / "zpevnik/webapp/templates/inc/song-templates").is_dir():
         raise ValueError(f"Not a server destination: {server_root}")
+    stale = style_defaults.stale_files(source)
+    if stale:
+        raise ValueError(f"Generated style defaults are stale, run tools/style_defaults.py: {stale}")
     fingerprint = input_hash(source)
     revision = git_revision(source)
     with tempfile.TemporaryDirectory(prefix="chords-export-") as temporary:

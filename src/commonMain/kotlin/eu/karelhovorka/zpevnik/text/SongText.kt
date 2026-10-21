@@ -4,6 +4,7 @@ package eu.karelhovorka.zpevnik.text
 import eu.karelhovorka.zpevnik.util.ChordDetector
 import eu.karelhovorka.zpevnik.util.I18N
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
+import eu.karelhovorka.zpevnik.util.SectionNameTemplates
 import eu.karelhovorka.zpevnik.util.SongSettingsFormatter
 import kotlin.js.JsName
 import kotlin.jvm.JvmOverloads
@@ -28,7 +29,8 @@ class SongText(val originalText: String, val title: String, private val displayS
         checkNotNull(originalText, "originalText")
         checkNotNull(title, "title")
         checkNotNull(displaySettings, "songDisplaySettings")
-        val sectionTokenizer = SectionTokenizer(i18N)
+        val names = if (displaySettings.sectionNames.isEmpty()) i18N else SectionNameTemplates(displaySettings.sectionNames, i18N)
+        val sectionTokenizer = SectionTokenizer(names)
         this.sections = sectionTokenizer.getSectionsOrSingleSection(originalText).toTypedArray()
     }
 

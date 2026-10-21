@@ -134,10 +134,19 @@ fun stringOrNull(selector: String, root: Element = document.body!!): String? {
     return root.querySelector(selector)?.innerHTML
 }
 
+/** The viewer's section headers by section type, written by the server as JSON in #song-section-names. */
+fun sectionNames(): Map<String, String> {
+    val json = document.getElementById("song-section-names")?.textContent ?: return emptyMap()
+    val names: dynamic = JSON.parse(json)
+    val types: Array<String> = js("Object.keys")(names)
+    return types.associateWith { names[it] as String }
+}
+
 fun songDisplaySettings(): SongDisplaySettings {
     val step = stringOrNull(".source-song-step")?.toIntOrNull() ?: 0
     return SongDisplaySettings.DEFAULT.copy(
             interval = Interval.of(step),
+            sectionNames = sectionNames(),
             isDisplayChords = booleanOrFalse(".song-settings .display-chords", true),
             isDoubleColumn = booleanOrFalse(".song-settings .double_column", false),
             isDisplayText = booleanOrFalse(".song-settings .show_text", true),

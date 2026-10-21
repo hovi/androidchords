@@ -11,6 +11,25 @@ python3 tools/export_assets.py
 python3 tools/export_assets.py --check
 ```
 
+## Song style defaults
+
+`src/resources/templates/style-defaults.json` is the only source of the song style
+defaults: colours per theme, the CSS variables (without the `--song-` prefix, common,
+per layout, and the quoted repeat symbols), and the section names by section type.
+After editing it, regenerate its copies:
+
+```sh
+python3 tools/style_defaults.py          # writes _style-defaults.scss and StyleDefaults.kt
+python3 tools/style_defaults.py --check  # reports stale copies, writes nothing
+```
+
+`style.scss` uses the Sass variables, Kotlin (`CsHardcoded`, and later the app's style
+editor) uses `StyleDefaults`, and the exporter copies the JSON to the server
+(`zpevnik/webapp/style-defaults.json`). The exporter refuses to run with stale copies;
+`StyleDefaultsTest` (JVM) and `tools/test_style_defaults.py` fail on them too.
+
+## Destinations
+
 Defaults are the enclosing Android checkout and its sibling `zpevnikserver`.
 Destination paths can be overridden and are resolved relative to your working
 directory:

@@ -53,12 +53,7 @@ class Section @JvmOverloads constructor(
         get() = type.getLongName(index)
 
     val localName: String
-        get() {
-            if (index == 0) {
-                return i18N.translate(type.name, index.toString())
-            }
-            return i18N.translate(type.name, index.toString()) + " (${index + 1})"
-        }
+        get() = i18N.sectionName(type, index)
 
 
     fun sameContentAndType(another: Section?): Boolean {

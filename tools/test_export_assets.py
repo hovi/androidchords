@@ -10,6 +10,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import export_assets
+import style_defaults
 from verify_assets import MANIFEST, sha256, verify
 
 
@@ -37,10 +38,16 @@ class ExportAssetsTest(unittest.TestCase):
         self.put(self.source / "build.gradle", "chords build")
         self.put(self.source / "src/commonMain/kotlin/Song.kt", "song source")
         self.put(self.source / "src/resources/templates/style.scss", "style source")
-        for name in ("export_assets.py", "verify_assets.py"):
+        for name in ("export_assets.py", "style_defaults.py", "verify_assets.py"):
             path = self.source / "tools" / name
             path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(Path(__file__).with_name(name), path)
+        shutil.copyfile(
+            Path(__file__).parent.parent / style_defaults.SOURCE,
+            self.source / style_defaults.SOURCE,
+        )
+        for name, content in style_defaults.generated(self.source).items():
+            self.put(self.source / name, content)
         for layout in export_assets.LAYOUTS:
             self.put(
                 self.source / f"src/resources/templates/{layout}/main.html",
@@ -170,6 +177,18 @@ class ExportAssetsTest(unittest.TestCase):
         before = self.consumer_bytes()
         with self.assertRaisesRegex(ValueError, "Source changed during export"):
             self.run_export()
+        self.assertEqual(before, self.consumer_bytes())
+
+    def test_style_defaults_are_exported_and_stale_generated_files_abort(self) -> None:
+        self.run_export()
+        self.assertEqual(
+            (self.source / style_defaults.SOURCE).read_bytes(),
+            (self.server / "zpevnik/webapp/style-defaults.json").read_bytes(),
+        )
+        self.put(self.source / style_defaults.SASS, "$section-gap: 1rem;")
+        before = self.consumer_bytes()
+        with self.assertRaisesRegex(ValueError, "style defaults are stale"):
+            self.run_export(check=True)
         self.assertEqual(before, self.consumer_bytes())
 
     def test_manifest_paths_cannot_escape_consumer_root(self) -> None:

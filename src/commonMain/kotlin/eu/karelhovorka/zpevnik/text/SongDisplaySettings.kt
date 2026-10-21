@@ -20,7 +20,9 @@ data class SongDisplaySettings @JvmOverloads constructor(
     val countryCategory: Tone.CountryCategory = Tone.CountryCategory.EASTERN,
     val modificationAbbreviation: Tone.ModificationAbbreviation = Tone.ModificationAbbreviation.SHARP,
     val theme: String = LIGHT_THEME,
-    val fontFamily: String = DEFAULT_FONT
+    val fontFamily: String = DEFAULT_FONT,
+    /** The user's section headers by section type ("verse" to "{index1}."), see [eu.karelhovorka.zpevnik.util.SectionNameTemplates]. */
+    val sectionNames: Map<String, String> = emptyMap()
 ) {
 
     /** Classes for the root element of the song, the stylesheet applies the settings from them. */

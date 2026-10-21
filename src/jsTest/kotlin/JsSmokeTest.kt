@@ -64,6 +64,12 @@ class JsSmokeTest {
     }
 
     @Test
+    fun namesSectionsFromTemplates() {
+        val names = songText(SongDisplaySettings(sectionNames = mapOf("verse" to "{index1}."))).sections.map { it.localName }
+        assertEquals(listOf("Předehra", "1.", "Refrén", "Refrén"), names)
+    }
+
+    @Test
     fun detectsInvalidChords() {
         assertEquals(listOf("Es"), ChordDetector.invalidChords("[Es] [C]").toList())
         assertEquals("[C] [G]", ChordDetector.replacePlainChords("C G"))
