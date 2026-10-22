@@ -1,0 +1,12 @@
+CHORUS index=0 copy=0
+  [C] 'Hello ' | [G] 'world'
+VERSE index=0 copy=0
+  - 'Verse'
+CHORUS index=0 copy=1
+  - '# softly this time'  [comment]
+  [C] 'Hello ' | [G] 'world'
+VERSE index=1 copy=0
+  - 'Second verse'
+CHORUS index=0 copy=2
+  - '# ' | [G] ' last time slower'  [comment]
+  [C] 'Hello ' | [G] 'world'

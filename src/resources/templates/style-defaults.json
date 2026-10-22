@@ -1,0 +1,51 @@
+{
+  "colors": {
+    "light": {
+      "background": "#ffffff",
+      "text": "#000000",
+      "chord": "#0000ff",
+      "header-line": "#000000"
+    },
+    "dark": {
+      "background": "#000000",
+      "text": "#ffffff",
+      "chord": "#ffd050",
+      "header-line": "#ffd050"
+    }
+  },
+  "common": {
+    "section-gap": "0.75rem",
+    "line-height-inline": "1.5",
+    "comment-style": "italic",
+    "header-display": "block"
+  },
+  "layouts": {
+    "legacy": {
+      "page-padding": "0.5rem"
+    },
+    "inline": {
+      "page-padding": "0",
+      "chord-gap": "0.2rem"
+    },
+    "upper": {
+      "page-padding": "0",
+      "chord-gap": "0.2em"
+    }
+  },
+  "symbols": {
+    "repeat-start": "‖:",
+    "repeat-end": ":‖",
+    "repeat-count": "×"
+  },
+  "section_names": {
+    "intro": "Předehra",
+    "chorus": "Refrén",
+    "verse": "Sloka",
+    "bridge": "Bridge",
+    "note": "Poznámka",
+    "solo": "Solo",
+    "intermezzo": "Mezihra",
+    "outro": "Outro",
+    "speech": "Recitál"
+  }
+}

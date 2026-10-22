@@ -33,10 +33,10 @@ enum class Tone(vararg areaTones: CountrySpecificToneName) {
     }
 
     enum class ModificationAbbreviation {
-        SHARP, FLAT, IS, ES
+        SHARP, FLAT
     }
 
-    class CountrySpecificToneName(sharp: String, flat: String, `is`: String, es: String, val type: CountryCategory, val index: Int, vararg extraAliases: String) {
+    class CountrySpecificToneName(sharp: String, flat: String, isAlias: String, esAlias: String, val type: CountryCategory, val index: Int, vararg extraAliases: String) {
 
         val aliases: List<String>
 
@@ -47,15 +47,13 @@ enum class Tone(vararg areaTones: CountrySpecificToneName) {
         init {
             names = mapOf(
                     ModificationAbbreviation.SHARP to sharp,
-                    ModificationAbbreviation.FLAT to flat,
-                    ModificationAbbreviation.IS to `is`,
-                    ModificationAbbreviation.ES to es
+                    ModificationAbbreviation.FLAT to flat
             )
             val buildAliases = mutableListOf<String>()
             buildAliases.add(sharp)
             buildAliases.add(flat)
-            buildAliases.add(`is`)
-            buildAliases.add(es)
+            buildAliases.add(isAlias)
+            buildAliases.add(esAlias)
             for (alias in extraAliases) {
                 buildAliases.add(alias)
             }

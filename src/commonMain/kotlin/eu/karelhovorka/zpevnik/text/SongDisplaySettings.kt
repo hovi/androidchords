@@ -20,37 +20,37 @@ data class SongDisplaySettings @JvmOverloads constructor(
     val countryCategory: Tone.CountryCategory = Tone.CountryCategory.EASTERN,
     val modificationAbbreviation: Tone.ModificationAbbreviation = Tone.ModificationAbbreviation.SHARP,
     val theme: String = LIGHT_THEME,
-    val fontFamily: String = DEFAULT_FONT
+    val fontFamily: String = DEFAULT_FONT,
+    /** The user's section headers by section type ("verse" to "{index1}."), see [eu.karelhovorka.zpevnik.util.SectionNameTemplates]. */
+    val sectionNames: Map<String, String> = emptyMap()
 ) {
 
+    /** Classes for the root element of the song, the stylesheet applies the settings from them. */
     val css: String
         get() {
-            val sb = StringBuilder(theme)
-            sb.append(" font-$fontFamily")
+            val classes = mutableListOf("theme-$theme", "font-$fontFamily")
             if (isUseBold) {
-                sb.append(" use-bold")
+                classes.add("bold")
             }
             if (isResizeChords) {
-                sb.append(" resize-chords")
+                classes.add("big-chords")
             }
             if (isDoubleColumn) {
-                sb.append(" double-column")
+                classes.add("double-column")
+            }
+            if (!isDisplayChords) {
+                classes.add("hide-chords")
+            }
+            if (!isDisplayText) {
+                classes.add("hide-text")
+            }
+            if (!showComments) {
+                classes.add("hide-comments")
             }
             if (isHideIdenticalSequences) {
-                sb.append(" hide-identical-sequences")
+                classes.add("hide-identical-sequences")
             }
-            if (isDisplayChords) {
-                sb.append(" display-chords")
-            }
-            if (isDisplayText) {
-                sb.append(" display-text")
-            }
-            if (showComments) {
-                sb.append(" show-comments")
-            } else {
-                sb.append(" hide-comments")
-            }
-            return sb.toString()
+            return classes.joinToString(" ")
         }
 
     init {

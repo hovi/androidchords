@@ -2,13 +2,14 @@ package eu.karelhovorka.zpevnik.util
 
 
 import eu.karelhovorka.zpevnik.formatter.SongFormatter
+import eu.karelhovorka.zpevnik.text.SectionTokenizer
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
 import mock.toPattern
 import kotlin.jvm.JvmStatic
 
 object ChordDetector {
 
-    val BRACKED_CONTENT = "\\[(?<invalidchord>[^]]*)\\]"
+    val BRACKED_CONTENT = "\\[(?<invalidchord>[^\\]]*)\\]"
 
     @JvmStatic
     fun hasInvalidChords(content: String): Boolean {
@@ -96,7 +97,13 @@ object ChordDetector {
         val sb = StringBuilder()
         val lines = content.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         for (line in lines) {
-            sb.append(replacePlainChordsInline(line) + "\n")
+            // "Intro: C G Am" is a chord line behind a section header
+            val header = SectionTokenizer.splitHeaderWithText(line)
+            if (header != null) {
+                sb.append(header.second + replacePlainChordsInline(header.third) + "\n")
+            } else {
+                sb.append(replacePlainChordsInline(line) + "\n")
+            }
         }
         return sb.toString().trimEnd()
 
@@ -104,7 +111,8 @@ object ChordDetector {
 
     fun replacePlainChordsInline(content: String): String {
         if (hasPlainChordsInline(content)) {
-            return content.replace(("(" + Transposer.FULL_CHORD + ")").toRegex(), "[$1]")
+            // tab stops must be resolved before brackets shift the columns
+            return expandTabs(content).replace(("(" + Transposer.FULL_CHORD + ")").toRegex(), "[$1]")
         }
         return content
     }

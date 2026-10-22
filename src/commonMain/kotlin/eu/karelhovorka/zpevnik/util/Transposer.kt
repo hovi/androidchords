@@ -9,9 +9,18 @@ object Transposer {
 
     val MINIMUM_SEQUENCE_COUNT = 2
 
-    val SINGLE_TONE = "[A-Habcdefgh]\\#?b?" // b
+    // no "\\#": Kotlin/JS compiles regexes with the unicode flag, where it is an invalid escape
+    val SINGLE_TONE = "[A-H]#?b?"
 
-    val TONE_ADDITIONS = "7?(?:sus|maj|mimaj|add|aug|dim|min|mi|m|b|\\+|-|°|Δ)?[1-9]{0,2}(?:\\+)?"
+    private const val CHORD_QUALITY = "(?:mimaj|maj|min|mi|m|sus|add|aug|dim|b|\\+|-|°|ø|Δ)?"
+
+    // stacked extensions like "m7add11", "7sus4", "7b5#9", "m(maj7)"; "4sus" stays invalid (should be "sus4").
+    // Each piece can match only one way (numbers take all their digits, "sus4" is not "sus" + "4"),
+    // otherwise a malformed chord backtracks exponentially, and songs are parsed on every key press.
+    private const val CHORD_EXTENSION =
+        "(?:(?:7|9|11|13)?sus(?:[1-9][0-9]?)?(?![0-9])|[1-9][0-9]?(?![0-9]|sus)|add[1-9][0-9]?(?![0-9])|maj|aug|dim|[b#](?:5|9|11|13)(?![0-9])|\\+)"
+
+    val TONE_ADDITIONS = "$CHORD_QUALITY(?:$CHORD_EXTENSION|\\($CHORD_EXTENSION+\\))*"
 
     // private static final String SINGLE_CHORD = "(" + SINGLE_TONE + ")" +
     // TONE_ADDITIONS;
@@ -99,7 +108,7 @@ object Transposer {
     fun removeChords(text: String): String {
         val result = StringBuilder()
         for (line in text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
-            val newLine = merge(line).replace(CHORD_REGEX.toRegex(), "")
+            val newLine = removeChordsFromLine(merge(line))
             if (line == newLine) {
                 result.append(line + "\n")
             } else if (!newLine.trim { it <= ' ' }.isEmpty()) {
@@ -107,6 +116,25 @@ object Transposer {
             }
         }
         return result.toString().trimEnd()
+    }
+
+    private fun removeChordsFromLine(line: String): String {
+        val matches = CHORD_REGEX.toRegex().findAll(line).toList()
+        if (matches.isEmpty()) {
+            return line
+        }
+        val sb = StringBuilder()
+        var index = 0
+        for (match in matches) {
+            sb.append(line.substring(index, match.range.first))
+            index = match.range.last + 1
+            // a chord between two words leaves one space, not two
+            if ((sb.isEmpty() || sb.last() == ' ') && index < line.length && line[index] == ' ') {
+                index++
+            }
+        }
+        sb.append(line.substring(index))
+        return sb.toString().trimEnd()
     }
 
     fun lineContainsChordsOnly(line: String): Boolean {

@@ -9,20 +9,20 @@
 </head>
 <body>
 <!-- @formatter:off -->
-<div class='main-song-content upper {{displaySettings.css}} {{css}}'>
+<div class='main-song-content layout-upper {{displaySettings.css}} {{css}}'>
     {{#sections}}
     <div class='{{css}}'>
         <div class="header">{{localName}}</div>
         <div class="section-content">
             {{#content.lines}}
-            <div class='song-text-line {{css}}'>
+            <div class='song-text-line {{css}}'>{{#repeatStart}}<span class="repeat-start"></span>{{/repeatStart}}
                 {{#chordToText}}
                 <div class="song-chord-pair {{css}}">
                     <div class="song-chord"><a class='chord' href='chord://{{htmlChord}}'>{{htmlChord}}</a></div>
-                    <div class="song-text content" style="">{{text}}</div>
+                    <div class="song-text content" style="">{{#segments}}<span class="{{css}}">{{text}}</span>{{/segments}}</div>
                 </div>
                 {{/chordToText}}
-            </div>
+            {{#repeatEnd}}<span class="repeat-end"></span>{{/repeatEnd}}{{#repeatCount}}<span class="repeat-count">{{.}}</span>{{/repeatCount}}</div>
             {{/content.lines}}
         </div>
     </div>

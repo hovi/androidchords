@@ -1,0 +1,11 @@
+VERSE index=0 copy=0
+  - '# play ' | [C] ' softly'  [comment]
+  [C] 'Hello ' | [G] 'world'
+  [C] ' ' | [G] ''  ×2  [repeated chords]
+  [C] ' ' | [G] ''  ×4  [repeated chords]
+  - '/: ' | [Am] ' ' | [F] ' :/'
+  [Am] 'Text ' | [F] 'under chords'  ×3  [repeated chords]
+CHORUS index=0 copy=0
+  [D] '  ' | [A] ''
+  - '# ' | [D] ' comment with chords'  [comment]
+  [D] 'Las' | [A] 't line'  ×2  [repeated chords]

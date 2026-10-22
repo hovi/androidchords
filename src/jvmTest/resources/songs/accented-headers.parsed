@@ -1,0 +1,19 @@
+INTRO index=0 copy=0
+  [D] ' ' | [G] ' ' | [A] ''
+VERSE index=0 copy=0
+  [D] 'Kudy vede ' | [G] 'cesta,'
+  [A] 'kudy dál.'
+CHORUS index=0 copy=0
+  [G] 'Cesta, ' | [A] 'cesta,'
+  [D] 'kam jsi šla.'
+VERSE index=1 copy=0
+  [D] 'Nikdo neví, ' | [G] 'kde má ' | [A] 'konec.'  [repeated chords]
+CHORUS index=0 copy=1
+  [G] 'Cesta, ' | [A] 'cesta,'
+  [D] 'kam jsi šla.'
+INTERMEZZO index=0 copy=0
+  [D] ' ' | [G] ' ' | [A] ' ' | [D] ''
+SPEECH index=0 copy=0
+  - 'Tady se jen mluví, žádné akordy.'
+OUTRO index=0 copy=0
+  [D] 'Konec ' | [A] 'cesty, ' | [D] 'konec.'

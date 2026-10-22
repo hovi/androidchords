@@ -1,0 +1,250 @@
+{
+  "_comment": "Snapshots whose visible text differs between html/before (old code) and html/after, with the reason. Checked by tools/visible-text/check.mjs (Chrome, with each side's stylesheet). Paths are <song>/<layout>-<variant>.html.",
+  "changes": [
+    {
+      "song": "accented-headers",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed"
+      ],
+      "reason": "Předehra:, Sloka 1:, Refrén:, Recitál: are section headers; before, the intro chords were paired with the text 'Sloka 1:'"
+    },
+    {
+      "song": "chords-before-headers",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed"
+      ],
+      "reason": "'1. text' and 'R: text' start sections, a chord line directly above moves into them, not across a blank line or a comment"
+    },
+    {
+      "song": "comments-and-repeat-chords",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed"
+      ],
+      "reason": "repeat counts are shown as the number (CSS adds ×) and repeat bars are drawn by CSS, also on chord-only lines whose chords are hidden"
+    },
+    {
+      "song": "comments-and-repeat-chords",
+      "layouts": [
+        "legacy",
+        "inline",
+        "upper",
+        "print"
+      ],
+      "variants": [
+        "hide-text"
+      ],
+      "reason": "a hidden comment with chords ('# play [C] softly') is hidden whole; before, 'hide text' removed its text first and its chords stayed visible"
+    },
+    {
+      "song": "duplicate-content-sections",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "hide-identical"
+      ],
+      "reason": "a written-out repeated chorus stays a copy of the first one; before, 'hide repeated chord sequences' removed its chords first, so it became a new 'Chorus (2)'"
+    },
+    {
+      "song": "english-headers",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed"
+      ],
+      "reason": "Verse 1:, Verse 2: are section headers; before, 'Verse 2:' was swallowed by the chorus and repeated with it"
+    },
+    {
+      "song": "header-like-lyrics",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed"
+      ],
+      "reason": "KNOWN RISK: lyric lines 'Řekni:', '2. dubna…', 'B: …' now start sections"
+    },
+    {
+      "song": "header-with-chords",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed",
+        "hide-text"
+      ],
+      "reason": "'Intro: C G Am F', 'Mezihra: [Am] [F]', 'R: C G' are headers with chords that transpose and hide; before, one block with chords as text"
+    },
+    {
+      "song": "header-with-chords",
+      "layouts": [
+        "legacy",
+        "print"
+      ],
+      "variants": [
+        "hide-chords",
+        "hide-text",
+        "transposed"
+      ],
+      "reason": "plain chords behind a header label ('Intro: C G Am F') are chords now: transposed, hidden with 'hide chords', kept with 'hide text'"
+    },
+    {
+      "song": "invalid-and-lowercase-chords",
+      "layouts": [
+        "legacy",
+        "inline",
+        "upper",
+        "print"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed",
+        "hide-text"
+      ],
+      "reason": "KNOWN RISK: lowercase [a], [e7] are not chords any more, shown as literal text"
+    },
+    {
+      "song": "jazz-chords",
+      "layouts": [
+        "legacy",
+        "inline",
+        "upper",
+        "print"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed",
+        "hide-text"
+      ],
+      "reason": "Em7b5, A7#9, G7b9, C7#5 are chords; before, shown as text, survived 'hide chords', missing in 'hide text'"
+    },
+    {
+      "song": "multi-chord-brackets",
+      "layouts": [
+        "legacy",
+        "inline",
+        "upper",
+        "print"
+      ],
+      "variants": [
+        "hide-text"
+      ],
+      "reason": "'hide text' used to remove text before '[C G Am]' was split into chords, so those chords were lost; now they are shown"
+    },
+    {
+      "song": "repeat-with-comment",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "comments"
+      ],
+      "reason": "a repeat with only a note ('R:' + '# softly') repeats the section after the note; before, with comments shown, it was a new empty 'Chorus (2)' with just the note"
+    },
+    {
+      "song": "repeat-with-comment",
+      "layouts": [
+        "legacy",
+        "inline",
+        "upper",
+        "print"
+      ],
+      "variants": [
+        "hide-text"
+      ],
+      "reason": "a hidden comment with chords ('# [G] last time slower') is hidden whole; before, 'hide text' removed its text first and its chords stayed visible"
+    },
+    {
+      "song": "repeats",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed"
+      ],
+      "reason": "trailing 2x/(2x)/x3 is shown as the number only (2), CSS adds the ×; repeat bars /: :/ and |: :| (also from the chord line) are empty elements, CSS draws ‖: :‖; legacy keeps both as written"
+    },
+    {
+      "song": "same-line-headers",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-chords",
+        "hide-identical",
+        "transposed"
+      ],
+      "reason": "'1. text' and 'R: text' start sections; before, the whole song was one block"
+    },
+    {
+      "song": "tabs-and-indent",
+      "layouts": [
+        "inline",
+        "upper"
+      ],
+      "variants": [
+        "default",
+        "comments",
+        "hide-identical",
+        "transposed"
+      ],
+      "reason": "tabs count to 8-column stops, chords land on the right syllable"
+    }
+  ]
+}

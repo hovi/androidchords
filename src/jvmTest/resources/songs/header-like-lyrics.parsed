@@ -1,0 +1,8 @@
+VERSE index=0 copy=0
+Řekni: index=0 copy=0
+  - 'že mě máš rád,'
+VERSE index=1 copy=0
+  - 'dubna jsem se narodil,'
+BRIDGE index=0 copy=0
+  - 'tohle je asi bridge,'
+  - 'Pozor: tohle je text.'

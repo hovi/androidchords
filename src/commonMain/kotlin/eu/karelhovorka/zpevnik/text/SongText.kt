@@ -4,6 +4,7 @@ package eu.karelhovorka.zpevnik.text
 import eu.karelhovorka.zpevnik.util.ChordDetector
 import eu.karelhovorka.zpevnik.util.I18N
 import eu.karelhovorka.zpevnik.util.Preconditions.checkNotNull
+import eu.karelhovorka.zpevnik.util.SectionNameTemplates
 import eu.karelhovorka.zpevnik.util.SongSettingsFormatter
 import kotlin.js.JsName
 import kotlin.jvm.JvmOverloads
@@ -21,7 +22,6 @@ class SongText(val originalText: String, val title: String, private val displayS
             if (sections.size == 1 && sections.first().type == SectionType.EMPTY) {
                 sb.append(" section-single-unknown section-single-empty")
             }
-            sb.append(" " + displaySettings.css)
             return sb.toString()
         }
 
@@ -29,8 +29,15 @@ class SongText(val originalText: String, val title: String, private val displayS
         checkNotNull(originalText, "originalText")
         checkNotNull(title, "title")
         checkNotNull(displaySettings, "songDisplaySettings")
-        val sectionTokenizer = SectionTokenizer(i18N)
+        val names = if (displaySettings.sectionNames.isEmpty()) i18N else SectionNameTemplates(displaySettings.sectionNames, i18N)
+        val sectionTokenizer = SectionTokenizer(names)
         this.sections = sectionTokenizer.getSectionsOrSingleSection(originalText).toTypedArray()
+    }
+
+    /** The song as written, rebuilt from the parsed sections (legacy layout). */
+    val legacyRows: List<LegacyRow> by lazy {
+        val rows = sections.flatMap { it.legacyRows() }
+        if (rows.isEmpty()) rows else rows.dropLast(1) + rows.last().withEnd("")
     }
 
     val filledSections: String by lazy {

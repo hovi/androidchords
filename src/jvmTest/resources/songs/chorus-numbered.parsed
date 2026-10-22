@@ -1,0 +1,14 @@
+VERSE index=0 copy=0
+  [C] 'První sloka ' | [G] 'tady,'
+CHORUS index=0 copy=0
+  [F] 'První refrén ' | [C] 'zní,'
+VERSE index=1 copy=0
+  [C] 'Druhá sloka ' | [G] 'jiná,'  [repeated chords]
+CHORUS index=1 copy=0
+  [Am] 'Druhý refrén ' | [G] 'jiný,'
+CHORUS index=0 copy=1
+  [F] 'První refrén ' | [C] 'zní,'
+VERSE index=2 copy=0
+  [C] 'Třetí sloka ' | [G] 'naposled.'  [repeated chords]
+CHORUS index=1 copy=1
+  [Am] 'Druhý refrén ' | [G] 'jiný,'

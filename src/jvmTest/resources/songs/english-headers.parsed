@@ -1,0 +1,13 @@
+VERSE index=0 copy=0
+  [G] 'Walking down the ' | [D] 'empty road,'
+  [Em] 'carrying a ' | [C] 'heavy load.'
+CHORUS index=0 copy=0
+  [C] 'Oh, ' | [G] 'oh, ' | [D] 'keep on walking,'
+VERSE index=1 copy=0
+  [G] 'Nobody is ' | [D] 'talking.'  [repeated chords]
+BRIDGE index=0 copy=0
+  [Em] 'Slow ' | [C] 'down.'  [repeated chords]
+CHORUS index=0 copy=1
+  [C] 'Oh, ' | [G] 'oh, ' | [D] 'keep on walking,'
+OUTRO index=0 copy=0
+  [G] 'End.'

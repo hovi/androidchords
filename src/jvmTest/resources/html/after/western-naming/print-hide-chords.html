@@ -1,0 +1,64 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>western-naming</title>
+    <style>
+        .hide-comments comment {
+            display: none;
+        }
+        comment {
+            display: block;
+            font-style: italic;
+        }
+        img {
+            max-width: 100%;
+        }
+        h1 { font-size: 1.25em; }
+        .chord {
+            text-decoration: none;
+            color: black !important;
+        }
+        .content {
+            white-space: pre-wrap; tab-size: 1;
+        }
+        /* settings-specific */
+        .font-monospace, .font-monospace .chord {
+            font-family: 'monospace' !important;
+        }
+        .font-serif, .font-serif .chord {
+            font-family: 'serif' !important;
+        }
+        .font-normal, .font-normal .chord {
+            font-family: 'normal' !important;
+        }
+        .double-column {
+            column-count: 2; column-gap: 30px; -webkit-column-count: 2; -webkit-column-gap: 30px;
+        }
+        .big-chords .chord { font-size: 150% !important; }
+        .bold, .bold .chord {
+            font-weight: 900 !important;
+        }
+        /* the same hiding as in style.scss for the legacy layout */
+        .hide-chords .legacy-chord, .hide-chords .chord-row:not(.section-header):not(.has-repeat),
+        .hide-chords .song-line-has-chords.song-line-no-text:not(.section-header):not(.has-repeat),
+        .hide-text .legacy-text, .hide-text .text-row, .hide-text .legacy-row:not(.song-line-has-chords),
+        .hide-comments .comment-line,
+        .hide-identical-sequences .repeated-chords .legacy-chord,
+        .hide-identical-sequences .repeated-chords.chord-row:not(.section-header):not(.has-repeat),
+        .hide-identical-sequences .repeated-chords.song-line-no-text:not(.section-header):not(.has-repeat) {
+            display: none;
+        }
+    </style>
+</head>
+<body class='theme-light font-normal hide-chords hide-comments'>
+<h1>western-naming</h1>
+<!-- @formatter:off -->
+<div class="content"><span class='legacy-row section-header'><span class='legacy-text'>1.</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://Bb'><sup>Bb</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>Western B flat and </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://B'><sup>B</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>B natural,</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://H'><sup>H</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>Eastern H, </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://Hb'><sup>Hb</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>H flat,</span>
+</span><span class='legacy-row song-line song-line-has-text song-line-has-chords'><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://C#m7'><sup>C#m7</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>C sharp minor, </span><span class='legacy-chord'><!-- @formatter:off --> <a class='chord' href='chord://Db'><sup>Db</sup></a> <!-- @formatter:on --></span><span class='legacy-text'>D flat.</span></span></div>
+<!-- @formatter:on -->
+</body>
+</html>
+

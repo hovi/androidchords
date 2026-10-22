@@ -1,0 +1,8 @@
+1.
+	C	G
+	Tabulátor před textem
+  Am      F
+  odsazený řádek s akordy
+R:
+C	G	Am	F
+Raz	dva	tři	čtyři

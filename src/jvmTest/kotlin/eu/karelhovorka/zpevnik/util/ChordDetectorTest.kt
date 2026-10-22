@@ -91,7 +91,7 @@ class ChordDetectorTest {
         assertEquals("[E] [Adim7]", ChordDetector.replacePlainChords("E Adim7"))
         assertEquals("[C#mi7], [Am]", ChordDetector.replacePlainChords("C#mi7, Am"))
         assertEquals("2x [A] [A] [G] [D]", ChordDetector.replacePlainChords("2x A A G D"))
-        assertEquals("\t[Em] - [C] - [Em] - [C] - [Em] - [C] - [Em] - [C]", ChordDetector.replacePlainChords("\tEm - C - Em - C - Em - C - Em - C"))
+        assertEquals("        [Em] - [C] - [Em] - [C] - [Em] - [C] - [Em] - [C]", ChordDetector.replacePlainChords("\tEm - C - Em - C - Em - C - Em - C"))
     }
 
     @Test

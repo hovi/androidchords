@@ -35,16 +35,26 @@
         .double-column {
             column-count: 2; column-gap: 30px; -webkit-column-count: 2; -webkit-column-gap: 30px;
         }
-        .resize-chords .chord { font-size: 150% !important; }
-        .use-bold, .use-bold .chord {
+        .big-chords .chord { font-size: 150% !important; }
+        .bold, .bold .chord {
             font-weight: 900 !important;
+        }
+        /* the same hiding as in style.scss for the legacy layout */
+        .hide-chords .legacy-chord, .hide-chords .chord-row:not(.section-header):not(.has-repeat),
+        .hide-chords .song-line-has-chords.song-line-no-text:not(.section-header):not(.has-repeat),
+        .hide-text .legacy-text, .hide-text .text-row, .hide-text .legacy-row:not(.song-line-has-chords),
+        .hide-comments .comment-line,
+        .hide-identical-sequences .repeated-chords .legacy-chord,
+        .hide-identical-sequences .repeated-chords.chord-row:not(.section-header):not(.has-repeat),
+        .hide-identical-sequences .repeated-chords.song-line-no-text:not(.section-header):not(.has-repeat) {
+            display: none;
         }
     </style>
 </head>
 <body class='{{displaySettings.css}}'>
 <h1>{{title}}</h1>
 <!-- @formatter:off -->
-<div class="content">{{originalText}}</div>
+<div class="content">{{#legacyRows}}<span class='legacy-row {{css}}'>{{#parts}}<span class='{{css}}'>{{text}}</span>{{/parts}}{{end}}</span>{{/legacyRows}}</div>
 <!-- @formatter:on -->
 </body>
 </html>

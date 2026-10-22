@@ -22,8 +22,13 @@ plugins {
 
 kotlin {
     js(IR) {
-        browser()
+        browser {
+            webpackTask {
+                mainOutputFileName = "chords.js"
+            }
+        }
         nodejs()
+        binaries.executable()
     }
     jvm {
         compilations.main.kotlinOptions {

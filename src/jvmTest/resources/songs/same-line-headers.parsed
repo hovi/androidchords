@@ -1,0 +1,12 @@
+VERSE index=0 copy=0
+  - 'Na' | [D] ' kopci stojí s' | [A] 'tará lípa,'
+  - 'po' | [G] 'd ní lavička, ' | [D] 'co vrže,'
+CHORUS index=0 copy=0
+  [G] 'Lípo, lípo, ' | [D] 'zelená,'  [repeated chords]
+  [A] 'kolik let ti ' | [D] 'je?'
+VERSE index=1 copy=0
+  - 'Kd' | [D] 'o tu seděl, k' | [A] 'do tu sníval,'  [repeated chords]
+  - 'kd' | [G] 'o tu líbal, kdo' | [D] ' tu zpíval.'  [repeated chords]
+CHORUS index=0 copy=1
+  [G] 'Lípo, lípo, ' | [D] 'zelená,'  [repeated chords]
+  [A] 'kolik let ti ' | [D] 'je?'

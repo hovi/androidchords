@@ -1,0 +1,4 @@
+1.
+[C]Tom & Jerry <3 [G]"uvozovky" a 'apostrofy',
+[Am]tag <b>tučně</b> a <script>alert(1)</script>,
+[F]menší < větší > a ampersand &amp; konec.

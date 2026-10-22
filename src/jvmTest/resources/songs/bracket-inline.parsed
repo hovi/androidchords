@@ -1,0 +1,20 @@
+INTRO index=0 copy=0
+  [Am] ' ' | [F] ' ' | [C] ' ' | [G] ''
+VERSE index=0 copy=0
+  [Am] 'Po silnici ' | [F] 'jedu sám,'
+  [C] 'rádio hraje ' | [G] 'trochu dál,'
+  [Am] 'benzín došel, ' | [F] 'stojím tu,'  [repeated chords]
+  [C] 'čekám, kdo mě ' | [G] 'sveze.'  [repeated chords]
+CHORUS index=0 copy=0
+  [F] 'Stopuju, ' | [G] 'stopuju,'
+  [C] 'nikdo nestaví,' | [Am] ''
+  [F] 'stopuju, ' | [G] 'stopuju,'  [repeated chords]
+  [E] 'slunce zapadá.'
+VERSE index=1 copy=0
+  [Am] 'Kamion se ' | [F] 'zastavil,'  [repeated chords]
+  [C] 'řidič se na mě ' | [G] 'podíval.'  [repeated chords]
+CHORUS index=0 copy=1
+  [F] 'Stopuju, ' | [G] 'stopuju,'
+  [C] 'nikdo nestaví,' | [Am] ''
+  [F] 'stopuju, ' | [G] 'stopuju,'  [repeated chords]
+  [E] 'slunce zapadá.'

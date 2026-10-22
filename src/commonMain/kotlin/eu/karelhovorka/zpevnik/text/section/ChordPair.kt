@@ -2,6 +2,8 @@ package eu.karelhovorka.zpevnik.text.section
 
 data class ChordPair(val chord: String?, val text: String) {
 
+    val segments: List<TextSegment> by lazy { textSegments(text) }
+
     fun css(): String {
         val builder = StringBuilder()
         builder.append("song-chord-pair ")
